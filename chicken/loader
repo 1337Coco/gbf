@@ -1,0 +1,8 @@
+local placeIDs = {
+	[9224601490] = "Dressrosa",
+	[16190471004] = "Whole Cake"
+};
+
+if placeIDs[game.placeId] then
+	loadstring(game:HttpGet(()))()
+end
