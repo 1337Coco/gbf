@@ -44,7 +44,7 @@ if game.PlaceId == 16190471004 then
                 end
             end
         else
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1195, 562, -826)
 
             for i,v in pairs(FruitMoves) do
                 if not LocalPlayer.Cooldowns:FindFirstChild(v) then
