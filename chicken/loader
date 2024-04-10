@@ -1,8 +1,10 @@
 local placeIDs = {
-	[9224601490] = "Dressrosa",
-	[16190471004] = "Whole Cake"
-};
+    [9224601490] = "Dressrosa",
+    [16190471004] = "Whole Cake"
+}
 
-if placeIDs[game.placeId] then
-	loadstring(game:HttpGet(("https://github.com/1337Coco/gbf/tree/main/chicken" .. placeIDs[game.placeId] .. ".lua")))()
+if placeIDs[game.PlaceId] then
+    local scriptURL = "https://raw.githubusercontent.com/1337Coco/gbf/main/chicken/" .. placeIDs[game.PlaceId] .. ".lua"
+    local scriptContent = game:HttpGet(scriptURL)
+    loadstring(scriptContent)()
 end
