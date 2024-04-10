@@ -1,3 +1,3 @@
-if game.GameId == 16190471004 then
+if game.PlaceId == 16190471004 then
     print("Hi")
 end
