@@ -1,4 +1,4 @@
-if game.PlaceId == 16190471004 then
+f game.PlaceId == 9224601490 then
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
@@ -8,24 +8,6 @@ if game.PlaceId == 16190471004 then
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
     local FruitMoves = {}
-
-    -- Function to teleport to a specific placeId
-    local function TeleportToPlace(placeId)
-        local TeleportService = game:GetService("TeleportService")
-        local success, errorMessage = pcall(function()
-            TeleportService:Teleport(placeId)
-        end)
-        
-        if not success then
-            warn("Teleport failed:", errorMessage)
-        end
-    end
-
-    -- Teleport to Whole Cake (placeId: 16190471004) if the equipped fruit's level is greater than or equal to 100
-    local CurrentFruitLevel = CurrentData.Level.Value
-    if CurrentFruitLevel >= 100 then
-        TeleportToPlace(16190471004) -- Replace this with your desired placeId
-    end
 
     while true do
         wait(0.25)
@@ -44,7 +26,7 @@ if game.PlaceId == 16190471004 then
                 end
             end
         else
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1195, 562, -826)
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195, 562, -826)
 
             for i,v in pairs(FruitMoves) do
                 if not LocalPlayer.Cooldowns:FindFirstChild(v) then
