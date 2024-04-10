@@ -4,5 +4,5 @@ local placeIDs = {
 };
 
 if placeIDs[game.placeId] then
-	loadstring(game:HttpGet(()))()
+	loadstring(game:HttpGet(("https://github.com/1337Coco/gbf/tree/main/chicken" .. placeIDs[game.placeId] .. ".lua")))()
 end
