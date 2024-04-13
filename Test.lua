@@ -39,8 +39,8 @@ local function PerformFruitMoves()
     else
         if character and character:FindFirstChild("HumanoidRootPart") then
             -- Move the player to the specified position if not already there
-            if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
-                character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+            if character.HumanoidRootPart.Position ~= Vector3.new(-4832, 1275, -287) then
+                character.HumanoidRootPart.CFrame = CFrame.new(-4832, 1275, -287)
             else
                 -- Perform fruit moves if the player is in the specified position
                 for _, toolName in pairs(FruitMoves) do
