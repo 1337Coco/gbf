@@ -1,4 +1,4 @@
-if game.PlaceId == 16190471004 then
+if game.PlaceId == 12413901502 then
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
