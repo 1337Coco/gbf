@@ -1,6 +1,7 @@
 local PlaceIDs = {
     [9224601490] = "Flamingo",
-    [16190471004] = "Homies"
+    [16190471004] = "Homies",
+    [12413901502] = "Dragon"
 }
 
 if PlaceIDs[game.PlaceId] then
