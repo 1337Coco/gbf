@@ -30,15 +30,19 @@ local function PerformFruitMoves()
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
     local FruitMoves = {}
 
-    for _, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
-        if tool:IsA("Tool") and CurrentData.Level.Value >= tool:GetAttribute("Level") then
-            FruitMoves[#FruitMoves + 1] = string.gsub(tool.Name, " ", "")
+    if #FruitMoves == 0 then
+        for i, v in pairs(LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+            end
         end
-    end
+    else
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
 
-    for _, toolName in pairs(FruitMoves) do
-        if not LocalPlayer.Cooldowns:FindFirstChild(toolName) then
-            ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, toolName, {})
+        for i, v in pairs(FruitMoves) do
+            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+            end
         end
     end
 end
