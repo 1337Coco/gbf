@@ -6,7 +6,7 @@ if game.PlaceId == 12413901502 then
     local Workspace = game:GetService("Workspace")
     local MainData = LocalPlayer.MAIN_DATA
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-    local character = LocalPlayer.Character
+    local Character = LocalPlayer.Character
     local UI = LocalPlayer.PlayerGui.UI
 
     -- Function to respawn the player
@@ -36,7 +36,7 @@ if game.PlaceId == 12413901502 then
     while true do
         wait(0.1)
         -- Connect local player's character removal event
-        LocalPlayer.CharacterRemoving:Connect(function(character)
+        LocalPlayer.CharacterRemoving:Connect(function(Character)
             print('respawning...')
             Respawn()
         end)
