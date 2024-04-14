@@ -43,8 +43,8 @@ if game.PlaceId == 12413901502 then
 
         if character and character:FindFirstChild("HumanoidRootPart") then
             -- Move the player to the specified position if not already there
-            if character.HumanoidRootPart.Position ~= Vector3.new(122, 149, -1264) then
-                character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
+            if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+                character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
             else
                 print('in position')
             end
