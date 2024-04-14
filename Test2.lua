@@ -74,18 +74,15 @@ if game.PlaceId == 9224601490 then
         onPlayerRespawn(player)
     end
 
-    -- Target position coordinates
-    local targetPosition = Vector3.new(1195, 562, -826)
 
     -- Main logic loop
     while true do
         wait(0.1)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
-
-        -- Move player to the target location
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+                -- Move player to the specified coordinates
+        if LocalPlayer.Character then
+            LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
         end
 
         -- Perform FruitMoves logic (insert here)
