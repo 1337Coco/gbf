@@ -28,15 +28,10 @@ if game.PlaceId == 9224601490 then
         end
 
         -- Move player to the specified coordinates
-        if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
+        local character = LocalPlayer.Character
+        if character then
+            character:MoveTo(Vector3.new(1195, 562, -826))
         end
-    end
-
-    -- Function to adjust camera after respawn
-    local function AdjustCamera()
-        -- Reset the camera to the player's character
-        Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
     end
 
     -- Function to check if the player is dead and respawn if necessary
@@ -49,25 +44,12 @@ if game.PlaceId == 9224601490 then
         end
     end
 
-    -- Function to destroy GUI elements
-    local function destroyGUI(player)
-        -- Check if the player has a PlayerGui
-        if player and player:FindFirstChild("PlayerGui") then
-            -- Destroy all GUI descendants of PlayerGui
-            for _, guiElement in ipairs(player.PlayerGui:GetChildren()) do
-                guiElement:Destroy()
-            end
-        end
-    end
-
     -- Function to connect to player respawn event
     local function onPlayerRespawn(player)
         -- Connect to the player's characterAdded event
         player.CharacterAdded:Connect(function(character)
-            -- Destroy GUI elements when the player's character respawns
-            destroyGUI(player)
             -- Adjust camera after respawn
-            AdjustCamera()
+            Workspace.CurrentCamera.CameraSubject = character
         end)
     end
 
@@ -86,6 +68,9 @@ if game.PlaceId == 9224601490 then
         CheckPlayerStatus()
 
         -- Perform FruitMoves logic
+        -- Reset FruitMoves
+        FruitMoves = {}
+
         -- Populate FruitMoves
         for i,v in pairs(Backpack:GetChildren()) do
             if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
