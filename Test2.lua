@@ -4,6 +4,9 @@ if game.PlaceId == 9224601490 then
     local LocalPlayer = Players.LocalPlayer
     local StarterGui = game:GetService("StarterGui")
     local Workspace = game:GetService("Workspace")
+    
+    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
     local FruitMoves = {} -- Initialize FruitMoves table
 
