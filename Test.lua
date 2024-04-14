@@ -46,19 +46,19 @@ if game.PlaceId == 12413901502 then
         end
 
         if #FruitMoves == 0 then
-                for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                    if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                        FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-                    end
-                end
-            else
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-
-                for i,v in pairs(FruitMoves) do
-                    if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                        ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                    end
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
                 end
             end
+        else
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+
+            for i,v in pairs(FruitMoves) do
+                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+                end
+            end
+        end
     end
 end
