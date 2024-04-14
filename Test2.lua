@@ -66,31 +66,33 @@ if game.PlaceId == 9224601490 then
         onPlayerRespawn(player)
     end
 
+    -- Target position coordinates
+    local targetPosition = Vector3.new(1195, 562, -826)
+
     -- Main logic loop
     while true do
         wait(0.1)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
 
-        -- Logic to move the player to the specified position (replace with your coordinates)
-        if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
+        -- Move player to the target location
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
         end
 
-        -- Perform FruitMoves logic
-        if LocalPlayer.Character and #FruitMoves == 0 then
-            local CurrentData = LocalPlayer.MAIN_DATA.Fruits:WaitForChild(LocalPlayer.MAIN_DATA.Slots[LocalPlayer.MAIN_DATA.Slot.Value].Value)
-            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-                end
+        -- Perform FruitMoves logic (insert here)
+        -- Populate FruitMoves
+        local FruitMoves = {}
+        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
             end
-        else
-            -- Perform FruitMoves
-            for i,v in pairs(FruitMoves) do
-                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                end
+        end
+
+        -- Use FruitMoves
+        for i,v in pairs(FruitMoves) do
+            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
             end
         end
     end
