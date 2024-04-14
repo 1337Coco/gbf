@@ -28,9 +28,9 @@ if game.PlaceId == 9224601490 then
         end
 
         -- Move player to the specified coordinates
-        local character = LocalPlayer.Character
-        if character then
-            character:MoveTo(Vector3.new(1195, 562, -826))
+        print("Respawning...")
+        if LocalPlayer.Character then
+            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
         end
     end
 
@@ -40,24 +40,12 @@ if game.PlaceId == 9224601490 then
         local UI = LocalPlayer.PlayerGui.UI
 
         if (not character or character == nil) and not UI.HUD.Visible then
+            print("Player is dead. Respawning...")
             Respawn()  -- Respawn the player if dead
             
         end
         if character then
             character:MoveTo(Vector3.new(1195, 562, -826))
-                    -- Populate FruitMoves
-        for i,v in pairs(Backpack:GetChildren()) do
-            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-            end
-        end
-
-        -- Use FruitMoves
-        for i,v in pairs(FruitMoves) do
-            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-            end
-        end
         end
     end
 
@@ -66,7 +54,10 @@ if game.PlaceId == 9224601490 then
         -- Connect to the player's characterAdded event
         player.CharacterAdded:Connect(function(character)
             -- Adjust camera after respawn
-            Workspace.CurrentCamera.CameraSubject = character
+            if player == LocalPlayer then
+                print("Adjusting camera for local player...")
+                Workspace.CurrentCamera.CameraSubject = character
+            end
         end)
     end
 
@@ -85,6 +76,8 @@ if game.PlaceId == 9224601490 then
         CheckPlayerStatus()
 
         -- Perform FruitMoves logic
+        -- Reset FruitMoves
+        FruitMoves = {}
 
         -- Populate FruitMoves
         for i,v in pairs(Backpack:GetChildren()) do
@@ -93,9 +86,16 @@ if game.PlaceId == 9224601490 then
             end
         end
 
+        -- Print FruitMoves contents
+        print("FruitMoves contents:")
+        for i,v in ipairs(FruitMoves) do
+            print(i, v)
+        end
+
         -- Use FruitMoves
         for i,v in pairs(FruitMoves) do
             if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                print("Invoking server with:", v)
                 ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
             end
         end
