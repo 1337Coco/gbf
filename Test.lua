@@ -23,8 +23,6 @@ if game.PlaceId == 12413901502 then
         StarterGui:SetCoreGuiEnabled("Backpack", false)
         StarterGui:SetCoreGuiEnabled("PlayerList", false)
         StarterGui:SetCoreGuiEnabled("Chat", false)
-        UI.HUD.Visible       =  false
-        UI.Safezone.Visible  =  false
     end
 
     -- Function to handle player's death
