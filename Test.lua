@@ -3,15 +3,14 @@ if game.PlaceId == 12413901502 then
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
     local PlayerGui = LocalPlayer.PlayerGui
-	local StarterGui = game:GetService("StarterGui")
-	local Workspace = game:GetService("Workspace")
+    local StarterGui = game:GetService("StarterGui")
+    local Workspace = game:GetService("Workspace")
 
 
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 	
-	local character = LocalPlayer.Character
-    local UI = LocalPlayer.PlayerGui.UI
+    
     local FruitMoves = {}
 	
 	local Respawn = function()
@@ -27,10 +26,11 @@ end
 
     while true do
         wait(0.1)
-		
-		if (not character or character == nil) and not UI.HUD.Visible then
-			Respawn()
-		end
+	local character = LocalPlayer.Character
+    	local UI = LocalPlayer.PlayerGui.UI
+	if (not character or character == nil) and not UI.HUD.Visible then
+		Respawn()
+	end
 
 
         if #FruitMoves == 0 then
