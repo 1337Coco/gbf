@@ -5,10 +5,15 @@ if game.PlaceId == 9224601490 then
     local StarterGui = game:GetService("StarterGui")
     local Workspace = game:GetService("Workspace")
 
+    local FruitMoves = {} -- Initialize FruitMoves table
+
     -- Function to respawn the player
     local Respawn = function()
         -- Delay respawn to avoid spamming
         wait(5)
+
+        -- Reset FruitMoves
+        FruitMoves = {}
 
         -- Load the character
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
@@ -82,7 +87,6 @@ if game.PlaceId == 9224601490 then
 
         -- Perform FruitMoves logic (insert here)
         -- Populate FruitMoves
-        local FruitMoves = {}
         for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
             if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
                 FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
