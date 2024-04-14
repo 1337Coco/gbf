@@ -11,6 +11,7 @@ if game.PlaceId == 12413901502 then
     -- Function to respawn the player
     local function RespawnPlayer()
         FruitMoves = {} -- Reset FruitMoves
+        print('resetting fruit')
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
         require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
         wait(3)  -- Wait before enabling core GUI
