@@ -4,7 +4,9 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
-
+local MainData = LocalPlayer.MAIN_DATA
+local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
+    
 -- Function to respawn the player
 local Respawn = function()
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
@@ -15,13 +17,6 @@ local Respawn = function()
         StarterGui:SetCoreGuiEnabled("PlayerList", false)
         StarterGui:SetCoreGuiEnabled("Chat", false)
     end
-end
-
--- Function to get the equipped fruit
-local function GetFruit()
-    local MainData = LocalPlayer.MAIN_DATA
-    local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-    return CurrentData.Name
 end
 
 -- Function to check if the player is dead and respawn if necessary
