@@ -66,22 +66,27 @@ if game.PlaceId == 9224601490 then
         onPlayerRespawn(player)
     end
 
-    -- Continuously check player status and respawn if necessary
+    -- Main logic loop
     while true do
         wait(0.1)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
 
-        -- FruitMoves logic
-        if #FruitMoves == 0 then
+        -- Logic to move the player to the specified position (replace with your coordinates)
+        if LocalPlayer.Character then
+            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
+        end
+
+        -- Perform FruitMoves logic
+        if LocalPlayer.Character and #FruitMoves == 0 then
+            local CurrentData = LocalPlayer.MAIN_DATA.Fruits:WaitForChild(LocalPlayer.MAIN_DATA.Slots[LocalPlayer.MAIN_DATA.Slot.Value].Value)
             for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
                 if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
                     FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
                 end
             end
         else
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195, 562, -826)
-
+            -- Perform FruitMoves
             for i,v in pairs(FruitMoves) do
                 if not LocalPlayer.Cooldowns:FindFirstChild(v) then
                     ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
