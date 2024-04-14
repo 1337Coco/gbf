@@ -42,7 +42,7 @@ if game.PlaceId == 12413901502 then
         if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
             character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
         else
-            wait()
+            print('else')
         end
 
         if #FruitMoves == 0 then
