@@ -11,19 +11,14 @@ if game.PlaceId == 12413901502 then
     -- Function to respawn the player
     local function RespawnPlayer()
         FruitMoves = {} -- Reset FruitMoves
-        print('resetting fruit')
-        require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-        require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+        print("died")
+        LocalPlayer:LoadCharacter() -- Respawn the player
         wait(3)  -- Wait before enabling core GUI
         Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-        StarterGui:SetCoreGuiEnabled("Backpack", false)
-        StarterGui:SetCoreGuiEnabled("PlayerList", false)
-        StarterGui:SetCoreGuiEnabled("Chat", false)
         -- Hide the menu GUI
-        StarterGui:SetCore("TopbarEnabled", false)
-        StarterGui:SetCore("ResetButtonCallback", false)
+        script.Parent.Parent:Destroy() -- Destroy the GUI
     end
-    
+
 
     -- Function to handle player's death
     local function OnPlayerDied()
