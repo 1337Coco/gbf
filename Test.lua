@@ -43,6 +43,5 @@ if game.PlaceId == 12413901502 then
 				end
 			end
 		end
-
-    end --wow
+    end;
 end
