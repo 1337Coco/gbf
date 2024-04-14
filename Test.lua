@@ -9,7 +9,8 @@ if game.PlaceId == 12413901502 then
     local FruitMoves = {} -- Initializing FruitMoves table
 
     -- Function to respawn the player
-    local function Respawn()
+    local function RespawnPlayer()
+        FruitMoves = {} -- Reset FruitMoves
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
         require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
         wait(3)  -- Wait before enabling core GUI
@@ -19,42 +20,37 @@ if game.PlaceId == 12413901502 then
         StarterGui:SetCoreGuiEnabled("Chat", false)
     end
 
+    -- Function to handle player's death
+    local function OnPlayerDied()
+        print(LocalPlayer.Name .. " has died.")
+        RespawnPlayer()
+    end
+
+    -- Connect to player's death event
+    LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
+
     -- Main logic function
-    local function MainLogic()
-        while true do
-            wait(0.1)
+    while true do
+        wait(0.1)
 
-            -- Check local player status
-            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-                if LocalPlayer.Character.Humanoid.Health <= 0 then
-                    Respawn()
-                else
-                    -- Your existing logic
-                    if #FruitMoves == 0 then
-                        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-                            end
-                        end
-                    else
-                        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+        -- Move player to the specified coordinates
+        if LocalPlayer.Character then
+            LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+        end
 
-                        for i,v in pairs(FruitMoves) do
-                            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                            end
-                        end
-                    end
-                end
+        -- Populate FruitMoves
+        FruitMoves = {}
+        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+            end
+        end
+
+        -- Use FruitMoves
+        for i,v in pairs(FruitMoves) do
+            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
             end
         end
     end
-
-    -- Connect local player's character removal event
-    LocalPlayer.CharacterRemoving:Connect(function(character)
-        print(character.Name .. " has died.")
-    end)
-
-    -- Call the main logic function
-    MainLogic()
 end
