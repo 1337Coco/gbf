@@ -23,10 +23,8 @@ if game.PlaceId == 12413901502 then
         StarterGui:SetCoreGuiEnabled("Backpack", false)
         StarterGui:SetCoreGuiEnabled("PlayerList", false)
         StarterGui:SetCoreGuiEnabled("Chat", false)
-        if PlayerGui:FindFirstChild('DeathScreen') then
-            UI.HUD.Visible       =  false
-            UI.Safezone.Visible  =  false
-        end
+        UI.HUD.Visible       =  false
+        UI.Safezone.Visible  =  false
     end
 
     -- Function to handle player's death
