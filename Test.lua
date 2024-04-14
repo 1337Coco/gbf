@@ -2,13 +2,11 @@ if game.PlaceId == 12413901502 then
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
-    local StarterGui = game:GetService("StarterGui")
-    local Workspace = game:GetService("Workspace")
-    local MainData = LocalPlayer.MAIN_DATA
-    local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-    local Character = LocalPlayer.Character
-    local UI = LocalPlayer.PlayerGui.UI
+    local PlayerGui = LocalPlayer.PlayerGui
 
+    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    
     -- Function to respawn the player
     local Respawn = function()
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
@@ -29,15 +27,13 @@ if game.PlaceId == 12413901502 then
             print('respawning...')
             Respawn()
         end)
-    end
+    end    
+    local FruitMoves = {}
 
-
-    -- Continuously check local player status and position
     while true do
         wait(0.1)
-        
         CheckLocalPlayerStatus()
-        -- Your existing logic
+     
         if #FruitMoves == 0 then
             for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
                 if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
