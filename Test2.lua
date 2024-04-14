@@ -82,7 +82,7 @@ if game.PlaceId == 9224601490 then
         CheckPlayerStatus()
                 -- Move player to the specified coordinates
         if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
         end
 
         -- Perform FruitMoves logic (insert here)
