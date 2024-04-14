@@ -8,6 +8,7 @@ if game.PlaceId == 12413901502 then
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
     local FruitMoves = {} -- Initializing FruitMoves table
     local UI =  PlayerGui.UI
+    local PlayerGui =  LocalPlayer.PlayerGui
     -- Function to respawn the player
     local function RespawnPlayer()
         FruitMoves = {} -- Reset FruitMoves
@@ -21,8 +22,10 @@ if game.PlaceId == 12413901502 then
         StarterGui:SetCoreGuiEnabled("Backpack", false)
         StarterGui:SetCoreGuiEnabled("PlayerList", false)
         StarterGui:SetCoreGuiEnabled("Chat", false)
-        UI.MainMenu.Visible  =  false
-        UI.HUD.Visible       =  true
+        if PlayerGui:FindFirstChild('DeathScreen') then
+            UI.HUD.Visible       =  false
+            UI.Safezone.Visible  =  false
+        end
     end
 
     -- Function to handle player's death
