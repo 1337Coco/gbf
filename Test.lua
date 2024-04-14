@@ -4,7 +4,10 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer
     local StarterGui = game:GetService("StarterGui")
     local Workspace = game:GetService("Workspace")
+    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
+    
     -- Function to respawn the player
     local Respawn = function()
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
@@ -20,12 +23,7 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-    -- Function to get the equipped fruit
-    local function GetFruit()
-        local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-        local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-        return CurrentData.Name
-    end
+
 
     -- Function to check if the player is dead and respawn if necessary
     local function CheckPlayerStatus()
@@ -54,7 +52,6 @@ if game.PlaceId == 12413901502 then
     -- Continuously check player status and position
     while true do
         wait(0.25)
-        GetFruit()
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
         -- Check if the player is in the specified position and perform fruit moves if so
