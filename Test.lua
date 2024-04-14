@@ -37,6 +37,7 @@ end
 -- Continuously check player status and position
 while true do
     wait(0.1)
+    GetFruit()
     -- Check if the player is dead and respawn if necessary
     CheckPlayerStatus()
 if #FruitMoves == 0 then
