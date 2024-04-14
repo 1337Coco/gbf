@@ -23,26 +23,20 @@ if game.PlaceId == 12413901502 then
 
     -- Function to check local player status
     local function CheckLocalPlayerStatus()
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-            if LocalPlayer.Character.Humanoid.Health <= 0 then
-                print('respawn')
-                Respawn()
-            end
-        end
+        -- Connect local player's character removal event
+        LocalPlayer.CharacterRemoving:Connect(function(Character)
+            wait(3)
+            print('respawning...')
+            Respawn()
+        end)
     end
 
 
     -- Continuously check local player status and position
     while true do
         wait(0.1)
-        -- Connect local player's character removal event
-        LocalPlayer.CharacterRemoving:Connect(function(Character)
-            print('respawning...')
-            Respawn()
-        end)
-        -- Check local player status
+        
         CheckLocalPlayerStatus()
-
         -- Your existing logic
         if #FruitMoves == 0 then
             for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
