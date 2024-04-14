@@ -45,6 +45,19 @@ if game.PlaceId == 9224601490 then
         end
         if character then
             character:MoveTo(Vector3.new(1195, 562, -826))
+                    -- Populate FruitMoves
+        for i,v in pairs(Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+            end
+        end
+
+        -- Use FruitMoves
+        for i,v in pairs(FruitMoves) do
+            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+            end
+        end
         end
     end
 
@@ -72,8 +85,6 @@ if game.PlaceId == 9224601490 then
         CheckPlayerStatus()
 
         -- Perform FruitMoves logic
-        -- Reset FruitMoves
-        FruitMoves = {}
 
         -- Populate FruitMoves
         for i,v in pairs(Backpack:GetChildren()) do
