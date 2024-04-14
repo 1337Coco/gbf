@@ -7,13 +7,11 @@ if game.PlaceId == 9224601490 then
     local Backpack = LocalPlayer.Backpack
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-    local character = LocalPlayer.Character
-    local UI = LocalPlayer.PlayerGui.UI
 
     local FruitMoves = {} -- Initialize FruitMoves table
 
     -- Function to respawn the player
-    local Respawn = function()
+    local function Respawn()
         -- Delay respawn to avoid spamming
         wait(5)
 
@@ -28,6 +26,11 @@ if game.PlaceId == 9224601490 then
         if LocalPlayer.PlayerGui and LocalPlayer.PlayerGui:FindFirstChild("HUD") then
             LocalPlayer.PlayerGui.HUD.Visible = true
         end
+
+        -- Move player to the specified coordinates
+        if LocalPlayer.Character then
+            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
+        end
     end
 
     -- Function to adjust camera after respawn
@@ -38,8 +41,8 @@ if game.PlaceId == 9224601490 then
 
     -- Function to check if the player is dead and respawn if necessary
     local function CheckPlayerStatus()
-        character = LocalPlayer.Character
-        UI = LocalPlayer.PlayerGui.UI
+        local character = LocalPlayer.Character
+        local UI = LocalPlayer.PlayerGui.UI
 
         if (not character or character == nil) and not UI.HUD.Visible then
             Respawn()  -- Respawn the player if dead
@@ -76,20 +79,15 @@ if game.PlaceId == 9224601490 then
         onPlayerRespawn(player)
     end
 
-
     -- Main logic loop
     while true do
         wait(0.1)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
-                -- Move player to the specified coordinates
-        if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
-        end
 
-        -- Perform FruitMoves logic (insert here)
+        -- Perform FruitMoves logic
         -- Populate FruitMoves
-        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+        for i,v in pairs(Backpack:GetChildren()) do
             if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
                 FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
             end
