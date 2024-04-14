@@ -7,6 +7,8 @@ if game.PlaceId == 9224601490 then
     local Backpack = LocalPlayer.Backpack
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    local character = LocalPlayer.Character
+    local UI = LocalPlayer.PlayerGui.UI
 
     local FruitMoves = {} -- Initialize FruitMoves table
 
@@ -36,8 +38,8 @@ if game.PlaceId == 9224601490 then
 
     -- Function to check if the player is dead and respawn if necessary
     local function CheckPlayerStatus()
-        local character = LocalPlayer.Character
-        local UI = LocalPlayer.PlayerGui.UI
+        character = LocalPlayer.Character
+        UI = LocalPlayer.PlayerGui.UI
 
         if (not character or character == nil) and not UI.HUD.Visible then
             Respawn()  -- Respawn the player if dead
