@@ -23,30 +23,6 @@ local function GetFruit()
     return CurrentData.Name
 end
 
--- Function to perform fruit moves
-local function PerformFruitMoves()
-    local character = LocalPlayer.Character
-    local MainData = LocalPlayer.MAIN_DATA
-    local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-    local FruitMoves = {}
-
-    if #FruitMoves == 0 then
-        for i, v in pairs(LocalPlayer.Backpack:GetChildren()) do
-            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-            end
-        end
-    else
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
-
-        for i, v in pairs(FruitMoves) do
-            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-            end
-        end
-    end
-end
-
 -- Function to check if the player is dead and respawn if necessary
 local function CheckPlayerStatus()
     local character = LocalPlayer.Character
@@ -66,8 +42,7 @@ local function CheckPlayerPosition()
         if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
             character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
         else
-            -- Perform fruit moves if the player is in the specified position
-            PerformFruitMoves()
+            wait()
         end
     end
 end
@@ -79,8 +54,6 @@ while true do
     CheckPlayerStatus()
     -- Check if the player is in the specified position and perform fruit moves if so
     CheckPlayerPosition()
-
-    -- Perform fruit moves if FruitMoves is empty
     if #FruitMoves == 0 then
         for i, v in pairs(LocalPlayer.Backpack:GetChildren()) do
             if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
