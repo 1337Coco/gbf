@@ -83,12 +83,6 @@ end
             end
         end
 
-        -- Print FruitMoves contents
-        print("FruitMoves contents:")
-        for i,v in ipairs(FruitMoves) do
-            print(i, v)
-        end
-
         -- Use FruitMoves
         for i,v in pairs(FruitMoves) do
             if not LocalPlayer.Cooldowns:FindFirstChild(v) then
