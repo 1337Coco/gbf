@@ -18,7 +18,11 @@ if game.PlaceId == 12413901502 then
         StarterGui:SetCoreGuiEnabled("Backpack", false)
         StarterGui:SetCoreGuiEnabled("PlayerList", false)
         StarterGui:SetCoreGuiEnabled("Chat", false)
+        -- Hide the menu GUI
+        StarterGui:SetCore("TopbarEnabled", false)
+        StarterGui:SetCore("ResetButtonCallback", false)
     end
+    
 
     -- Function to handle player's death
     local function OnPlayerDied()
