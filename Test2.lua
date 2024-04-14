@@ -35,19 +35,16 @@ if game.PlaceId == 9224601490 then
     end
 
     -- Function to check if the player is dead and respawn if necessary
-    local function CheckPlayerStatus()
-        local character = LocalPlayer.Character
-        local UI = LocalPlayer.PlayerGui.UI
+local function CheckPlayerStatus()
+    local character = LocalPlayer.Character
+    local UI = LocalPlayer.PlayerGui.UI
 
-        if (not character or character == nil) and not UI.HUD.Visible then
-            print("Player is dead. Respawning...")
-            Respawn()  -- Respawn the player if dead
-            
-        end
-        if character then
-            character:MoveTo(Vector3.new(1195, 562, -826))
-        end
+    if (not character or character == nil) and (not UI or not UI.HUD or not UI.HUD.Visible) then
+        print("Player is dead. Respawning...")
+        Respawn()  -- Respawns the player if dead
     end
+end
+
 
     -- Function to connect to player respawn event
     local function onPlayerRespawn(player)
