@@ -42,7 +42,10 @@ if game.PlaceId == 12413901502 then
         if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
             character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
         else
-            if #FruitMoves == 0 then
+            wait()
+        end
+
+        if #FruitMoves == 0 then
                 for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
                         FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
@@ -57,6 +60,5 @@ if game.PlaceId == 12413901502 then
                     end
                 end
             end
-        end
     end
 end
