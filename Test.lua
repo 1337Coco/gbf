@@ -25,6 +25,7 @@ if game.PlaceId == 12413901502 then
     local function CheckLocalPlayerStatus()
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
             if LocalPlayer.Character.Humanoid.Health <= 0 then
+                print('respawn')
                 Respawn()
             end
         end
