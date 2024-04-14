@@ -8,7 +8,7 @@ if game.PlaceId == 12413901502 then
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
     local character = LocalPlayer.Character
     local UI = LocalPlayer.PlayerGui.UI
-    
+
     -- Function to respawn the player
     local Respawn = function()
         require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
@@ -21,16 +21,28 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-    -- Continuously check player status and position
+    -- Function to check local player status
+    local function CheckLocalPlayerStatus()
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            if LocalPlayer.Character.Humanoid.Health <= 0 then
+                Respawn()
+            end
+        end
+    end
+
+
+    -- Continuously check local player status and position
     while true do
         wait(0.1)
-        game.Players.PlayerAdded:Connect(function(player)
-        	player.CharacterRemoving:Connect(function(character)
-        		Respawn()
-        	end)
+        -- Connect local player's character removal event
+        LocalPlayer.CharacterRemoving:Connect(function(character)
+            print('respawning...')
+            Respawn()
         end)
-        -- Check if the player is dead and respawn if necessary
-        CheckPlayerStatus()
+        -- Check local player status
+        CheckLocalPlayerStatus()
+
+        -- Your existing logic
         if #FruitMoves == 0 then
             for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
                 if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
