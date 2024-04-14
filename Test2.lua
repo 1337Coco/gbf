@@ -41,6 +41,10 @@ if game.PlaceId == 9224601490 then
 
         if (not character or character == nil) and not UI.HUD.Visible then
             Respawn()  -- Respawn the player if dead
+            
+        end
+        if character then
+            character:MoveTo(Vector3.new(1195, 562, -826))
         end
     end
 
