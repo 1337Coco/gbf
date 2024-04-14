@@ -6,6 +6,8 @@ if game.PlaceId == 12413901502 then
     local Workspace = game:GetService("Workspace")
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    local character = LocalPlayer.Character
+    local UI = LocalPlayer.PlayerGui.UI
 
     
     -- Function to respawn the player
@@ -23,21 +25,8 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-
-
-    -- Function to check if the player is dead and respawn if necessary
-    local function CheckPlayerStatus()
-        local character = LocalPlayer.Character
-        local UI = LocalPlayer.PlayerGui.UI
-
-        if (not character or character == nil) and not UI.HUD.Visible then
-            Respawn()  -- Respawn the player if dead
-        end
-    end
-
     -- Function to check if the player is in the specified position and perform fruit moves if so
     local function CheckPlayerPosition()
-        local character = LocalPlayer.Character
 
         if character and character:FindFirstChild("HumanoidRootPart") then
             -- Move the player to the specified position if not already there
@@ -50,8 +39,12 @@ if game.PlaceId == 12413901502 then
     end
 
     -- Continuously check player status and position
-    while true do
-        wait(0.25)
+    while true do        
+        wait(0.1)
+        -- Function to handle player death and respawn
+        LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(function()
+            Respawn()
+        end)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
         -- Check if the player is in the specified position and perform fruit moves if so
