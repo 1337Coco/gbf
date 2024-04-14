@@ -54,6 +54,7 @@ if game.PlaceId == 12413901502 then
     -- Continuously check player status and position
     while true do
         wait(0.25)
+        GetFruit()
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
         -- Check if the player is in the specified position and perform fruit moves if so
