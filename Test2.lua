@@ -1,59 +1,73 @@
-if game.PlaceId == 9224601490 then
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-    local StarterGui = game:GetService("StarterGui")
-    local Workspace = game:GetService("Workspace")
-    local MainData = LocalPlayer.MAIN_DATA
-    local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-    local FruitMoves = {} -- Initializing FruitMoves table
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
 
-    -- Function to respawn the player
-    local function RespawnPlayer()
-        FruitMoves = {} -- Reset FruitMoves
-        require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-        require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-        wait(3)  -- Wait before enabling core GUI
-        Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-        -- Hide the menu GUI
-        StarterGui:SetCore("TopbarEnabled", false)
-        StarterGui:SetCore("ResetButtonCallback", false)
-        StarterGui:SetCoreGuiEnabled("Backpack", false)
-        StarterGui:SetCoreGuiEnabled("PlayerList", false)
-        StarterGui:SetCoreGuiEnabled("Chat", false)
+-- Function to respawn the player
+local Respawn = function()
+    -- Delay respawn to avoid spamming
+    wait(5)
+
+    -- Load the character
+    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+
+    -- Show the HUD
+    if LocalPlayer.PlayerGui and LocalPlayer.PlayerGui:FindFirstChild("HUD") then
+        LocalPlayer.PlayerGui.HUD.Visible = true
     end
+end
 
-    -- Function to handle player's death
-    local function OnPlayerDied()
-        print(LocalPlayer.Name .. " has died.")
-        RespawnPlayer()
+-- Function to adjust camera after respawn
+local function AdjustCamera()
+    -- Reset the camera to the player's character
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+end
+
+-- Function to check if the player is dead and respawn if necessary
+local function CheckPlayerStatus()
+    local character = LocalPlayer.Character
+    local UI = LocalPlayer.PlayerGui.UI
+
+    if (not character or character == nil) and not UI.HUD.Visible then
+        Respawn()  -- Respawn the player if dead
     end
+end
 
-    -- Connect to player's death event
-    LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
-
-    -- Main logic function
-    while true do
-        wait(0.1)
-
-        -- Move player to the specified coordinates
-        if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(1195, 562, -826))
-        end
-
-        -- Populate FruitMoves
-        FruitMoves = {}
-        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-            end
-        end
-
-        -- Use FruitMoves
-        for i,v in pairs(FruitMoves) do
-            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-            end
+-- Function to destroy GUI elements
+local function destroyGUI(player)
+    -- Check if the player has a PlayerGui
+    if player and player:FindFirstChild("PlayerGui") then
+        -- Destroy all GUI descendants of PlayerGui
+        for _, guiElement in ipairs(player.PlayerGui:GetChildren()) do
+            guiElement:Destroy()
         end
     end
+end
+
+-- Function to connect to player respawn event
+local function onPlayerRespawn(player)
+    -- Connect to the player's characterAdded event
+    player.CharacterAdded:Connect(function(character)
+        -- Destroy GUI elements when the player's character respawns
+        destroyGUI(player)
+        -- Adjust camera after respawn
+        AdjustCamera()
+    end)
+end
+
+-- Connect the onPlayerRespawn function to each player when they join the game
+game.Players.PlayerAdded:Connect(onPlayerRespawn)
+
+-- Destroy GUI elements for all existing players when the script runs
+for _, player in ipairs(game.Players:GetPlayers()) do
+    onPlayerRespawn(player)
+end
+
+-- Continuously check player status and respawn if necessary
+while true do
+    wait(0.1)
+    -- Check if the player is dead and respawn if necessary
+    CheckPlayerStatus()
 end
