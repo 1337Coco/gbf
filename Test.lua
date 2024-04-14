@@ -14,13 +14,16 @@ if game.PlaceId == 12413901502 then
             StarterGui:SetCoreGuiEnabled("Backpack", false)
             StarterGui:SetCoreGuiEnabled("PlayerList", false)
             StarterGui:SetCoreGuiEnabled("Chat", false)
+            -- Assuming these are defined elsewhere in your script
+            -- UI.MainMenu.Visible = false
+            -- UI.HUD.Visible = false
         end
     end
 
     -- Function to get the equipped fruit
     local function GetFruit()
-        local MainData = LocalPlayer.MAIN_DATA
-        local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
+        local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+        local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
         return CurrentData.Name
     end
 
@@ -34,16 +37,27 @@ if game.PlaceId == 12413901502 then
         end
     end
 
+    -- Function to check if the player is in the specified position and perform fruit moves if so
+    local function CheckPlayerPosition()
+        local character = LocalPlayer.Character
+
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            -- Move the player to the specified position if not already there
+            if character.HumanoidRootPart.Position ~= Vector3.new(122, 149, -1264) then
+                character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
+            else
+                print('in position')
+            end
+        end
+    end
+
     -- Continuously check player status and position
     while true do
         wait(0.25)
         -- Check if the player is dead and respawn if necessary
         CheckPlayerStatus()
-        if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
-            character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        else
-            print('else')
-        end
+        -- Check if the player is in the specified position and perform fruit moves if so
+        CheckPlayerPosition()
 
         if #FruitMoves == 0 then
             for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
@@ -61,5 +75,5 @@ if game.PlaceId == 12413901502 then
             end
         end
     end
-end
+
 end
