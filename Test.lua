@@ -3,27 +3,18 @@ local LocalPlayer = Players.LocalPlayer
 local RESPAWN_DELAY = 5 -- Respawn delay in seconds
 local SPAWN_POSITION = Vector3.new(-4773, 1349, -279) -- Coordinates of the spawn location
 
--- Function to respawn the local player
-local function respawnPlayer()
-    -- Teleport the player to the spawn location
-    LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(SPAWN_POSITION))
+local function setupHumanoidAsync(player, humanoid)
+    -- Customize humanoid properties
+    humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.Subject
+    humanoid.NameDisplayDistance = 1000
+    humanoid.HealthDisplayDistance = 1000
+    humanoid.NameOcclusion = Enum.NameOcclusion.OccludeAll
+    humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOn
+    humanoid.BreakJointsOnDeath = false
 
-    -- Ensure the player's humanoid is not dead
-    if LocalPlayer.Character:FindFirstChild("Humanoid") then
-        LocalPlayer.Character.Humanoid.Health = LocalPlayer.Character.Humanoid.MaxHealth
-    end
+    -- Wait for the humanoid to die
+    humanoid.Died:Wait()
+
+    -- Teleport the player to the spawn position
+    player.Character:SetPrimaryPartCFrame(CFrame.new(SPAWN_POSITION))
 end
-
--- Connect to the player's characterAdded event
-LocalPlayer.CharacterAdded:Connect(function(character)
-    -- Connect to the player's humanoid's Died event
-    local humanoid = character:WaitForChild("Humanoid")
-    humanoid.Died:Connect(function()
-        -- Wait for the respawn delay before respawning the player
-        wait(RESPAWN_DELAY)
-        respawnPlayer()
-    end)
-end)
-
--- Teleport the player to the spawn location
-respawnPlayer()
