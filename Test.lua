@@ -19,11 +19,12 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    if player.Character then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        wait()
+    -- Get the character
+    local character = player.Character
+    if character then
+        -- Move the character to the specified coordinates
+        character:SetPrimaryPartCFrame(CFrame.new(Vector3.new(-4773, 1349, -279)))
     end
-    
 end
 
 -- Function to check if the Play button is visible and click it if it is
