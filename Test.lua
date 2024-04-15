@@ -9,11 +9,7 @@ if game.PlaceId == 12413901502 then
 
     local FruitMoves = {}
 
-    -- Get the LocalPlayer
-    local Player = game.Players.LocalPlayer
-
     -- Extracting data for the equipped fruit
-    local MainData = Player:WaitForChild("MAIN_DATA")
     local SlotValue = MainData:WaitForChild("Slot").Value
     local SlotData = MainData:WaitForChild("Slots")
     local CurrentSlot = SlotData[SlotValue]
@@ -78,7 +74,7 @@ if game.PlaceId == 12413901502 then
     end
 
     -- Reset FruitMoves when player joins or respawns
-    LocalPlayer.Added:Connect(function()
+    LocalPlayer.CharacterAdded:Connect(function()
         FruitMoves = {}
     end)
 
