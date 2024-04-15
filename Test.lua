@@ -5,7 +5,7 @@ if game.PlaceId == 12413901502 then
     local PlayerGui = LocalPlayer.PlayerGui
 
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slot").Value)
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
     local FruitMoves = {}
 
