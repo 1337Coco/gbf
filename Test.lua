@@ -7,6 +7,7 @@ if game.PlaceId == 12413901502 then
     local MainData = LocalPlayer.MAIN_DATA
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
     local FruitMoves = {} -- Initializing FruitMoves table
+    local character = localPlayer.Character
 
     -- Function to handle player's death
     local function OnPlayerDied()
@@ -17,8 +18,7 @@ if game.PlaceId == 12413901502 then
     -- Connect to player's death event
     LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
 
--- Function to monitor player's stamina
-local function monitorStamina()
+    -- Monitor stamina periodically
     local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     if humanoid then
         local level = CurrentFruitLevel
@@ -30,56 +30,52 @@ local function monitorStamina()
         -- Calculate the threshold for triggering the action (95% of max stamina)
         local threshold = 0.95 * maxStamina
 
-        -- If stamina falls below the threshold, trigger the action
-        if stamina < threshold then
-            -- Trigger BreakJoints action here
-            local Players = game:GetService("Players")
-
-            local function breakJoints()
-                local localPlayer = Players.LocalPlayer
-                if localPlayer then
-                    local character = localPlayer.Character
-                    if character then
-                        local humanoid = character:FindFirstChildOfClass("Humanoid")
-                        if humanoid then
-                            humanoid:TakeDamage(100000) -- This will break all joints
-                        end
+        local function breakJoints()
+            if localPlayer then
+                character = localPlayer.Character
+                if character then
+                    humanoid = character:FindFirstChildOfClass("Humanoid")
+                    if humanoid then
+                        humanoid:TakeDamage(100000) -- This will break all joints
                     end
                 end
             end
-
-            breakJoints()
         end
-    end
-end
 
+        breakJoints()
+    end
 
     -- Main logic function
     while true do
         wait(0.1)
 
-        -- Check if FruitMoves is empty, then populate it
-        if #FruitMoves == 0 then
-            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-                end
+        -- Always populate FruitMoves
+        FruitMoves = {}
+        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and v.Name ~= "Enthral Grasp" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
             end
-        else
-            -- Move player to the specified coordinates
-            if LocalPlayer.Character then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-            end
+        end
 
-            -- Use FruitMoves
-            for i,v in pairs(FruitMoves) do
-                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                end
-            end
+        -- Move player to the specified coordinates
+        if LocalPlayer.Character then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+        end
 
-            -- Monitor stamina periodically
-            monitorStamina()
+        -- Use FruitMoves
+        for i,v in pairs(FruitMoves) do
+            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+            end
+        end
+
+        -- Check stamina and break joints if necessary
+        if humanoid then
+            stamina = humanoid.Stamina
+
+            if stamina < threshold then
+                breakJoints()
+            end
         end
     end
 end
