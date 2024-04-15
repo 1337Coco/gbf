@@ -7,6 +7,7 @@ local LocalPlayer = Players.LocalPlayer
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value);
 
+local character = LocalPlayer.Character
 -- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
     if VIM then
@@ -20,10 +21,15 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    if LocalPlayer.Character then
-        LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+    -- Get the character
+    local character = player.Character
+    if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+        character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+    else
+        wait()
     end
 end
+
 
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
