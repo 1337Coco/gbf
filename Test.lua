@@ -91,7 +91,7 @@ if game.PlaceId == 12413901502 then
     -- Main loop for other tasks
     while true do
         wait(0.1)
-        end
+        
         -- Populate FruitMoves
         for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
             if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
