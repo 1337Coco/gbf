@@ -1,6 +1,7 @@
 -- Define the VirtualInputManager (VIM) object
 local VIM = game:GetService("VirtualInputManager")
 
+local Players = game:GetService("Players")
 -- Get the LocalPlayer
 local player = game.Players.LocalPlayer
 
