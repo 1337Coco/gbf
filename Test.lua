@@ -1,6 +1,7 @@
--- Define the VirtualInputManager (VIM) object
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VIM = game:GetService("VirtualInputManager")
-
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 -- Get the LocalPlayer
 local player = game.Players.LocalPlayer
