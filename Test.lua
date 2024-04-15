@@ -7,7 +7,7 @@ if game.PlaceId == 12413901502 then
     local MainData = LocalPlayer.MAIN_DATA
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
     local FruitMoves = {} -- Initializing FruitMoves table
-    local character = LocalPlayer.Character
+    local character = localPlayer.Character
 
     -- Function to handle player's death
     local function OnPlayerDied()
