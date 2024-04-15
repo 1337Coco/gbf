@@ -21,11 +21,16 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    -- Get the character
-    local character = player.Character
-    if character then
-        -- Move the character to the specified coordinates
-        character:SetPrimaryPartCFrame(CFrame.new(Vector3.new(-4773, 1349, -279)))
+    -- Get the player's position
+    local playerPosition = player.Character and player.Character.PrimaryPart and player.Character.PrimaryPart.Position
+    if playerPosition then
+        -- Check if the player is already at the specified coordinates
+        local targetPosition = Vector3.new(-4773, 1349, -279)
+        local distanceThreshold = 5 -- Adjust as needed
+        if (playerPosition - targetPosition).magnitude > distanceThreshold then
+            -- Move the player to the specified coordinates
+            player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+        end
     end
 end
 
