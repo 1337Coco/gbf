@@ -18,7 +18,11 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+    if player.Character then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+        wait()
+    end
+    
 end
 
 -- Function to check if the Play button is visible and click it if it is
@@ -53,10 +57,7 @@ end
 while true do
     RunCheckAndClickPlayButton()
     wait(5)
-    if player.Character then
-        TransportCharacter() -- Transport the character to the specified position if it's dead
-        wait()
-    end
+    TransportCharacter() -- Transport the character to the specified position if it's dead
     wait(1)
 end
 
