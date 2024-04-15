@@ -18,11 +18,5 @@ if game.PlaceId == 12413901502 then
     -- Find the ProgressStamina element within PlayerGui
     local progressStamina = player.PlayerGui.UI.HUD.Bars.ProgressStamina
 
-    -- Check if the ProgressStamina element exists
-    if progressStamina then
-        -- Call the CheckStamina function from the imported file
-        StaminaUtils.CheckStamina(progressStamina.Text, currentFruitLevel)
-    else
-        print("ProgressStamina element not found in PlayerGui.")
-    end
+CheckStamina(progressStaminaText, currentFruitLevel)
 end
