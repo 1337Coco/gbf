@@ -58,7 +58,7 @@ end
 
 while true do
     RunCheckAndClickPlayButton()
-    wait(5)
+    wait(2)
     TransportCharacter() -- Transport the character to the specified position if it's dead
     wait(1)
 end
