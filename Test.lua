@@ -30,7 +30,7 @@ local function CheckAndClickPlayButton()
         local centerY = absolutePosition.Y + height / 2
         
         -- Click the Play button
-        VM1Click(centerX, 315)
+        VM1Click(centerX, 300)
     end
 end
 
