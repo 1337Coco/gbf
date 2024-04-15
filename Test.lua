@@ -7,8 +7,6 @@ if game.PlaceId == 12413901502 then
     local FruitMoves = {} -- Initializing FruitMoves table
     local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     local level = 0 -- Initialize level to 0
-    local maxStamina = ''
-    local stamina = ''
 
     if humanoid then
         level = CurrentData.Level.Value
@@ -20,22 +18,10 @@ if game.PlaceId == 12413901502 then
         warn("Level not found!")
     end
 
-    -- Monitor stamina periodically
-    if humanoid and level ~= 0 then
-        maxStamina = level * 4 + 200
-    end
-
     -- Main logic function
     while true do
         wait(0.1)
-        -- Check stamina and break joints if necessary
-        if humanoid and level ~= 0 then
-            stamina = humanoid.Stamina
 
-            if Percent(stamina, maxStamina) <= 0.95 then
-                LocalPlayer.Character:BreakJoints()
-            end
-        end
         -- Always populate FruitMoves
         FruitMoves = {}
         for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
@@ -56,4 +42,22 @@ if game.PlaceId == 12413901502 then
             end
         end
     end
+
+    -- Check stamina and break joints if necessary
+    local function checkStamina()
+        while true do
+            wait(0.5) -- Adjust the interval as needed
+
+            if humanoid and level ~= 0 then
+                local maxStamina = level * 4 + 200
+                local stamina = humanoid.Stamina
+
+                if Percent(stamina, maxStamina) <= 0.95 then
+                    LocalPlayer.Character:BreakJoints()
+                end
+            end
+        end
+    end
+
+    coroutine.wrap(checkStamina)()
 end
