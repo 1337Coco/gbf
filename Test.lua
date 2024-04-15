@@ -1,80 +1,28 @@
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local VIM = game:GetService("VirtualInputManager")
+local StaminaUtils = require(game:GetService("ReplicatedStorage"):WaitForChild("StaminaUtils"))
 
-local FruitMoves = {}
+if game.PlaceId == 12413901502 then
+    -- Get the LocalPlayer
+    local player = game.Players.LocalPlayer
 
--- Function to handle player's death
-local function OnPlayerDied()
-    print(Players.LocalPlayer.Name .. " has died.")
-    -- Respawn the player
-    RespawnPlayer()
-end
+    -- Extracting data for the equipped fruit
+    local mainData = player:WaitForChild("MAIN_DATA")
+    local slotValue = mainData:WaitForChild("Slot").Value
+    local slotData = mainData:WaitForChild("Slots")
+    local currentSlot = slotData[slotValue]
+    local currentFruitName = currentSlot.Value
 
--- Function to respawn the player
-local function RespawnPlayer()
-    -- Simulate mouse click to respawn
-    local viewportSize = workspace.CurrentCamera.ViewportSize
-    local centerX = viewportSize.X / 2
-    VM1Click(centerX, 325)
-end
+    local fruitsData = mainData:WaitForChild("Fruits")
+    local currentFruitData = fruitsData:WaitForChild(currentFruitName)
+    local currentFruitLevel = currentFruitData.Level.Value
 
--- Function to simulate a mouse click at the specified coordinates
-local function VM1Click(X, Y)
-    if VIM then
-        VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
-        wait(0.1) -- Adjust wait time as needed
-        VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
+    -- Find the ProgressStamina element within PlayerGui
+    local progressStamina = player.PlayerGui.UI.HUD.Bars.ProgressStamina
+
+    -- Check if the ProgressStamina element exists
+    if progressStamina then
+        -- Call the CheckStamina function from the imported file
+        StaminaUtils.CheckStamina(progressStamina.Text, currentFruitLevel)
     else
-        warn("VirtualInputManager not found.")
+        print("ProgressStamina element not found in PlayerGui.")
     end
 end
-
--- Connect the key press event to the function
-game:GetService("UserInputService").InputBegan:Connect(OnKeyPress)
-
--- Function to handle key press events
-local function OnKeyPress(input)
-    if input.KeyCode == Enum.KeyCode.M then
-        -- Call the mouse click function to respawn
-        RespawnPlayer()
-    end
-end
-
--- Function to activate FruitMoves
-function FruitMoves.Activate()
-    FruitMoves = {} -- Reset FruitMoves table
-    while true do
-        for _, move in pairs(FruitMoves) do
-            if not Players.LocalPlayer.Cooldowns:FindFirstChild(move) then
-                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, move, {})
-            end
-        end
-        wait() -- Wait for the next iteration
-    end
-end
-
-
--- Function to move the player to a desired location
-local function MovePlayerToLocation()
-    while true do
-        if Players.LocalPlayer.Character then
-            Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        end
-        wait(5) -- Adjust the wait time as needed
-    end
-end
-
--- Connect to player's death event
-Players.LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
-
--- Start FruitMoves activation loop in a separate coroutine
-coroutine.wrap(FruitMoves.Activate)()
-
--- Start moving the player to the desired location in a separate coroutine
-coroutine.wrap(MovePlayerToLocation)()
-
--- Start the script with respawn functionality
-RespawnPlayer()
-
-return FruitMoves
