@@ -46,12 +46,19 @@ end
 local function RunCheckAndClickPlayButton()
     while true do
         if player.Character == nil then
-            TransportCharacter() -- Transport the character to the specified position if it's dead
             CheckAndClickPlayButton() -- Click the Play button if the character is not present
         end
         wait(1)
     end
 end
 
--- Run the function to continuously check for the presence of the local player's character
-RunCheckAndClickPlayButton()
+while true do
+    RunCheckAndClickPlayButton() 
+    if player == game.Players.LocalPlayer and player.Character == nil then
+        TransportCharacter() -- Transport the character to the specified position if it's dead
+    end
+    wait(1)
+end
+
+
+
