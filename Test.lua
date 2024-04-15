@@ -53,10 +53,9 @@ local function RunCheckAndClickPlayButton()
 end
 
 while true do
-    RunCheckAndClickPlayButton() 
-    if player == game.Players.LocalPlayer and player.Character == nil then
-        TransportCharacter() -- Transport the character to the specified position if it's dead
-    end
+    RunCheckAndClickPlayButton()
+    wait(5)
+    TransportCharacter() -- Transport the character to the specified position if it's dead
     wait(1)
 end
 
