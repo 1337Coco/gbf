@@ -1,4 +1,4 @@
-local StaminaUtils = require(game:GetService("ReplicatedStorage"):WaitForChild("StaminaUtils"))
+local StaminaUtils = sharedRequire('@StaminaUtils.lua');
 
 if game.PlaceId == 12413901502 then
     -- Get the LocalPlayer
