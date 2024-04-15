@@ -78,6 +78,11 @@ if game.PlaceId == 12413901502 then
         FruitMoves = {}
     end)
 
+    -- Event to detect player join or respawn
+    Players.PlayerAdded:Connect(function(player)
+        print(player.Name .. " joined the game!")
+    end)
+
     -- Start FruitMoves coroutine
     coroutine.wrap(MoveFruits)()
 
