@@ -4,92 +4,77 @@ local VIM = game:GetService("VirtualInputManager")
 
 local FruitMoves = {}
 
+-- Function to handle player's death
 local function OnPlayerDied()
     print(Players.LocalPlayer.Name .. " has died.")
+    -- Respawn the player
     RespawnPlayer()
 end
 
+-- Function to respawn the player
 local function RespawnPlayer()
+    -- Simulate mouse click to respawn
     local viewportSize = workspace.CurrentCamera.ViewportSize
     local centerX = viewportSize.X / 2
     VM1Click(centerX, 325)
 end
 
+-- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
     if VIM then
         VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
-        wait(0.1)
+        wait(0.1) -- Adjust wait time as needed
         VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
     else
         warn("VirtualInputManager not found.")
     end
 end
 
+-- Connect the key press event to the function
 game:GetService("UserInputService").InputBegan:Connect(OnKeyPress)
 
+-- Function to handle key press events
 local function OnKeyPress(input)
     if input.KeyCode == Enum.KeyCode.M then
+        -- Call the mouse click function to respawn
         RespawnPlayer()
     end
 end
 
+-- Function to activate FruitMoves
 function FruitMoves.Activate()
+    FruitMoves = {} -- Reset FruitMoves table
     while true do
         for _, move in pairs(FruitMoves) do
             if not Players.LocalPlayer.Cooldowns:FindFirstChild(move) then
                 ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, move, {})
             end
         end
-        wait()
+        wait() -- Wait for the next iteration
     end
 end
 
+
+-- Function to move the player to a desired location
 local function MovePlayerToLocation()
-    if Players.LocalPlayer.Character then
-        Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-    end
-end
-
-Players.LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
-MovePlayerToLocation()
-
-local player = game.Players.LocalPlayer
-local mainData = player:WaitForChild("MAIN_DATA")
-local slotValue = mainData:WaitForChild("Slot").Value
-local slotData = mainData:WaitForChild("Slots")
-local currentSlot = slotData[slotValue]
-local currentFruitName = currentSlot.Value
-
-local fruitsData = mainData:WaitForChild("Fruits")
-local currentFruitData = fruitsData:WaitForChild(currentFruitName)
-local currentFruitLevel = currentFruitData.Level.Value
-
-local progressStamina = player.PlayerGui.UI.HUD.Bars.ProgressStamina
-
-if progressStamina then
-    local function calculateMaxStamina(level)
-        return level * 4 + 200
-    end
-    
-    local progressStaminaText = progressStamina.Text
-    if progressStaminaText then
-        local trimmedText = progressStaminaText:sub(1, #progressStaminaText - 5)
-        local currentStamina = tonumber(trimmedText)
-        local maxStamina = calculateMaxStamina(currentFruitLevel)
-        local percentageRemaining = (currentStamina / maxStamina) * 100
-        local thresholdPercentage = 10
-        
-        if percentageRemaining <= thresholdPercentage then
-            player.Character:BreakJoints()
+    while true do
+        if Players.LocalPlayer.Character then
+            Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
         end
-        print("Current Stamina:", currentStamina)
-        print("Max Stamina:", maxStamina)
-        print("Percentage Remaining:", percentageRemaining)
-    else
-        print("ProgressStamina text is nil.")
+        wait(5) -- Adjust the wait time as needed
     end
-else
-    print("ProgressStamina element not found in PlayerGui.")
 end
+
+-- Connect to player's death event
+Players.LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
+
+-- Start FruitMoves activation loop in a separate coroutine
+coroutine.wrap(FruitMoves.Activate)()
+
+-- Start moving the player to the desired location in a separate coroutine
+coroutine.wrap(MovePlayerToLocation)()
+
+-- Start the script with respawn functionality
+RespawnPlayer()
 
 return FruitMoves
