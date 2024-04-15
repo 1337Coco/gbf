@@ -9,7 +9,7 @@ while not LocalPlayer do
 end
 
 -- Initialize local PlayerGui
-local PlayerGui = LocalPlayer.PlayerGui
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
 -- Connect the MouseButton1Click event
 Button.MouseButton1Click:Connect(function()
@@ -17,6 +17,13 @@ Button.MouseButton1Click:Connect(function()
     local playButton = PlayerGui.UI.MainMenu.Buttons.Play
     if playButton and playButton.Visible then
         -- Fire the button's click event
-        playButton.MouseButton1Click:Fire()
+        local success, errorMessage = pcall(function()
+            playButton.MouseButton1Click:Fire()
+        end)
+        if not success then
+            warn("Error when firing MouseButton1Click event:", errorMessage)
+        end
+    else
+        warn("Play button not found or not visible.")
     end
 end)
