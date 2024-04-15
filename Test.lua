@@ -1,7 +1,4 @@
 local StaminaUtils = require(game:GetService("ReplicatedStorage"):WaitForChild("StaminaUtils"))
-
-if game.PlaceId == 12413901502 then
-    -- Get the LocalPlayer
     local player = game.Players.LocalPlayer
 
     -- Extracting data for the equipped fruit
@@ -18,5 +15,10 @@ if game.PlaceId == 12413901502 then
     -- Find the ProgressStamina element within PlayerGui
     local progressStamina = player.PlayerGui.UI.HUD.Bars.ProgressStamina
 
-CheckStamina(progressStaminaText, currentFruitLevel)
-end
+    -- Check if the ProgressStamina element exists
+    if progressStamina then
+        -- Call the CheckStamina function from the imported file
+        StaminaUtils.CheckStamina(progressStamina.Text, currentFruitLevel)
+    else
+        print("ProgressStamina element not found in PlayerGui.")
+    end
