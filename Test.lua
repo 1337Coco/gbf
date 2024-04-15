@@ -15,6 +15,13 @@ local function VM1Click(X, Y)
     end
 end
 
+-- Function to transport the character to the specified position
+local function TransportCharacter()
+    if player.Character then
+        player.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+    end
+end
+
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
     -- Find the Play button
@@ -27,7 +34,7 @@ local function CheckAndClickPlayButton()
         local width = playButton.AbsoluteSize.X
         local height = playButton.AbsoluteSize.Y
         local centerX = absolutePosition.X + width / 2
-        local centerY = absolutePosition.Y + height / 2 + 50 -- Adjusted downwards by 50 pixels
+        local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 35 pixels
         
         -- Click the Play button
         VM1Click(centerX, centerY)
@@ -36,9 +43,12 @@ end
 
 -- Function to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
 local function RunCheckAndClickPlayButton()
-    while player.Character == nil do
-        CheckAndClickPlayButton()
-        wait(2)
+    while true do
+        if player.Character == nil then
+            TransportCharacter() -- Transport the character to the specified position if it's dead
+            CheckAndClickPlayButton() -- Click the Play button if the character is not present
+        end
+        wait(1)
     end
 end
 
