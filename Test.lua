@@ -18,7 +18,7 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    player.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
 end
 
 -- Function to check if the Play button is visible and click it if it is
