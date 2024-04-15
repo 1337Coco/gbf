@@ -17,62 +17,69 @@ if game.PlaceId == 12413901502 then
     -- Connect to player's death event
     LocalPlayer.Character:WaitForChild("Humanoid").Died:Connect(OnPlayerDied)
 
-    -- Function to monitor player's stamina
-    local function monitorStamina()
-        local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            local level = CurrentFruitLevel
-            local maxStamina = level * 4 + 200
+-- Function to monitor player's stamina
+local function monitorStamina()
+    local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        local level = CurrentFruitLevel
+        local maxStamina = level * 4 + 200
 
-            -- Get the current stamina value
-            local stamina = humanoid.Stamina
+        -- Get the current stamina value
+        local stamina = humanoid.Stamina
 
-            -- If stamina falls below maximum, handle accordingly
-            if stamina < maxStamina then
-                -- Handle low stamina condition here (e.g., perform an action or call a function)
-                print("Stamina is not at maximum!")
+        -- Calculate the threshold for triggering the action (95% of max stamina)
+        local threshold = 0.95 * maxStamina
+
+        -- If stamina falls below the threshold, trigger the action
+        if stamina < threshold then
+            -- Trigger BreakJoints action here
+            local Players = game:GetService("Players")
+
+            local function breakJoints()
+                local localPlayer = Players.LocalPlayer
+                if localPlayer then
+                    local character = localPlayer.Character
+                    if character then
+                        local humanoid = character:FindFirstChildOfClass("Humanoid")
+                        if humanoid then
+                            humanoid:TakeDamage(100000) -- This will break all joints
+                        end
+                    end
+                end
             end
+
+            breakJoints()
         end
     end
+end
 
-    -- Function to populate FruitMoves
-    local function populateFruitMoves()
-        FruitMoves = {}
-        for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-            if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-                FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-            end
-        end
-    end
-
-    -- Connect to player's equipped tool event
-    LocalPlayer.Backpack.ChildAdded:Connect(function(tool)
-        -- Populate FruitMoves when a tool is equipped
-        populateFruitMoves()
-        -- Monitor stamina when a tool is equipped
-        monitorStamina()
-    end)
-
-    -- Populate FruitMoves initially when LocalPlayer is added
-    populateFruitMoves()
 
     -- Main logic function
     while true do
         wait(0.1)
 
-        -- Move player to the specified coordinates
-        if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
-        end
-
-        -- Use FruitMoves
-        for i,v in pairs(FruitMoves) do
-            if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+        -- Check if FruitMoves is empty, then populate it
+        if #FruitMoves == 0 then
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
+                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+                end
             end
-        end
+        else
+            -- Move player to the specified coordinates
+            if LocalPlayer.Character then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+            end
 
-        -- Monitor stamina periodically
-        monitorStamina()
+            -- Use FruitMoves
+            for i,v in pairs(FruitMoves) do
+                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+                end
+            end
+
+            -- Monitor stamina periodically
+            monitorStamina()
+        end
     end
 end
