@@ -2,6 +2,20 @@ if game.PlaceId == 12413901502 then
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
+
+    -- Check if LocalPlayer is valid
+    if not LocalPlayer then
+        -- If LocalPlayer is not valid, wait for it to become valid
+        Players.PlayerAdded:Wait()
+        LocalPlayer = Players.LocalPlayer
+    end
+
+    -- Check if LocalPlayer is still valid after waiting
+    if not LocalPlayer then
+        -- If LocalPlayer is still not valid, exit the script
+        return
+    end
+
     local PlayerGui = LocalPlayer.PlayerGui
 
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
@@ -20,7 +34,7 @@ if game.PlaceId == 12413901502 then
     local CurrentFruitLevel = CurrentFruitData.Level.Value
 
     -- Find the ProgressStamina element within PlayerGui
-    local ProgressStamina = Player.PlayerGui.UI.HUD.Bars.ProgressStamina
+    local ProgressStamina = PlayerGui and PlayerGui.UI.HUD.Bars.ProgressStamina or nil
 
     local function CheckStamina(progressStaminaText, currentFruitLevel)
         if progressStaminaText then
