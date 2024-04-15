@@ -31,7 +31,7 @@ if game.PlaceId == 12413901502 then
             local centerY = absolutePosition.Y + height / 2
             
             -- Click the Play button
-            VM1Click(centerX, centerY)
+            VM1Click(centerX, 325)
         end
     end
     
