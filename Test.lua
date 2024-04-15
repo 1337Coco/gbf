@@ -27,7 +27,7 @@ local function CheckAndClickPlayButton()
         local width = playButton.AbsoluteSize.X
         local height = playButton.AbsoluteSize.Y
         local centerX = absolutePosition.X + width / 2
-        local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 20 pixels
+        local centerY = absolutePosition.Y + height / 2 + 50 -- Adjusted downwards by 50 pixels
         
         -- Click the Play button
         VM1Click(centerX, centerY)
