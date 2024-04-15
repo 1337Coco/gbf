@@ -52,8 +52,8 @@ if game.PlaceId == 12413901502 then
         end
     end
     
-    -- Function to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
-    local function RunCheckAndClickPlayButton()
+    -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
+    local function CharacterMonitoringCoroutine()
         while true do
             if LocalPlayer.Character == nil then
                 CheckAndClickPlayButton() -- Click the Play button if the character is not present
@@ -61,17 +61,18 @@ if game.PlaceId == 12413901502 then
             wait(1)
         end
     end
-    
-    -- Fire the TransportCharacter function after detecting the LocalPlayer
-    local BindableEvent = Instance.new("BindableEvent")
-    BindableEvent.Event:Connect(function()
-        TransportCharacter()
-    end)
-    
-    -- Loop to continuously fire the BindableEvent
-    while true do
-        RunCheckAndClickPlayButton()
-        BindableEvent:Fire()
-        wait(1)
+
+    -- Start the coroutine
+    coroutine.wrap(CharacterMonitoringCoroutine)()
+
+    -- Coroutine to continuously transport the character to the specified position
+    local function TransportCoroutine()
+        while true do
+            TransportCharacter() -- Transport the character to the specified position if it's dead
+            wait(2)
+        end
     end
+
+    -- Start the coroutine
+    coroutine.wrap(TransportCoroutine)()
 end
