@@ -1,4 +1,3 @@
-print('check')
 -- Get the LocalPlayer
 local player = game.Players.LocalPlayer
 
