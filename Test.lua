@@ -1,20 +1,22 @@
+local Button = script.Parent
 local Players = game:GetService("Players")
+
+-- Wait for the LocalPlayer to be available
 local LocalPlayer = Players.LocalPlayer
-local RESPAWN_DELAY = 5 -- Respawn delay in seconds
-local SPAWN_POSITION = Vector3.new(-4773, 1349, -279) -- Coordinates of the spawn location
-
-local function setupHumanoidAsync(player, humanoid)
-    -- Customize humanoid properties
-    humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.Subject
-    humanoid.NameDisplayDistance = 1000
-    humanoid.HealthDisplayDistance = 1000
-    humanoid.NameOcclusion = Enum.NameOcclusion.OccludeAll
-    humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOn
-    humanoid.BreakJointsOnDeath = false
-
-    -- Wait for the humanoid to die
-    humanoid.Died:Wait()
-
-    -- Teleport the player to the spawn position
-    player.Character:SetPrimaryPartCFrame(CFrame.new(SPAWN_POSITION))
+while not LocalPlayer do
+    LocalPlayer = Players.LocalPlayer
+    wait(0.1)
 end
+
+-- Initialize local PlayerGui
+local PlayerGui = LocalPlayer.PlayerGui
+
+-- Connect the MouseButton1Click event
+Button.MouseButton1Click:Connect(function()
+    -- Get the Play button
+    local playButton = PlayerGui.UI.MainMenu.Buttons.Play
+    if playButton and playButton.Visible then
+        -- Fire the button's click event
+        playButton.MouseButton1Click:Fire()
+    end
+end)
