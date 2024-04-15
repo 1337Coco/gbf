@@ -70,6 +70,7 @@ if game.PlaceId == 12413901502 then
     
     -- Loop to continuously fire the BindableEvent
     while true do
+        RunCheckAndClickPlayButton()
         BindableEvent:Fire()
         wait(1)
     end
