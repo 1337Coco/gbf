@@ -18,9 +18,7 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    if player.Character then
-        player.Character:MoveTo(Vector3.new(-4773, 1349, -279))
-    end
+    player.Character:MoveTo(Vector3.new(-4773, 1349, -279))
 end
 
 -- Function to check if the Play button is visible and click it if it is
@@ -55,7 +53,10 @@ end
 while true do
     RunCheckAndClickPlayButton()
     wait(5)
-    TransportCharacter() -- Transport the character to the specified position if it's dead
+    if player.Character then
+        TransportCharacter() -- Transport the character to the specified position if it's dead
+        wait()
+    end
     wait(1)
 end
 
