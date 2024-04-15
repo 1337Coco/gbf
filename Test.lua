@@ -4,9 +4,9 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 -- Get the LocalPlayer
-local player = game.Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
 -- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
@@ -21,23 +21,15 @@ end
 
 -- Function to transport the character to the specified position
 local function TransportCharacter()
-    -- Get the player's position
-    local playerPosition = player.Character and player.Character.PrimaryPart and player.Character.PrimaryPart.Position
-    if playerPosition then
-        -- Check if the player is already at the specified coordinates
-        local targetPosition = Vector3.new(-4773, 1349, -279)
-        local distanceThreshold = 5 -- Adjust as needed
-        if (playerPosition - targetPosition).magnitude > distanceThreshold then
-            -- Move the player to the specified coordinates
-            player.Character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
-        end
+    if LocalPlayer.Character then
+        LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
     end
 end
 
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
     -- Find the Play button
-    local playButton = player.PlayerGui.UI.MainMenu.Buttons.Play
+    local playButton = LocalPlayer.PlayerGui.UI.MainMenu.Buttons.Play
     
     -- Check if the Play button exists and is visible
     if playButton and playButton.Visible then
@@ -56,7 +48,7 @@ end
 -- Function to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
 local function RunCheckAndClickPlayButton()
     while true do
-        if player.Character == nil then
+        if LocalPlayer.Character == nil then
             CheckAndClickPlayButton() -- Click the Play button if the character is not present
         end
         wait(1)
@@ -69,6 +61,3 @@ while true do
     TransportCharacter() -- Transport the character to the specified position if it's dead
     wait(1)
 end
-
-
-
