@@ -28,7 +28,14 @@ if game.PlaceId == 12413901502 then
     -- Main logic function
     while true do
         wait(0.1)
+        -- Check stamina and break joints if necessary
+        if humanoid and level ~= 0 then
+            stamina = humanoid.Stamina
 
+            if Percent(stamina, maxStamina) <= 0.95 then
+                LocalPlayer.Character:BreakJoints()
+            end
+        end
         -- Always populate FruitMoves
         FruitMoves = {}
         for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
@@ -46,15 +53,6 @@ if game.PlaceId == 12413901502 then
         for _, toolName in ipairs(FruitMoves) do
             if not LocalPlayer.Cooldowns:FindFirstChild(toolName) then
                 ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, toolName, {})
-            end
-        end
-
-        -- Check stamina and break joints if necessary
-        if humanoid and level ~= 0 then
-            stamina = humanoid.Stamina
-
-            if Percent(stamina, maxStamina) <= 0.95 then
-                LocalPlayer.Character:BreakJoints()
             end
         end
     end
