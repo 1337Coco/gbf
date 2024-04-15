@@ -6,8 +6,8 @@ if game.PlaceId == 12413901502 then
     -- Get the LocalPlayer
     local LocalPlayer = Players.LocalPlayer
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value);
-    local character = LocalPlayer.Character
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
@@ -21,14 +21,17 @@ if game.PlaceId == 12413901502 then
     
     -- Function to transport the character to the specified position
     local function TransportCharacter()
-
-        if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        else
-            print("in position")
+        if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
+            local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
+            local targetPosition = Vector3.new(-4773, 1349, -279)
+            local distanceThreshold = 5 -- Adjust as needed
+            if (characterPosition - targetPosition).magnitude > distanceThreshold then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+            else
+                print("Character is already at the target position.")
+            end
         end
     end
-    
     
     -- Function to check if the Play button is visible and click it if it is
     local function CheckAndClickPlayButton()
@@ -59,12 +62,15 @@ if game.PlaceId == 12413901502 then
         end
     end
     
+    -- Fire the TransportCharacter function after detecting the LocalPlayer
+    local BindableEvent = Instance.new("BindableEvent")
+    BindableEvent.Event:Connect(function()
+        TransportCharacter()
+    end)
+    
+    -- Loop to continuously fire the BindableEvent
     while true do
-        RunCheckAndClickPlayButton()
-        wait(2)
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        print('transported')
-        --TransportCharacter() -- Transport the character to the specified position if it's dead
+        BindableEvent:Fire()
         wait(1)
     end
 end
