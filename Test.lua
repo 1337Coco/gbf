@@ -6,17 +6,11 @@ if game.PlaceId == 12413901502 then
     -- Check if LocalPlayer is valid
     if not LocalPlayer then
         -- If LocalPlayer is not valid, wait for it to become valid
-        Players.PlayerAdded:Wait()
-        LocalPlayer = Players.LocalPlayer
+        LocalPlayer = Players.PlayerAdded:Wait()
     end
 
-    -- Check if LocalPlayer is still valid after waiting
-    if not LocalPlayer then
-        -- If LocalPlayer is still not valid, exit the script
-        return
-    end
-
-    local PlayerGui = LocalPlayer.PlayerGui
+    -- Ensure LocalPlayer's Humanoid exists
+    local Humanoid = LocalPlayer.Character:WaitForChild("Humanoid")
 
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
@@ -34,6 +28,7 @@ if game.PlaceId == 12413901502 then
     local CurrentFruitLevel = CurrentFruitData.Level.Value
 
     -- Find the ProgressStamina element within PlayerGui
+    local PlayerGui = LocalPlayer.PlayerGui
     local ProgressStamina = PlayerGui and PlayerGui.UI.HUD.Bars.ProgressStamina or nil
 
     local function CheckStamina(progressStaminaText, currentFruitLevel)
@@ -62,7 +57,7 @@ if game.PlaceId == 12413901502 then
             if PercentageRemaining <= ThresholdPercentage then
                 -- Perform an action when currentStamina is low
                 print("Current stamina is low. Performing action...")
-                Player.Character:BreakJoints()
+                LocalPlayer.Character:BreakJoints()
             end
         end
     end
