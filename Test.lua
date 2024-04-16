@@ -7,6 +7,7 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    local character = LocalPlayer.Character
 
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
@@ -69,9 +70,9 @@ if game.PlaceId == 12413901502 then
 local function TransportCoroutine()
     while true do
         -- Check if the character is already at the target position
-    if character and character:FindFirstChild("HumanoidRootPart") then
+    if LocalPlayer and LocalPlayer:FindFirstChild("HumanoidRootPart") then
         -- Move the player to the specified position if not already there
-        if LocalPlayer.Character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+        if LocalPlayer.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
             local function TransportCharacter()
         else
             -- Perform fruit moves if the player is in the specified position
