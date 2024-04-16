@@ -4,9 +4,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VIM = game:GetService("VirtualInputManager")
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
-local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-
 
 if game.PlaceId == 12413901502 then
     -- Function to simulate a mouse click at the specified coordinates
@@ -17,21 +14,6 @@ if game.PlaceId == 12413901502 then
             VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
         else
             warn("VirtualInputManager not found.")
-        end
-    end
-    
-    -- Function to transport the character to the specified position
-    local function TransportCharacter()
-        local character = LocalPlayer.Character
-        if character and character:FindFirstChild("HumanoidRootPart") then
-            local characterPosition = character.HumanoidRootPart.Position
-            local targetPosition = Vector3.new(-4773, 1349, -279)
-            local distanceThreshold = 5 -- Adjust as needed
-            if (characterPosition - targetPosition).magnitude > distanceThreshold then
-                character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
-            else
-                print("Character is already at the target position.")
-            end
         end
     end
     
@@ -55,26 +37,19 @@ if game.PlaceId == 12413901502 then
     end
     
     -- BindableEvent for character respawned signal
-    local characterSpawnedSignal = Instance.new("BindableEvent")
+    local characterDeadSignal = Instance.new("BindableEvent")
 
-    -- Coroutine to continuously transport the character to the specified position
-    local function TransportCoroutine()
-        while true do
-            CheckAndClickPlayButton() -- Check if the player can respawn
-            wait(5)
-            characterSpawnedSignal.Event:Wait() -- Wait for the character to spawn
-            TransportCharacter() -- Transport the character to the specified position if it's dead
-            wait(2)
-        end
-    end
-
-    -- Start the coroutine
-    coroutine.wrap(TransportCoroutine)()
-
-    -- Connect this to the character's respawn event
-    LocalPlayer.CharacterAdded:Connect(function(character)
-        print("Character respawned!")
-        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-        characterSpawnedSignal:Fire(character)
+    -- Connect this to the character's death event
+    LocalPlayer.CharacterRemoving:Connect(function()
+        print("Character is dead or removed!")
+        characterDeadSignal:Fire()
     end)
+
+    -- Connect this to the character's spawn event
+    LocalPlayer.CharacterAdded:Connect(function()
+        print("Character respawned!")
+    end)
+
+    -- Connect the bindable event to CheckAndClickPlayButton
+    characterDeadSignal.Event:Connect(CheckAndClickPlayButton)
 end
