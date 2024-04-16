@@ -29,6 +29,7 @@ if game.PlaceId == 12413901502 then
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
             else
+                print('break')
                 break()
             end
         end
@@ -71,6 +72,7 @@ if game.PlaceId == 12413901502 then
         while true do
             TransportCharacter() -- Transport the character to the specified position if it's dead
             wait(2)
+            print('check')
         end
     end
 
