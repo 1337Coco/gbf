@@ -57,15 +57,10 @@ if game.PlaceId == 12413901502 then
     -- BindableEvent for character respawned signal
     local characterSpawnedSignal = Instance.new("BindableEvent")
 
-    -- Connect this to the character's respawn event
-    LocalPlayer.CharacterAdded:Connect(function(character)
-        print("Character respawned!")
-        characterSpawnedSignal:Fire(character)
-    end)
-
     -- Coroutine to continuously transport the character to the specified position
     local function TransportCoroutine()
         while true do
+            CheckAndClickPlayButton() -- Check if the player can respawn
             characterSpawnedSignal.Event:Wait() -- Wait for the character to spawn
             TransportCharacter() -- Transport the character to the specified position if it's dead
             wait(2)
@@ -74,4 +69,10 @@ if game.PlaceId == 12413901502 then
 
     -- Start the coroutine
     coroutine.wrap(TransportCoroutine)()
+
+    -- Connect this to the character's respawn event
+    LocalPlayer.CharacterAdded:Connect(function(character)
+        print("Character respawned!")
+        characterSpawnedSignal:Fire(character)
+    end)
 end
