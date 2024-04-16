@@ -71,7 +71,7 @@ local function TransportCoroutine()
         -- Check if the character is already at the target position
     if character and character:FindFirstChild("HumanoidRootPart") then
         -- Move the player to the specified position if not already there
-        if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+        if LocalPlayer.Character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
             local function TransportCharacter()
         else
             -- Perform fruit moves if the player is in the specified position
