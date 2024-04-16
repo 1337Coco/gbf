@@ -7,6 +7,10 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    -- x,y,z coordinates
+    local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
+    local targetPosition = Vector3.new(-4773, 1349, -279)
+    local distanceThreshold = 5 -- Adjust as needed
     
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
@@ -22,14 +26,10 @@ if game.PlaceId == 12413901502 then
     -- Function to transport the character to the specified position
     local function TransportCharacter()
         if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
-            local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
-            local targetPosition = Vector3.new(-4773, 1349, -279)
-            local distanceThreshold = 5 -- Adjust as needed
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
             else
-                print('break')
-                break()
+                wait()
             end
         end
     end
@@ -69,9 +69,12 @@ if game.PlaceId == 12413901502 then
     -- Coroutine to continuously transport the character to the specified position
     local function TransportCoroutine()
         while true do
-            TransportCharacter() -- Transport the character to the specified position if it's dead
-            wait(2)
-            print('check')
+            if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
+                if (characterPosition - targetPosition).magnitude > distanceThreshold then
+                TransportCharacter() -- Transport the character to the specified position if it's dead
+                wait(2)
+                end
+            end
         end
     end
 
