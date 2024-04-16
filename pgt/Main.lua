@@ -66,32 +66,35 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-    -- Coroutine to continuously check stamina and fruit moves
-    local function MainCoroutine()
+    -- Coroutine to continuously check stamina
+    local function StaminaCoroutine()
         while true do
             CheckStamina()
-
-            -- Check for fruit moves
-            if #FruitMoves == 0 then
-                for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
-                    if tool:IsA("Tool") and currentFruitLevel >= tool:GetAttribute("Level") then
-                        FruitMoves[#FruitMoves + 1] = string.gsub(tool.Name, " ", "")
-                    end
-                end
-            else
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-
-                for _, toolName in ipairs(FruitMoves) do
-                    if not LocalPlayer.Cooldowns:FindFirstChild(toolName) then
-                        ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, toolName, {})
-                    end
-                end
-            end
-
-            wait(0.25)
+            wait(1) -- Adjust as needed, this checks stamina every second
         end
     end
 
-    -- Start the main coroutine
-    coroutine.wrap(MainCoroutine)()
+    -- Start the coroutine
+    coroutine.wrap(StaminaCoroutine)()
+
+    -- Main loop
+    while true do
+        wait(0.25)
+
+        if #FruitMoves == 0 then
+            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+                if v.ClassName == "Tool" and currentFruitLevel >= v:GetAttribute("Level") then
+                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+                end
+            end
+        else
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+
+            for i,v in pairs(FruitMoves) do
+                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+                end
+            end
+        end
+    end
 end
