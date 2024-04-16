@@ -1,13 +1,9 @@
-if game.PlaceId == 12413901502 then
-    local VIM = game:GetService("VirtualInputManager")
-    local StarterGui = game:GetService("StarterGui")
-    local Workspace = game:GetService("Workspace")
-    local Players = game:GetService("Players")
-    -- Get the LocalPlayer
-    local LocalPlayer = Players.LocalPlayer
-    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VIM = game:GetService("VirtualInputManager")
 
+if game.PlaceId == 12413901502 then
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
@@ -21,12 +17,13 @@ if game.PlaceId == 12413901502 then
     
     -- Function to transport the character to the specified position
     local function TransportCharacter()
-        if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
-            local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
+        local character = LocalPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local characterPosition = character.HumanoidRootPart.Position
             local targetPosition = Vector3.new(-4773, 1349, -279)
             local distanceThreshold = 5 -- Adjust as needed
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+                character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
             else
                 print("Character is already at the target position.")
             end
@@ -52,19 +49,6 @@ if game.PlaceId == 12413901502 then
         end
     end
     
-    -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
-    local function CharacterMonitoringCoroutine()
-        while true do
-            if LocalPlayer.Character == nil then
-                CheckAndClickPlayButton() -- Click the Play button if the character is not present
-            end
-            wait(1)
-        end
-    end
-
-    -- Start the coroutine
-    coroutine.wrap(CharacterMonitoringCoroutine)()
-
     -- BindableEvent for character respawned signal
     local characterSpawnedSignal = Instance.new("BindableEvent")
 
