@@ -28,7 +28,7 @@ if game.PlaceId == 12413901502 then
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
             else
-                print("Character is already at the target position.")
+                wait(3)
             end
         end
     end
@@ -65,13 +65,26 @@ if game.PlaceId == 12413901502 then
     -- Start the coroutine
     coroutine.wrap(CharacterMonitoringCoroutine)()
 
-    -- Coroutine to continuously transport the character to the specified position
-    local function TransportCoroutine()
-        while true do
-            TransportCharacter() -- Transport the character to the specified position if it's dead
-            wait(2)
+-- Coroutine to continuously transport the character to the specified position
+local function TransportCoroutine()
+    while true do
+        -- Check if the character is already at the target position
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        -- Move the player to the specified position if not already there
+        if character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+            local function TransportCharacter()
+        else
+            -- Perform fruit moves if the player is in the specified position
+            print("do fruit moves")
         end
     end
+        wait(2)
+    end
+end
+
+-- Start the coroutine
+coroutine.wrap(TransportCoroutine)()
+
 
     -- Start the coroutine
     coroutine.wrap(TransportCoroutine)()
