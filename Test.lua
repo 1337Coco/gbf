@@ -61,6 +61,7 @@ if game.PlaceId == 12413901502 then
     local function TransportCoroutine()
         while true do
             CheckAndClickPlayButton() -- Check if the player can respawn
+            wait(5)
             characterSpawnedSignal.Event:Wait() -- Wait for the character to spawn
             TransportCharacter() -- Transport the character to the specified position if it's dead
             wait(2)
