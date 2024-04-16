@@ -25,6 +25,9 @@ if game.PlaceId == 12413901502 then
     
     -- Function to transport the character to the specified position
     local function TransportCharacter()
+        characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
+        targetPosition = Vector3.new(-4773, 1349, -279)
+        distanceThreshold = 5 -- Adjust as needed
         if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
