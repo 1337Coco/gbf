@@ -24,10 +24,18 @@ if game.PlaceId == 12413901502 then
 
     -- Function to handle character added event
     Players.LocalPlayer.CharacterAdded:Connect(function(character)
-        FruitMoves = {}  -- Clear the FruitMoves table
-        characterAddedEvent:Fire()  -- Fire the BindableEvent
+    FruitMoves = {}  -- Clear the FruitMoves table
+
+    -- Repopulate FruitMoves
+    for i, tool in pairs(LocalPlayer.Backpack:GetChildren()) do
+        if tool:IsA("Tool") and currentFruitLevel >= tool:GetAttribute("Level") then
+            FruitMoves[#FruitMoves + 1] = string.gsub(tool.Name, " ", "")
+        end
+    end
+
         print("FruitMoves reset!")
     end)
+
 
     -- Find the ProgressStamina element within PlayerGui
     local progressStamina = PlayerGui.UI.HUD.Bars.ProgressStamina
