@@ -1,5 +1,3 @@
--- Main.lua
-
 if game.PlaceId == 12413901502 then
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
@@ -26,12 +24,10 @@ if game.PlaceId == 12413901502 then
 
     -- Function to handle character added event
     Players.LocalPlayer.CharacterAdded:Connect(function(character)
-    FruitMoves = {}  -- Clear the FruitMoves table
-    characterAddedEvent:Fire()  -- Fire the BindableEvent
-    print("FruitMoves reset!")
+        FruitMoves = {}  -- Clear the FruitMoves table
+        characterAddedEvent:Fire()  -- Fire the BindableEvent
+        print("FruitMoves reset!")
     end)
-
-    return characterAddedEvent
 
     -- Find the ProgressStamina element within PlayerGui
     local progressStamina = PlayerGui.UI.HUD.Bars.ProgressStamina
@@ -70,34 +66,32 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-    -- Coroutine to continuously check stamina
-    local function StaminaCoroutine()
+    -- Coroutine to continuously check stamina and fruit moves
+    local function MainCoroutine()
         while true do
             CheckStamina()
-            wait(1) -- Adjust as needed, this checks stamina every second
+
+            -- Check for fruit moves
+            if #FruitMoves == 0 then
+                for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
+                    if tool:IsA("Tool") and currentFruitLevel >= tool:GetAttribute("Level") then
+                        FruitMoves[#FruitMoves + 1] = string.gsub(tool.Name, " ", "")
+                    end
+                end
+            else
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+
+                for _, toolName in ipairs(FruitMoves) do
+                    if not LocalPlayer.Cooldowns:FindFirstChild(toolName) then
+                        ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, toolName, {})
+                    end
+                end
+            end
+
+            wait(0.25)
         end
     end
 
-    -- Start the coroutine
-    coroutine.wrap(StaminaCoroutine)()
-
-    while true do
-        wait(0.25)
-
-        if #FruitMoves == 0 then
-            for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-                if v.ClassName == "Tool" and currentFruitLevel >= v:GetAttribute("Level") then
-                    FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
-                end
-            end
-        else
-            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-
-            for i,v in pairs(FruitMoves) do
-                if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-                    ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                end
-            end
-        end
-    end
+    -- Start the main coroutine
+    coroutine.wrap(MainCoroutine)()
 end
