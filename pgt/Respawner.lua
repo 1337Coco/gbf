@@ -3,13 +3,15 @@ if game.PlaceId == 12413901502 then
 local player = game.Players.LocalPlayer
 
 -- Extracting data for the equipped fruit
-local mainData = player:WaitForChild("MAIN_DATA")
-local slotValue = mainData:WaitForChild("Slot").Value
-local slotData = mainData:WaitForChild("Slots")
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+
+local slotValue = MainData:WaitForChild("Slot").Value
+local slotData = MainData:WaitForChild("Slots")
 local currentSlot = slotData[slotValue]
 local currentFruitName = currentSlot.Value
 
-local fruitsData = mainData:WaitForChild("Fruits")
+local fruitsData = MainData:WaitForChild("Fruits")
 local currentFruitData = fruitsData:WaitForChild(currentFruitName)
 local currentFruitLevel = currentFruitData.Level.Value
 
