@@ -74,6 +74,7 @@ if game.PlaceId == 12413901502 then
     -- Connect this to the character's respawn event
     LocalPlayer.CharacterAdded:Connect(function(character)
         print("Character respawned!")
+        LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279):
         characterSpawnedSignal:Fire(character)
     end)
 end
