@@ -34,9 +34,7 @@ if game.PlaceId == 12413901502 then
             -- Click the Play button
             VM1Click(centerX, 325)
             wait()
-            if playButton and not playButton.Visible then
                 loadstring(game:HttpGet(('https://raw.githubusercontent.com/1337Coco/gbf/3b6ee1701c36d6fe8c817d92bdefb169feb502b9/pgt/Main.lua')))()
-            end
         end --end if playButton visible
     end --end CheckAndClickPlayButton()
 
