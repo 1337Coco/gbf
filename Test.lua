@@ -62,30 +62,26 @@ if game.PlaceId == 12413901502 then
         end
     end
 
-    -- Start the coroutine
+    -- Start the coroutine for character monitoring
     coroutine.wrap(CharacterMonitoringCoroutine)()
 
--- Coroutine to continuously transport the character to the specified position
-local function TransportCoroutine()
-    while true do
-        -- Check if the character is already at the target position
-    if LocalPlayer and LocalPlayer:FindFirstChild("HumanoidRootPart") then
-        -- Move the player to the specified position if not already there
-        if LocalPlayer.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
-            local function TransportCharacter()
-        else
-            -- Perform fruit moves if the player is in the specified position
-            print("do fruit moves")
+    -- Coroutine to continuously transport the character to the specified position
+    local function TransportCoroutine()
+        while true do
+            -- Check if the character is already at the target position
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                -- Move the player to the specified position if not already there
+                if LocalPlayer.Character.HumanoidRootPart.Position ~= Vector3.new(-4773, 1349, -279) then
+                    TransportCharacter()
+                else
+                    -- Perform fruit moves if the player is in the specified position
+                    print("do fruit moves")
+                end
+            end
+            wait(2)
         end
     end
-        wait(2)
-    end
-end
 
--- Start the coroutine
-coroutine.wrap(TransportCoroutine)()
-
-
-    -- Start the coroutine
+    -- Start the coroutine for transporting the character
     coroutine.wrap(TransportCoroutine)()
 end
