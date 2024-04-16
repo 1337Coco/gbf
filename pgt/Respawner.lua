@@ -2,6 +2,8 @@ if game.PlaceId == 12413901502 then
     local VIM = game:GetService("VirtualInputManager")
     local Players = game:GetService("Players")
     local PlayerGui = LocalPlayer.PlayerGui
+    local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
+
 
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
