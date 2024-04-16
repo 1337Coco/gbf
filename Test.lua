@@ -7,6 +7,7 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
