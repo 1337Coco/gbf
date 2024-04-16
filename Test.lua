@@ -7,6 +7,7 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+    local character = LocalPlayer.Character
 
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
@@ -28,7 +29,7 @@ if game.PlaceId == 12413901502 then
             if (characterPosition - targetPosition).magnitude > distanceThreshold then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
             else
-                print("Character is already at the target position.")
+                break()
             end
         end
     end
