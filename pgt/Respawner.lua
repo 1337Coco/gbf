@@ -35,7 +35,6 @@ if game.PlaceId == 12413901502 then
 			require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
             task.wait()
             break;
-            end
         end
     end
 
