@@ -24,11 +24,12 @@ if game.PlaceId == 12413901502 then
     local characterAddedEvent = Instance.new("BindableEvent")
 
     -- Function to handle character added event
-    Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    Players.LocalPlayer.CharacterAppearanceLoaded:Connect(function(character)
         FruitMoves = {}  -- Clear the FruitMoves table
         characterAddedEvent:Fire()  -- Fire the BindableEvent
         print("FruitMoves reset!")
     end)
+
 
     -- Find the ProgressStamina element within PlayerGui
     local progressStamina = PlayerGui.UI.HUD.Bars.ProgressStamina
