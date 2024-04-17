@@ -33,7 +33,7 @@ if game.PlaceId == 12413901502 then
 					end
 				end
 				    if LocalPlayer.Character then
-						LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+					LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
 					end
 				-- Use FruitMoves
 				for i,v in pairs(FruitMoves) do
@@ -68,5 +68,12 @@ if game.PlaceId == 12413901502 then
 	while true do
 		checkLocalCharacterLoaded()
 	end
-
+	
+	Char:WaitForChild("Humanoid").Died:Connect(function()
+		task.cancel(fruitMoves)
+		task.cancel(playerXYZ)
+		task.wait(10)
+		checkLocalCharacterLoaded()
+		print("resetting")
+	end)
 end
