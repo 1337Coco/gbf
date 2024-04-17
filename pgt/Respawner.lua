@@ -4,8 +4,6 @@ if game.PlaceId == 12413901502 then
     local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
     local PlayerGui = LocalPlayer.PlayerGui
 
-
-
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
@@ -14,13 +12,13 @@ if game.PlaceId == 12413901502 then
             VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
         else
             warn("VirtualInputManager not found.")
-        end --if VIM end
-    end --VM1Click end
+        end
+    end
 
     -- Function to check if the Play button is visible and click it if it is
     local function CheckAndClickPlayButton()
         -- Find the Play button
-        local playButton = LocalPlayer.PlayerGui.UI.MainMenu.Buttons.Play
+        local playButton = PlayerGui.UI.MainMenu.Buttons.Play
 
         -- Check if the Play button exists and is visible
         if playButton and playButton.Visible then
@@ -34,16 +32,21 @@ if game.PlaceId == 12413901502 then
             -- Click the Play button
             VM1Click(centerX, 325)
             wait()
-                loadstring(game:HttpGet(('https://raw.githubusercontent.com/1337Coco/gbf/3b6ee1701c36d6fe8c817d92bdefb169feb502b9/pgt/Main.lua')))()
-        end --end if playButton visible
-    end --end CheckAndClickPlayButton()
+            if playButton and not playButton.Visible then
+                print("not visible")
+                local scriptURL = "https://raw.githubusercontent.com/1337Coco/gbf/main/pgt/"
+                local scriptContent = game:HttpGet(scriptURL)
+                loadstring(scriptContent)()
+            end
+                
+        end
+    end
 
     -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
-
-        while true do
-            if LocalPlayer.Character == nil then
-                CheckAndClickPlayButton() -- Click the Play button if the character is not present
-            end --end while true LocalPlayer == nil
-            wait()
-        end -- end while true do loop
+    while true do
+        if LocalPlayer.Character == nil then
+            CheckAndClickPlayButton() -- Click the Play button if the character is not present
+        end
+        wait()
+    end
 end
