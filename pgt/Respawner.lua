@@ -1,4 +1,5 @@
 if game.PlaceId == 12413901502 then 
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local VIM = game:GetService("VirtualInputManager")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
@@ -39,9 +40,7 @@ if game.PlaceId == 12413901502 then
 
     -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
     while true do
-        if LocalPlayer.Character == nil then
             CheckAndClickPlayButton() -- Click the Play button if the character is not present
-        end
         wait()
     end
 end
