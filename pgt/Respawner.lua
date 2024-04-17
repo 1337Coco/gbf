@@ -31,14 +31,10 @@ if game.PlaceId == 12413901502 then
 
             -- Click the Play button
             VM1Click(centerX, 325)
-            wait()
-            if playButton and not playButton.Visible then
-                print("not visible")
-                local scriptURL = "https://raw.githubusercontent.com/1337Coco/gbf/main/pgt/"
-                local scriptContent = game:HttpGet(scriptURL)
-                loadstring(scriptContent)()
+            task.wait()
+            require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+            require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
             end
-                
         end
     end
 
