@@ -3,7 +3,6 @@ if game.PlaceId == 12413901502 then
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
     local PlayerGui = LocalPlayer.PlayerGui
-    local Respawner = require('Respawner.lua');
     
     local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
     local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
