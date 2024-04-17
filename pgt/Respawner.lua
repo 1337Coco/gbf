@@ -1,5 +1,4 @@
 if game.PlaceId == 12413901502 then 
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local VIM = game:GetService("VirtualInputManager")
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
@@ -33,8 +32,7 @@ if game.PlaceId == 12413901502 then
             -- Click the Play button
             VM1Click(centerX, 325)
             task.wait()
-            require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-            require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+            break;
             end
         end
     end
