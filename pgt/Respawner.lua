@@ -31,6 +31,8 @@ if game.PlaceId == 12413901502 then
 
             -- Click the Play button
             VM1Click(centerX, 325)
+            require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+			require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
             task.wait()
             break;
             end
