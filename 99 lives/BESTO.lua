@@ -85,6 +85,9 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 			TeleportToPlace(targetPlaceId)
 		elseif currentFruitLevel >= 200 and not currentFruitLevel <= 100 then
 			targetPlaceId = 12413901502
+		elseif currentFruitLevel < 100 then
+			print("Low level noob")
+			break
 		end
 		task.spawn(RespawnPlayer)
         wait(0.1)
