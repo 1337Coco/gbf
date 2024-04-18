@@ -6,11 +6,11 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
     local Workspace = game:GetService("Workspace")
     local MainData = LocalPlayer.MAIN_DATA
     local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
-	local currentFruitLevel = CurrentData.Level.Value
-	local TeleportService = game:GetService("TeleportService")
+    local currentFruitLevel = CurrentData.Level.Value
+    local TeleportService = game:GetService("TeleportService")
     local FruitMoves = {} -- Initializing FruitMoves table
-	local TeleportService = game:GetService("TeleportService")
-
+    local destination = nil
+	
 	-- Function to teleport to a specific placeId
 	local function TeleportToPlace(placeId)
 		local success, errorMessage = pcall(function()
@@ -22,11 +22,6 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 		end
 	end
 
-	-- Example: Teleport to a specific placeId
-	local targetPlaceId = '' -- Replace this with your desired placeId (Whole Cake)
-	
-	
-	
 	
     -- Function to respawn the player
     local function RespawnPlayer()
@@ -80,21 +75,12 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 
     -- Main logic function
     while true do
-		if currentFruitLevel >= 100 and not currentFruitLevel >= 200 then
-			targetPlaceId = 16190471004
-			TeleportToPlace(targetPlaceId)
-		elseif currentFruitLevel >= 200 and not currentFruitLevel <= 100 then
-			targetPlaceId = 12413901502
-		elseif currentFruitLevel < 100 then
-			print("Low level noob")
-			break
-		end
-		task.spawn(RespawnPlayer)
+	task.spawn(RespawnPlayer)
         wait(0.1)
 
         -- Move player to the specified coordinates
         if LocalPlayer.Character then
-            LocalPlayer.Character:MoveTo(Vector3.new(-4773, 1349, -279))
+            LocalPlayer.Character:MoveTo(destination)
         end
 
         -- Populate FruitMoves
