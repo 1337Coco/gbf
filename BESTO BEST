@@ -1,3 +1,4 @@
+--Skidded from github user HOTDOG9234, salute to you master! I'd like to have a word with you if you notice.
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
