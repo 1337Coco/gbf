@@ -5,31 +5,7 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
-
--- Function to respawn the player
-local function RespawnPlayer()
-    FruitMoves = {} -- Reset FruitMoves
-    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-    wait(3)  -- Wait before enabling core GUI
-    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-    -- Hide the menu GUI
-    StarterGui:SetCore("TopbarEnabled", false)
-    StarterGui:SetCore("ResetButtonCallback", true)
-    StarterGui:SetCoreGuiEnabled("Backpack", false)
-    StarterGui:SetCoreGuiEnabled("PlayerList", false)
-    StarterGui:SetCoreGuiEnabled("Chat", false)
-    -- Removes the Menu Gui Play, Spin, Join Friend, Afk World
-    game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible = false
-    -- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
-    game.Players.LocalPlayer.PlayerGui.UI.HUD.Visible = true
-    task.wait()
-    --idk which of this mfker is responsible for hiding Name but it works anyway
-    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-end
+    
 
 -- Function to split a string
 local function split(source, delimiters)
@@ -38,17 +14,13 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
+if LocalPlayer then
+    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    wait(3)  -- Wait before enabling core GUI
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 
-game.Players.PlayerAdded:Connect(function(player)
-    if player == game.Players.LocalPlayer then
-        if player == nil then 
-                RespawnPlayer()
-        end
-            end)
-        end)
-    end
-end)
-
+end
 spawn(function()
     while task.wait(.1) do
         pcall(function()
