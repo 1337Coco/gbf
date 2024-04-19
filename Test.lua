@@ -6,6 +6,41 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
+-- Function to get the elapsed time in hours and minutes
+local function getElapsedTime(startTime)
+    local currentTime = os.time() -- Get the current time
+    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
+    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
+    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
+    return elapsedHours, elapsedMinutes
+end
+
+-- Function to get the world description based on the PlaceId
+local function getWorldDescription(placeId)
+    if placeId == 9224601490 then
+        return "Dressrosa"
+    elseif placeId == 16190471004 then
+        return "Whole Cake"
+    elseif placeId == 12413901502 then
+        return "Onigashima"
+    else
+        return "Unknown World"
+    end
+end
+
+-- Get the start time
+local startTime = os.time() -- Get the current time as the start time
+
+-- Calculate elapsed time
+local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
+local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
+
+-- Get the world description
+local worldDescription = getWorldDescription(game.PlaceId)
+
+-- Get level as xxx/300
+local levelDescription = LocalLevel .. "/300"
+
 local placeId = game.PlaceId
 local newPosition
 --Farming spots per World
@@ -135,7 +170,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(300) do
+    while task.wait(60) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
@@ -147,9 +182,12 @@ spawn(function()
                 ["embeds"] = {
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
-                        ["description"] = "**Username** : **" ..game.Players.LocalPlayer.DisplayName.."**\n**Local Level** : **".. LocalLevel .."**\n**Local EXP** : **"..LocalEXP.."**\n**Local Stamina** : **".. LocalStamina.."**" ,
-                        ["type"] = "rich",
-                        ["color"] = tonumber(0x7269da),
+            		["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n" ..
+                              "**Level**: **" .. levelDescription .. "**\n" ..
+                              "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
+                              "**World**: " .. worldDescription,
+            		["type"] = "rich",
+            		["color"] = tonumber(0x7269da),
                     }
                 }
             }
@@ -158,7 +196,7 @@ spawn(function()
             local headers = {
                 ["content-type"] = "application/json"
             }
-            request = http_request or request or HttpPost or syn.request
+            local request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
