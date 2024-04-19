@@ -91,8 +91,13 @@ while true do
     task.spawn(function()
         MovePlayerToDestination(GetDestination())
     end)
-    
-    -- Populate FruitMoves
+    local path = game.Players.LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+    local exit = (split(path, "/"))
+    if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		
+	else
+	-- Populate FruitMoves
     FruitMoves = {}
     for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
         if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
@@ -106,4 +111,5 @@ while true do
             ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
         end
     end
+	end
 end
