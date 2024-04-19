@@ -30,10 +30,10 @@ local function RespawnPlayer()
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-	
-	if (LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()) then
+    
+    if (LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()) then
         if Percent(LocalPlayer.Character:WaitForChild('Stats',2):GetAttribute("Stamina"),GetStamina()) <= getgenv().Stamina then
-			LocalPlayer.Character:BreakJoints()
+            LocalPlayer.Character:BreakJoints()
         end
     end
 end
@@ -55,61 +55,31 @@ game.Players.PlayerAdded:Connect(function(player)
     end
 end)
 
--- Function to move player to destination
-local function MovePlayerToDestination(destination)
-    if LocalPlayer.Character then
-        local currentPosition = LocalPlayer.Character.HumanoidRootPart.Position
-        if currentPosition ~= destination then
-            LocalPlayer.Character:MoveTo(destination)
-            repeat
-                task.wait()
-                currentPosition = LocalPlayer.Character.HumanoidRootPart.Position
-            until currentPosition == destination
-        end
-    end
-end
-
--- Function to get destination based on PlaceId
-local function GetDestination()
-    if game.PlaceId == 9224601490 then 
-        return Vector3.new(1195, 562, -826)
-    elseif game.PlaceId == 16190471004 then
-        return Vector3.new(122, 149, -1264)
-    elseif game.PlaceId == 12413901502 then
-        return Vector3.new(-4773, 1349, -279)
-    else 
-        print("PlaceId not found!")
-    end
-end
-
 -- Main logic function
 while true do
     task.spawn(RespawnPlayer)
     task.wait()
 
-    -- Move player to the specified coordinates
-    task.spawn(function()
-        MovePlayerToDestination(GetDestination())
-    end)
-    local path = game.Players.LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-    local exit = (split(path, "/"))
+    path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+    exit = (split(path, "/"))
     if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
-		game.Players.LocalPlayer.Character.Humanoid.Health = 0
-		
-	else
-	-- Populate FruitMoves
-    FruitMoves = {}
-    for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-        if v.ClassName == "Tool" and CurrentData.Level.Value >= v:GetAttribute("Level") then
-            FruitMoves[#FruitMoves + 1] = string.gsub(v.Name, " ", "")
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    else
+        _G.Toggle = true
+        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            x = string.split(v.Name, " ")
+            if x[2] ~= nil then
+                v.Name = x[1]..x[2]
+            end
+        end
+        task.wait(0.1)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
+        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+            local ohString2 = v.Name
+            local ohTable3 = {}
+            game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+            print(ohString1)
         end
     end
-    
-    -- Use FruitMoves
-    for i,v in pairs(FruitMoves) do
-        if not LocalPlayer.Cooldowns:FindFirstChild(v) then
-            ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-        end
-    end
-	end
 end
