@@ -1,4 +1,4 @@
-if game.PlaceId == 12413901502 then 
+if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId == 9224601490 then 
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local VIM = game:GetService("VirtualInputManager")
     local Players = game:GetService("Players")
