@@ -1,11 +1,62 @@
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local VIM = game:GetService("VirtualInputManager")
-local StarterGui = game:GetService("StarterGui")
-local Workspace = game:GetService("Workspace")
+--Test.lua
 
-if game.PlaceId == 12413901502 then
+    local VIM = game:GetService("VirtualInputManager")
+    local StarterGui = game:GetService("StarterGui")
+    local Workspace = game:GetService("Workspace")
+    local Players = game:GetService("Players")
+    -- Get the LocalPlayer
+    local LocalPlayer = Players.LocalPlayer
+    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+	
+	local slotData = MainData:WaitForChild("Slots")
+	local currentSlot = slotData[slotValue]
+	local currentFruitName = currentSlot.Value
+
+	local fruitsData = MainData:WaitForChild("Fruits")
+	local currentFruitData = fruitsData:WaitForChild(currentFruitName)
+	local currentFruitLevel = currentFruitData.Level.Value
+
+	-- Find the ProgressStamina element within PlayerGui
+	local progressStamina = LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina
+	
+	local function CheckStamina(progressStaminaText, currentFruitLevel)
+    if progressStaminaText then
+        -- Trim the last 5 characters from the ProgressStamina text
+        local trimmedText = progressStaminaText:sub(1, #progressStaminaText - 5) -- Trims 5 characters from the right
+        
+        -- Convert the trimmed text to a number (currentStamina)
+        local currentStamina = tonumber(trimmedText)
+        
+        -- Function to calculate maxStamina
+        local function calculateMaxStamina(level)
+            return level * 4 + 200
+        end
+        
+        -- Calculate maxStamina based on currentFruitLevel
+        local maxStamina = calculateMaxStamina(currentFruitLevel)
+        
+        -- Calculate the percentage of currentStamina relative to maxStamina
+        local percentageRemaining = (currentStamina / maxStamina) * 100
+        
+        -- Define the threshold percentage
+        local thresholdPercentage = 10
+        
+        -- Check if the percentage remaining is below the threshold
+        if percentageRemaining <= thresholdPercentage then
+            -- Perform an action when currentStamina is low
+            print("Current stamina is low. Performing action...")
+            player.Character:BreakJoints()
+        end
+    end
+end
+
+return {
+    CheckStamina = CheckStamina
+}
+
+
+
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
@@ -14,6 +65,20 @@ if game.PlaceId == 12413901502 then
             VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
         else
             warn("VirtualInputManager not found.")
+        end
+    end
+    
+    -- Function to transport the character to the specified position
+    local function TransportCharacter()
+        if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
+            local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
+            local targetPosition = Vector3.new(1195, 562, -826)
+            local distanceThreshold = 5 -- Adjust as needed
+            if (characterPosition - targetPosition).magnitude > distanceThreshold then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+            else
+                print("Character is already at the target position.")
+            end
         end
     end
     
@@ -36,20 +101,28 @@ if game.PlaceId == 12413901502 then
         end
     end
     
-    -- BindableEvent for character respawned signal
-    local characterDeadSignal = Instance.new("BindableEvent")
+    -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
+    local function CharacterMonitoringCoroutine()
+        while true do
+            if LocalPlayer.Character == nil then
+                CheckAndClickPlayButton() -- Click the Play button if the character is not present
+            end
+            wait(1)
+        end
+    end
 
-    -- Connect this to the character's death event
-    LocalPlayer.CharacterRemoving:Connect(function()
-        print("Character is dead or removed!")
-        characterDeadSignal:Fire()
-    end)
+    -- Start the coroutine
+    coroutine.wrap(CharacterMonitoringCoroutine)()
 
-    -- Connect this to the character's spawn event
-    LocalPlayer.CharacterAdded:Connect(function()
-        print("Character respawned!")
-    end)
+    -- Coroutine to continuously transport the character to the specified position
+    local function TransportCoroutine()
+        while true do
+			CheckStamina(progressStaminaText, currentFruitLevel)
+            TransportCharacter() -- Transport the character to the specified position if it's dead
+			
+            wait(2)
+        end
+    end
 
-    -- Connect the bindable event to CheckAndClickPlayButton
-    characterDeadSignal.Event:Connect(CheckAndClickPlayButton)
-end
+    -- Start the coroutine
+    coroutine.wrap(TransportCoroutine)()
