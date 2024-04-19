@@ -39,6 +39,17 @@ local function OnPlayerDied()
     RespawnPlayer()
 end
 
+local function xyz()
+	if game.PlaceId == 9224601490 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(1195, 562, -826) then 
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195, 562, -826)
+	elseif game.PlaceId == 16190471004 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(122, 149, -1264) then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
+	elseif game.PlaceId == 12413901502 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(-4773, 1349, -279) then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+	else 
+		print("PlaceId not found!")
+	end
+end
 game.Players.PlayerAdded:Connect(function(player)
     if player == game.Players.LocalPlayer then
         player.CharacterAdded:Connect(function(character)
@@ -70,15 +81,7 @@ while true do
             end
         end
         task.wait(0.1)
-	if game.PlaceId == 9224601490 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(1195, 562, -826) then 
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195, 562, -826)
-	elseif game.PlaceId == 16190471004 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(122, 149, -1264) then
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
-	elseif game.PlaceId == 12413901502 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(-4773, 1349, -279) then
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
-	else 
-			print("PlaceId not found!")
-	end
+	xyz()
         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
             local ohString2 = v.Name
