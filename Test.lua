@@ -41,10 +41,9 @@ end
 
 game.Players.PlayerAdded:Connect(function(player)
     if player == game.Players.LocalPlayer then
-        player.CharacterAdded:Connect(function(character)
-            -- Connect to the Character's Died event
-            character:WaitForChild("Humanoid").Died:Connect(function()
+        if player == nil then 
                 RespawnPlayer()
+        end
             end)
         end)
     end
@@ -76,6 +75,11 @@ spawn(function()
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
+                --idk which of this mfker is responsible for hiding Name but it works anyway
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -97,7 +101,6 @@ spawn(function()
                         local ohString2 = v.Name
                         local ohTable3 = {}
                         game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-                        print(ohString1)
                     end
                 end
             end
@@ -106,7 +109,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(30) do
+    while task.wait(5) do
         pcall(function()
             local vu = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
