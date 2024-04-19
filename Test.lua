@@ -6,6 +6,20 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
+local placeId = game.PlaceId
+local newPosition
+--Farming spots per World
+if placeId == 9224601490 then --Dressrosa
+	newPosition = CFrame.new(1195, 562, -826)
+elseif placeId == 16190471004 then --Whole Cake
+	newPosition = Cframe.new(122, 149, -1264)
+elseif placeId == 12413901502 then --Onigashima
+	newPosition = CFrame.new(-4773, 1349, -279)
+else
+	newPosition = CFrame.new(0,0,0)
+end
+
+
 local toggleKey = Enum.KeyCode.J
 local renderingEnabled = true
 
@@ -94,7 +108,7 @@ spawn(function()
                         end
                     end
                     task.wait(0.1)
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                         local ohString2 = v.Name
