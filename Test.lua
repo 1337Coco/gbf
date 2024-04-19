@@ -33,7 +33,7 @@ local startTime = os.time() -- Get the current time as the start time
 
 -- Calculate elapsed time
 local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
-local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
+local elapsedFormatted = string.format("%02d:%02d hour:minute", elapsedHours, elapsedMinutes)
 
 -- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
