@@ -182,7 +182,7 @@ spawn(function()
                 ["embeds"] = {
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
-            		["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n" ..
+            		["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                               "**Level**: **" .. levelDescription .. "**\n" ..
                               "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
                               "**World**: " .. worldDescription,
