@@ -1,6 +1,12 @@
 -- MIGRAINE | KNIXNKK 
 -- 10:30 PM 18 Dec 2022
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
+
 function split(source, delimiters)
     local elements = {}
     local pattern = '([^'..delimiters..']+)'
