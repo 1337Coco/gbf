@@ -1,3 +1,4 @@
+--ayaw mag update ng commit ampota
 script_key = "k5vtqh89psokw0n5tpcd6qs1g73m789v" -- script: Testing.lua
 --[[
 
