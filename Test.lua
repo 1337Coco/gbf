@@ -1,5 +1,4 @@
 --Test.lua
-
     local VIM = game:GetService("VirtualInputManager")
     local StarterGui = game:GetService("StarterGui")
     local Workspace = game:GetService("Workspace")
@@ -31,9 +30,8 @@
         -- Function to calculate maxStamina
         local function calculateMaxStamina(level)
             return level * 4 + 200
-        end
-        
-        -- Calculate maxStamina based on currentFruitLevel
+		end
+		 -- Calculate maxStamina based on currentFruitLevel
         local maxStamina = calculateMaxStamina(currentFruitLevel)
         
         -- Calculate the percentage of currentStamina relative to maxStamina
@@ -43,8 +41,10 @@
         local thresholdPercentage = 10
         
         -- Check if the percentage remaining is below the threshold
-    end
-end
+	end
+	end
+        
+
 
 return {
     CheckStamina = CheckStamina
