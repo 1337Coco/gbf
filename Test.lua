@@ -5,7 +5,33 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
-    
+
+local toggleKey = Enum.KeyCode.J
+local renderingEnabled = true
+
+--Whitescreen on off by pressing J key
+local function toggleRendering()
+    renderingEnabled = not renderingEnabled
+    game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
+end
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == toggleKey then
+        toggleRendering()
+    end
+end)
+
+-- Function to recursively change the material of parts to Plastic
+local function changeMaterialToPlastic(obj)
+    if obj:IsA("BasePart") then
+        obj.Material = Enum.Material.Plastic
+    end
+    for _, child in ipairs(obj:GetChildren()) do
+        changeMaterialToPlastic(child)
+    end
+end
+--Plastic? Love!~
+changeMaterialToPlastic(workspace)
 
 -- Function to split a string
 local function split(source, delimiters)
@@ -14,13 +40,14 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
+--This shit is the bomb! Spawns the character and makes you the mfking g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-
 end
+
 spawn(function()
     while task.wait(.1) do
         pcall(function()
