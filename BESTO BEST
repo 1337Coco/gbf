@@ -79,7 +79,6 @@ local function GetDestination()
         return Vector3.new(-4773, 1349, -279)
     else 
         print("PlaceId not found!")
-        return nil
     end
 end
 
