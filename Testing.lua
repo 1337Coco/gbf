@@ -1,4 +1,4 @@
-script_key = "k5vtqh89psokw0n5tpcd6qs1g73m789v" -- script: Testing.lua
+script_key = "KEY_HERE" -- script: Testing.lua
 --[[
 
     This script is protected with
