@@ -24,7 +24,6 @@ local function RespawnPlayer()
     game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible = false
     -- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Visible = true
-    task.wait()
     -- Hide player name
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
@@ -33,7 +32,7 @@ local function RespawnPlayer()
     
     -- Check if stamina is below a certain threshold and break joints if needed
     if LocalPlayer.Character then
-        local stats = LocalPlayer.Character:WaitForChild('Stats', 2)
+        local stats = LocalPlayer.Character:FindFirstChild("Stats")
         if stats then
             local stamina = stats:GetAttribute("Stamina")
             if stamina and Percent(stamina, GetStamina()) <= getgenv().Stamina then
@@ -70,9 +69,9 @@ end
 
 -- Main logic function
 while true do
-    task.spawn(RespawnPlayer)
-    task.wait()
-
+    RespawnPlayer()
+    wait()  -- Let the respawn process run asynchronously
+    
     local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
     local exit = split(path, "/")
     if tonumber(exit[1]) <= tonumber(exit[2]) * 0.25 then
@@ -85,7 +84,7 @@ while true do
                 v.Name = x[1]..x[2]
             end
         end
-        task.wait(0.1)
+        wait(0.1)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
         for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
