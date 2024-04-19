@@ -36,7 +36,7 @@ local function RespawnPlayer()
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
 end
-
+RespawnPlayer() --post loading screen initiative
 spawn(function()
     while task.wait(.1) do
         pcall(function()
@@ -47,7 +47,7 @@ spawn(function()
             else
                 path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 exit = (split(path, "/"))
-                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 and plr.CharacterAppearanceLoaded then
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
