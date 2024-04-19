@@ -38,9 +38,6 @@ local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, el
 -- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
 
--- Get level as xxx/300
-local levelDescription = LocalLevel .. "/300"
-
 local placeId = game.PlaceId
 local newPosition
 --Farming spots per World
@@ -173,6 +170,8 @@ spawn(function()
     while task.wait(60) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+	    -- Get level as xxx/300
+	    local levelDescription = LocalLevel .. "/300"
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
             -- webhook url
