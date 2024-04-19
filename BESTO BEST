@@ -1,17 +1,15 @@
---Skidded from github user HOTDOG9234, salute to you master! I'd like to have a word with you if you notice.
+-- SKIDDED FROM GITHUB USER: HOTDOG9234
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
+local MainData = LocalPlayer.MAIN_DATA
+local CurrentData = MainData.Fruits:WaitForChild(MainData.Slots[MainData.Slot.Value].Value)
+local FruitMoves = {} -- Initializing FruitMoves table
 
-function split(source, delimiters)
-    local elements = {}
-    local pattern = '([^'..delimiters..']+)'
-    string.gsub(source, pattern, function(value) elements[#elements + 1] =     value;  end);
-    return elements
-end
-
+-- Function to respawn the player
 local function RespawnPlayer()
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
@@ -35,79 +33,58 @@ local function RespawnPlayer()
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
 end
 
-spawn(function()
-    while task.wait(.1) do
-        pcall(function()
-            plr = game.Players.LocalPlayer.Character
-            if plr == nil then
-                wait(5)
-                RespawnPlayer()
-            else
-                path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-                exit = (split(path, "/"))
-                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
-                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
-                else
-                    _G.Toggle = true
-                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                        x = string.split(v.Name, " ")
-                        if x[2] ~= nil then
-                            v.Name = x[1]..x[2]
-                        end
-                    end
-                    task.wait(0.1)
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
-                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                        local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
-                        local ohString2 = v.Name
-                        local ohTable3 = {}
-                        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-                        --print(ohString1)
-                    end
-                end
-            end
-        end)
-    end
-end)
-spawn(function()
-    while task.wait(30) do
-        pcall(function()
-            local vu = game:GetService("VirtualUser")
-            game:GetService("Players").LocalPlayer.Idled:connect(function()
-                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                wait(1)
-                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+-- Function to handle player's death
+local function OnPlayerDied()
+    print("Local player has died or hasn't spawned.")
+    RespawnPlayer()
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    if player == game.Players.LocalPlayer then
+        player.CharacterAdded:Connect(function(character)
+            -- Connect to the Character's Died event
+            character:WaitForChild("Humanoid").Died:Connect(function()
+                OnPlayerDied()
             end)
         end)
     end
 end)
-spawn(function()
-    while task.wait(30) do
-        pcall(function()
-            LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
-            LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
-            LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            -- webhook url
-            local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
-            local data = {
-            ["content"] = "",
-            ["embeds"] = {
-                {
-                    ["title"] = "**Fruit Battlegrounds!**",
-                    ["description"] = "**Username** : **" ..game.Players.LocalPlayer.DisplayName.."**\n**Local Level** : **".. LocalLevel .."**\n**Local EXP** : **"..LocalEXP.."**\n**Local Stamina** : **".. LocalStamina.."**" ,
-                    ["type"] = "rich",
-                    ["color"] = tonumber(0x7269da),
-                }
-            }
-            }
-            local newdata = game:GetService("HttpService"):JSONEncode(data)
 
-            local headers = {
-            ["content-type"] = "application/json"
-            }
-            request = http_request or request or HttpPost or syn.request
-            local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
-            request(abcdef)
-        end)
+-- Main logic function
+while true do
+    task.spawn(RespawnPlayer)
+    task.wait()
+	
+	if game.PlaceId == 9224601490 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(1195, 562, -826) then 
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1195, 562, -826)
+	elseif game.PlaceId == 16190471004 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(122, 149, -1264) then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(122, 149, -1264)
+	elseif game.PlaceId == 12413901502 and game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= CFrame.new(-4773, 1349, -279) then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4773, 1349, -279)
+	else 
+			print("PlaceId not found!")
+	end
+	
+    path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+    exit = (split(path, "/"))
+    if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+        game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    else
+        _G.Toggle = true
+        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            x = string.split(v.Name, " ")
+            if x[2] ~= nil then
+                v.Name = x[1]..x[2]
+            end
+        end
+        task.wait(0.1)
+        
+        for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+            local ohString2 = v.Name
+            local ohTable3 = {}
+            game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+            print(ohString1)
+        end
     end
-end)
+end
