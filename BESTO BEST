@@ -30,6 +30,12 @@ local function RespawnPlayer()
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
     game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+	
+	if (LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()) then
+        if Percent(LocalPlayer.Character:WaitForChild('Stats',2):GetAttribute("Stamina"),GetStamina()) <= getgenv().Stamina then
+			LocalPlayer.Character:BreakJoints()
+        end
+    end
 end
 
 -- Function to handle player's death
