@@ -43,11 +43,6 @@
         local thresholdPercentage = 10
         
         -- Check if the percentage remaining is below the threshold
-        if percentageRemaining <= thresholdPercentage then
-            -- Perform an action when currentStamina is low
-            print("Current stamina is low. Performing action...")
-            player.Character:BreakJoints()
-        end
     end
 end
 
@@ -117,7 +112,11 @@ return {
     -- Coroutine to continuously transport the character to the specified position
     local function TransportCoroutine()
         while true do
-			CheckStamina(progressStaminaText, currentFruitLevel)
+			if percentageRemaining <= thresholdPercentage then
+            -- Perform an action when currentStamina is low
+				print("Current stamina is low. Performing action...")
+				player.Character:BreakJoints()
+        end
             TransportCharacter() -- Transport the character to the specified position if it's dead
 			
             wait(2)
