@@ -1,126 +1,150 @@
---Test.lua
-    local VIM = game:GetService("VirtualInputManager")
-    local StarterGui = game:GetService("StarterGui")
-    local Workspace = game:GetService("Workspace")
-    local Players = game:GetService("Players")
-    -- Get the LocalPlayer
-    local LocalPlayer = Players.LocalPlayer
-    local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-    local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-	
-	local slotData = MainData:WaitForChild("Slots")
-	local currentSlot = slotData[slotValue]
-	local currentFruitName = currentSlot.Value
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
 
-	local fruitsData = MainData:WaitForChild("Fruits")
-	local currentFruitData = fruitsData:WaitForChild(currentFruitName)
-	local currentFruitLevel = currentFruitData.Level.Value
+-- Function to respawn the player
+local function RespawnPlayer()
+    FruitMoves = {} -- Reset FruitMoves
+    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    wait(3)  -- Wait before enabling core GUI
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+    -- Hide the menu GUI
+    StarterGui:SetCore("TopbarEnabled", false)
+    StarterGui:SetCore("ResetButtonCallback", true)
+    StarterGui:SetCoreGuiEnabled("Backpack", false)
+    StarterGui:SetCoreGuiEnabled("PlayerList", false)
+    StarterGui:SetCoreGuiEnabled("Chat", false)
+    -- Removes the Menu Gui Play, Spin, Join Friend, Afk World
+    game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible = false
+    -- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Visible = true
+    task.wait()
+    --idk which of this mfker is responsible for hiding Name but it works anyway
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+end
 
-	-- Find the ProgressStamina element within PlayerGui
-	local progressStamina = LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina
-	
-	local function CheckStamina(progressStaminaText, currentFruitLevel)
-    if progressStaminaText then
-        -- Trim the last 5 characters from the ProgressStamina text
-        local trimmedText = progressStaminaText:sub(1, #progressStaminaText - 5) -- Trims 5 characters from the right
-        
-        -- Convert the trimmed text to a number (currentStamina)
-        local currentStamina = tonumber(trimmedText)
-        
-        -- Function to calculate maxStamina
-        local function calculateMaxStamina(level)
-            return level * 4 + 200
-		end
-		 -- Calculate maxStamina based on currentFruitLevel
-        local maxStamina = calculateMaxStamina(currentFruitLevel)
-        
-        -- Calculate the percentage of currentStamina relative to maxStamina
-        local percentageRemaining = (currentStamina / maxStamina) * 100
-        
-        -- Define the threshold percentage
-        local thresholdPercentage = 10
-        
-        -- Check if the percentage remaining is below the threshold
-	end
-	end
-        
+-- Function to split a string
+local function split(source, delimiters)
+    local elements = {}
+    local pattern = '([^'..delimiters..']+)'
+    string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
+    return elements
+end
 
-
-return {
-    CheckStamina = CheckStamina
-}
-
-    -- Function to simulate a mouse click at the specified coordinates
-    local function VM1Click(X, Y)
-        if VIM then
-            VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
-            wait(0.1) -- Adjust wait time as needed
-            VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
-        else
-            warn("VirtualInputManager not found.")
-        end
+game.Players.PlayerAdded:Connect(function(player)
+    if player == game.Players.LocalPlayer then
+        player.CharacterAdded:Connect(function(character)
+            -- Connect to the Character's Died event
+            character:WaitForChild("Humanoid").Died:Connect(function()
+                RespawnPlayer()
+            end)
+        end)
     end
-    
-    -- Function to transport the character to the specified position
-    local function TransportCharacter()
-        if LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart then
-            local characterPosition = LocalPlayer.Character.HumanoidRootPart.Position
-            local targetPosition = Vector3.new(1195, 562, -826)
-            local distanceThreshold = 5 -- Adjust as needed
-            if (characterPosition - targetPosition).magnitude > distanceThreshold then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+end)
+
+spawn(function()
+    while task.wait(.1) do
+        pcall(function()
+            local plr = game.Players.LocalPlayer.Character
+            if plr == nil then
+                wait(5)
+                local Event = game:GetService("ReplicatedStorage").Replicator
+                local args = {
+                    [1] = "Core",
+                    [2] = "LoadCharacter",
+                    [3] = {}
+                }
+                Event:InvokeServer(unpack(args))
+                
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "Core",
+                    [3] = {}
+                }
+                Event:FireServer(unpack(args))
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "LoadCharacter"
+                }
+                Event:FireServer(unpack(args))
             else
-                print("Character is already at the target position.")
+                local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+                local exit = split(path, "/")
+                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                else
+                    _G.Toggle = true
+                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        local x = split(v.Name, " ")
+                        if x[2] ~= nil then
+                            v.Name = x[1]..x[2]
+                        end
+                    end
+                    task.wait(0.1)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1276, 696, -190)
+                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+                        local ohString2 = v.Name
+                        local ohTable3 = {}
+                        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+                        print(ohString1)
+                    end
+                end
             end
-        end
+        end)
     end
-    
-    -- Function to check if the Play button is visible and click it if it is
-    local function CheckAndClickPlayButton()
-        -- Find the Play button
-        local playButton = LocalPlayer.PlayerGui.UI.MainMenu.Buttons.Play
-        
-        -- Check if the Play button exists and is visible
-        if playButton and playButton.Visible then
-            -- Calculate the position to click the Play button
-            local absolutePosition = playButton.AbsolutePosition
-            local width = playButton.AbsoluteSize.X
-            local height = playButton.AbsoluteSize.Y
-            local centerX = absolutePosition.X + width / 2
-            local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 35 pixels
-            
-            -- Click the Play button
-            VM1Click(centerX, centerY)
-        end
+end)
+
+spawn(function()
+    while task.wait(30) do
+        pcall(function()
+            local vu = game:GetService("VirtualUser")
+            game:GetService("Players").LocalPlayer.Idled:connect(function()
+                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                wait(1)
+                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end)
+        end)
     end
-    
-    -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
-    local function CharacterMonitoringCoroutine()
-        while true do
-            if LocalPlayer.Character == nil then
-                CheckAndClickPlayButton() -- Click the Play button if the character is not present
-            end
-            wait(1)
-        end
+end)
+
+spawn(function()
+    while task.wait(300) do
+        pcall(function()
+            local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+            local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
+            local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+            -- webhook url
+            local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
+            local data = {
+                ["content"] = "",
+                ["embeds"] = {
+                    {
+                        ["title"] = "**Fruit Battlegrounds!**",
+                        ["description"] = "**Username** : **" ..game.Players.LocalPlayer.DisplayName.."**\n**Local Level** : **".. LocalLevel .."**\n**Local EXP** : **"..LocalEXP.."**\n**Local Stamina** : **".. LocalStamina.."**" ,
+                        ["type"] = "rich",
+                        ["color"] = tonumber(0x7269da),
+                    }
+                }
+            }
+            local newdata = HttpService:JSONEncode(data)
+
+            local headers = {
+                ["content-type"] = "application/json"
+            }
+            request = http_request or request or HttpPost or syn.request
+            local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+            request(abcdef)
+        end)
     end
-
-    -- Start the coroutine
-    coroutine.wrap(CharacterMonitoringCoroutine)()
-
-    -- Coroutine to continuously transport the character to the specified position
-    local function TransportCoroutine()
-        while true do
-			if percentageRemaining <= thresholdPercentage then
-            -- Perform an action when currentStamina is low
-				print("Current stamina is low. Performing action...")
-				player.Character:BreakJoints()
-        end
-            TransportCharacter() -- Transport the character to the specified position if it's dead
-			task.spawn(CheckStamina(progressStaminaText, currentFruitLevel))
-
-            wait(2)
-        end
-    end
-
-    -- Start the coroutine
-    coroutine.wrap(TransportCoroutine)()
+end)
