@@ -8,6 +8,28 @@ function split(source, delimiters)
     return elements
 end
 
+local function RespawnPlayer()
+    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    wait(3)  -- Wait before enabling core GUI
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+    -- Hide the menu GUI
+    StarterGui:SetCore("TopbarEnabled", false)
+    StarterGui:SetCore("ResetButtonCallback", true)
+    StarterGui:SetCoreGuiEnabled("Backpack", false)
+    StarterGui:SetCoreGuiEnabled("PlayerList", false)
+    StarterGui:SetCoreGuiEnabled("Chat", false)
+    -- Removes the Menu Gui Play, Spin, Join Friend, Afk World
+    game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible = false
+    -- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Visible = true
+    task.wait()
+    --idk which of this mfker is responsible for hiding Name but it works anyway
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+    game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+end
 
 spawn(function()
     while task.wait(.1) do
@@ -15,51 +37,7 @@ spawn(function()
             plr = game.Players.LocalPlayer.Character
             if plr == nil then
                 wait(5)
-                local Event = game:GetService("ReplicatedStorage").Replicator
-                local args = {
-                    [1] = "Core",
-                    [2] = "LoadCharacter",
-                    [3] = {
-                        
-                    }
-                }
-                Event:InvokeServer(unpack(args))
-                
-                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
-                local args = {
-                    [1] = "Main",
-                    [2] = "Core",
-                    [3] = {
-                        
-                    }
-                }
-                Event:FireServer(unpack(args))
-                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
-                local args = {
-                    [1] = "Main",
-                    [2] = "LoadCharacter"
-                }
-				require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-				require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-				wait(3)  -- Wait before enabling core GUI
-				Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-				-- Hide the menu GUI
-				StarterGui:SetCore("TopbarEnabled", false)
-				StarterGui:SetCore("ResetButtonCallback", true)
-				StarterGui:SetCoreGuiEnabled("Backpack", false)
-				StarterGui:SetCoreGuiEnabled("PlayerList", false)
-				StarterGui:SetCoreGuiEnabled("Chat", false)
-				-- Removes the Menu Gui Play, Spin, Join Friend, Afk World
-				game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible = false
-				-- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
-				game.Players.LocalPlayer.PlayerGui.UI.HUD.Visible = true
-				task.wait()
-				--idk which of this mfker is responsible for hiding Name but it works anyway
-				game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-				game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-				game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-				game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-                Event:FireServer(unpack(args))
+                RespawnPlayer()
             else
                 path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 exit = (split(path, "/"))
@@ -80,7 +58,7 @@ spawn(function()
                         local ohString2 = v.Name
                         local ohTable3 = {}
                         game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-                        print(ohString1)
+                        --print(ohString1)
                     end
                 end
             end
