@@ -50,8 +50,6 @@ return {
     CheckStamina = CheckStamina
 }
 
-
-
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
@@ -118,7 +116,8 @@ return {
 				player.Character:BreakJoints()
         end
             TransportCharacter() -- Transport the character to the specified position if it's dead
-			
+			task.spawn(CheckStamina(progressStaminaText, currentFruitLevel))
+
             wait(2)
         end
     end
