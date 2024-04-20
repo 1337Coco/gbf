@@ -54,18 +54,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
     end
 end)
 
--- Function to recursively change the material of parts to Plastic
-local function changeMaterialToPlastic(obj)
-    if obj:IsA("BasePart") then
-        obj.Material = Enum.Material.Plastic
-    end
-    for _, child in ipairs(obj:GetChildren()) do
-        changeMaterialToPlastic(child)
-    end
-end
---Plastic? Love!~
-changeMaterialToPlastic(workspace)
-
 -- Function to split a string
 local function split(source, delimiters)
     local elements = {}
@@ -117,6 +105,7 @@ spawn(function()
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
                 if tonumber(exit[1]) <= tonumber(exit[2])*0.25 and LocalPlayer then
+		    wait(3)
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
