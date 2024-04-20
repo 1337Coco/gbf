@@ -1,3 +1,10 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
 local Maid = require(game:GetService("ReplicatedStorage").Maid)
 
 local maid = Maid.new()
