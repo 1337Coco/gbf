@@ -82,6 +82,7 @@ spawn(function()
                     [3] = {}
                 }
                 Event:InvokeServer(unpack(args))
+		wait()
                 
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
@@ -90,6 +91,7 @@ spawn(function()
                     [3] = {}
                 }
                 Event:FireServer(unpack(args))
+		wait()
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
                     [1] = "Main",
@@ -101,11 +103,11 @@ spawn(function()
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
+		wait(5)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
-                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 and LocalPlayer then
-		    wait(3)
+                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
