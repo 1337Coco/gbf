@@ -82,7 +82,7 @@ if LocalPlayer then
 end
 
 spawn(function()
-    while task.wait(.1) do
+    while task.wait(1) do
         pcall(function()
             local plr = game.Players.LocalPlayer.Character
             if plr == nil then
@@ -116,18 +116,21 @@ spawn(function()
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
-                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 and LocalPlayer then
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
+		    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+		    end
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
                         end
                     end
-                    task.wait(0.1)
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+                    task.wait(2)
+                    --xyz
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                         local ohString2 = v.Name
@@ -141,7 +144,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(5) do
+    while task.wait(20) do
         pcall(function()
             local vu = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
