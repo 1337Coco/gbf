@@ -118,7 +118,7 @@ spawn(function()
                             v.Name = x[1]..x[2]
                         end
                     end
-                    task.wait(2)
+                    task.wait(0.3)
                     --xyz
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
