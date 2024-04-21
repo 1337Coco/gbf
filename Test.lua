@@ -180,7 +180,7 @@ spawn(function()
                         ["title"] = "**Fruit Battlegrounds!**",
                         ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                                           "**Level**: **" .. levelDescription .. "**\n" ..
-                                          "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
+                                          "**Elapsed Time**: **" .. Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
                                           "**World**: " .. worldDescription .. "\n" ..
                                           "**Fruit**: " .. LocalPlayer.currentFruit,
                         ["type"] = "rich",
