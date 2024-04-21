@@ -167,7 +167,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(10) do
+    while task.wait(60) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
 	    -- Get level as xxx/300
