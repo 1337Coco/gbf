@@ -145,7 +145,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(0) do
+    while task.wait(10) do
         pcall(function()
             -- Fetching data
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
