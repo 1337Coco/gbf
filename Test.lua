@@ -115,7 +115,6 @@ spawn(function()
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
-			    print(v.Name)
                         end
                     end
                     task.wait(0.3)
@@ -146,7 +145,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(30) do
+    while task.wait(0) do
         pcall(function()
             -- Fetching data
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
