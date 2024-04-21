@@ -1,0 +1,30 @@
+local TeleportService = game:GetService("TeleportService")
+
+-- Function to teleport to a specific placeId
+local function TeleportToPlace(placeId)
+	local success, errorMessage = pcall(function()
+		TeleportService:Teleport(placeId)
+	end)
+    
+	if not success then
+		warn("Teleport failed:", errorMessage)
+	end
+end
+
+-- Extracting data for the equipped fruit
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local SlotValue = MainData:WaitForChild("Slot").Value
+local SlotData = MainData:WaitForChild("Slots")
+local CurrentSlot = SlotData[SlotValue]
+local CurrentFruitName = CurrentSlot.Value
+
+local FruitsData = MainData:WaitForChild("Fruits")
+local CurrentFruitData = FruitsData:WaitForChild(CurrentFruitName)
+local CurrentFruitLevel = CurrentFruitData.Level.Value
+
+if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+    TeleportToPlace(16190471004) -- Whole Cake
+elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+	TeleportToPlace(12413901502) --Onigashima
+end
+
