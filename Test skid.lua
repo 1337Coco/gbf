@@ -180,7 +180,7 @@ spawn(function()
             ["embeds"] = {
                 {
                     ["title"] = "**Fruit Battlegrounds!**",
-                    ["description"] = "**Username**: **" ..game.Players.LocalPlayer.DisplayName.."**\n**Local Level**: **".. LocalLevel .."**\n**Fruit: **: **"..currentFruit.."**\n**World**: **".. worldDescription.."**\n**Elapsed Time:" ,
+                    ["description"] = "**Username**: **" ..game.Players.LocalPlayer.DisplayName.."**\n**Local Level**: **".. LocalLevel .."**\n**Fruit: **: **"..currentFruit.."**\n**World**: **".. worldDescription.."**\n**Elapsed Time**: **" .. .. Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
                     ["type"] = "rich",
                     ["color"] = tonumber(0x7269da),
                 }
