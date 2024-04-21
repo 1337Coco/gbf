@@ -134,6 +134,7 @@ spawn(function()
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
+			    print(v)	
                         end
                     end
                     task.wait(0.3)
