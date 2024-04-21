@@ -207,6 +207,7 @@ end)
 spawn(function()
     while true do
         task.wait(30) -- Adjust the interval as needed
+	print("Checking level...")
         MonitorAndTeleport()
     end
 end)
