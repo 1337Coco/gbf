@@ -167,7 +167,8 @@ spawn(function()
             		["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                               "**Level**: **" .. levelDescription .. "**\n" ..
                               "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
-                              "**World**: " .. worldDescription,
+                              "**World**: " .. worldDescription .. "\n" ..
+                              "**Fruit**: " .. LocalPlayer.currentFruit,
             		["type"] = "rich",
             		["color"] = tonumber(0x7269da),
                     }
