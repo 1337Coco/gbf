@@ -5,6 +5,21 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local MainData = game.Players.LocalPlayer:WaitForChild("MAIN_DATA")
+local currentFruit = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+
+-- Call this function to monitor and teleport based on fruit level
+local function MonitorAndTeleport()
+    -- Fetching fruit level
+    local CurrentFruitLevel = currentFruit.Level.Value
+    
+    -- Check fruit level and placeId for teleportation
+    if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+        TeleportToPlace(16190471004) -- Whole Cake
+    elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+        TeleportToPlace(12413901502) -- Onigashima
+    end
+end
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -152,8 +167,6 @@ spawn(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            local MainData = game.Players.LocalPlayer:WaitForChild("MAIN_DATA")
-            local currentFruit = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
             -- Constructing data table
             local data = {
                 content = "",
@@ -187,5 +200,13 @@ spawn(function()
             }
             request(abcdef)
         end)
+    end
+end)
+
+-- Continuously monitor and teleport
+spawn(function()
+    while true do
+        task.wait(30) -- Adjust the interval as needed
+        MonitorAndTeleport()
     end
 end)
