@@ -6,23 +6,6 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
--- Function to get the elapsed time in hours and minutes
-local function getElapsedTime(startTime)
-    local currentTime = os.time() -- Get the current time
-    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
-    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
-    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
-    return elapsedHours, elapsedMinutes
-end
-
-
--- Get the start time
-local startTime = os.time() -- Get the current time as the start time
-
--- Calculate elapsed time
-local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
-local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
-
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -165,7 +148,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(60) do
+    while task.wait(10) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             -- Get level as xxx/300
@@ -181,7 +164,6 @@ spawn(function()
                         ["title"] = "**Fruit Battlegrounds!**",
                         ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                                           "**Level**: **" .. levelDescription .. "**\n" ..
-                                          "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
                                           "**World**: " .. worldDescription .. "\n" ..
                                           "**Fruit**: " .. LocalPlayer.currentFruit,
                         ["type"] = "rich",
