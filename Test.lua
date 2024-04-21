@@ -174,7 +174,7 @@ spawn(function()
                     }
                 }
             }
-            local newdata = HttpService:JSONEncode(data)
+            local newdata = game:GetService("HttpService"):JSONEncode(data)
 
             local headers = {
                 ["content-type"] = "application/json"
