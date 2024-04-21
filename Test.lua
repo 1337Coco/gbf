@@ -152,8 +152,6 @@ spawn(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            local currentFruit = -- Fetch current fruit level here
-            local world = -- Fetch world information here
             local MainData = game.Players.LocalPlayer:WaitForChild("MAIN_DATA")
             local currentFruit = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
             -- Constructing data table
