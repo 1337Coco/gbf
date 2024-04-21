@@ -180,9 +180,11 @@ spawn(function()
                         ["title"] = "**Fruit Battlegrounds!**",
                         ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                                           "**Level**: **" .. levelDescription .. "**\n" ..
-                                          "**Elapsed Time**: **" .. Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
-                                          "**World**: " .. worldDescription .. "\n" ..
-                                          "**Fruit**: " .. LocalPlayer.currentFruit,
+					  "**Fruit**: " .. LocalPlayer.currentFruit .. "**\n" ..
+					  "**World**: " .. worldDescription .. "\n" ..
+                                          "**Elapsed Time**: **" .. Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
+                                          
+                                         
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
                     }
