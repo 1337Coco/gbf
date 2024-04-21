@@ -6,6 +6,15 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
+-- Function to get the elapsed time in hours and minutes
+local function getElapsedTime(startTime)
+    local currentTime = os.time() -- Get the current time
+    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
+    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
+    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
+    return elapsedHours, elapsedMinutes
+end
+
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -21,6 +30,10 @@ end
 
 -- Get the start time
 local startTime = os.time() -- Get the current time as the start time
+
+-- Calculate elapsed time
+local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
+local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
 
 -- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
@@ -53,6 +66,18 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
         toggleRendering()
     end
 end)
+
+-- Function to recursively change the material of parts to Plastic
+local function changeMaterialToPlastic(obj)
+    if obj:IsA("BasePart") then
+        obj.Material = Enum.Material.Plastic
+    end
+    for _, child in ipairs(obj:GetChildren()) do
+        changeMaterialToPlastic(child)
+    end
+end
+--Plastic? Love!~
+changeMaterialToPlastic(workspace)
 
 -- Function to split a string
 local function split(source, delimiters)
@@ -114,7 +139,7 @@ spawn(function()
                             v.Name = x[1]..x[2]
                         end
                     end
-                    task.wait(0.3)
+                    task.wait(0.1)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
@@ -142,10 +167,8 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(10) do
+    while task.wait(60) do
         pcall(function()
-	    local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
-            local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
 	    -- Get level as xxx/300
 	    local levelDescription = LocalLevel .. "/300"
