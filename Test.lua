@@ -6,6 +6,22 @@ local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 
+-- Function to get the elapsed time in hours and minutes
+local function getElapsedTime(startTime)
+    local currentTime = os.time() -- Get the current time
+    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
+    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
+    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
+    return elapsedHours, elapsedMinutes
+end
+
+-- Get the start time
+local startTime = os.time() -- Get the current time as the start time
+
+-- Calculate elapsed time
+local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
+local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
+
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -18,8 +34,6 @@ local function getWorldDescription(placeId)
         return "Unknown World"
     end
 end
-
-
 
 -- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
@@ -162,10 +176,7 @@ spawn(function()
                 ["embeds"] = {
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
-                        ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
-                                          "**Level**: **" .. levelDescription .. "**\n" ..
-                                          "**World**: " .. worldDescription .. "\n" ..
-                                          "**Fruit**: " .. LocalPlayer.currentFruit,
+                        ["description"] = ["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription .. "**\n**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
                     }
