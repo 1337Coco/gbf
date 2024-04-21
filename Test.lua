@@ -5,6 +5,9 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+
 
 -- Function to get the elapsed time in hours and minutes
 local function getElapsedTime(startTime)
