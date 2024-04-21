@@ -157,24 +157,24 @@ spawn(function()
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
             -- Webhook URL
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
-	    local data = {
-	    	["content"] = "",
-		["embeds"] = {
-			{
-		        	["title"] = "**Fruit Battlegrounds!**",
-		            	["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
-		            	["type"] = "rich",
-		            	["color"] = tonumber(0x7269da),
-		        }
-		}
-	    }
-
+            
+            local data = {
+                content = "",
+                embeds = {
+                    {
+                        title = "**Fruit Battlegrounds!**",
+                        description = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
+                        type = "rich",
+                        color = tonumber(0x7269da),
+                    }
+                }
+            }
             local newdata = game:GetService("HttpService"):JSONEncode(data)
 
             local headers = {
                 ["content-type"] = "application/json"
             }
-            request = http_request or request or HttpPost or syn.request
+            local request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
