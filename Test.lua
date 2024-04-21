@@ -148,34 +148,48 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(10) do
+    while task.wait(30) do
         pcall(function()
+            -- Fetching data
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
-            -- Get level as xxx/300
-            local levelDescription = LocalLevel .. "/300"
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            -- Webhook URL
-            local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
+            local currentFruit = -- Fetch current fruit level here
+            local world = -- Fetch world information here
             
+            -- Constructing data table
             local data = {
                 content = "",
                 embeds = {
                     {
                         title = "**Fruit Battlegrounds!**",
-                        description = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
+                        description = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n" ..
+                                      "**Local Level**: **" .. LocalLevel .. "**\n" ..
+                                      "**Local EXP**: **" .. LocalEXP .. "**\n" ..
+                                      "**Local Stamina**: **" .. LocalStamina .. "**\n" ..
+                                      "**Current Fruit Level**: **" .. currentFruit .. "**\n" ..
+                                      "**World**: **" .. world .. "**",
                         type = "rich",
                         color = tonumber(0x7269da),
                     }
                 }
             }
+            
+            -- Encoding data to JSON
             local newdata = game:GetService("HttpService"):JSONEncode(data)
 
+            -- Setting headers
             local headers = {
                 ["content-type"] = "application/json"
             }
-            local request = http_request or request or HttpPost or syn.request
-            local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+
+            -- Sending HTTP request
+            local abcdef = {
+                Url = url,
+                Body = newdata,
+                Method = "POST",
+                Headers = headers
+            }
             request(abcdef)
         end)
     end
