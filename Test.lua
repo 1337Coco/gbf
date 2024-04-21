@@ -27,22 +27,21 @@ local worldDescription = getWorldDescription(game.PlaceId)
 
 local placeId = game.PlaceId
 local newPosition
---Farming spots per World
-if placeId == 9224601490 then --Dressrosa
+-- Farming spots per World
+if placeId == 9224601490 then -- Dressrosa
 	newPosition = CFrame.new(1195, 562, -826)
-elseif placeId == 16190471004 then --Whole Cake
-	newPosition = Cframe.new(122, 149, -1264)
-elseif placeId == 12413901502 then --Onigashima
+elseif placeId == 16190471004 then -- Whole Cake
+	newPosition = CFrame.new(122, 149, -1264)
+elseif placeId == 12413901502 then -- Onigashima
 	newPosition = CFrame.new(-4773, 1349, -279)
 else
-	newPosition = CFrame.new(0,0,0)
+	newPosition = CFrame.new(0, 0, 0)
 end
-
 
 local toggleKey = Enum.KeyCode.J
 local renderingEnabled = true
 
---Whitescreen on off by pressing J key
+-- Whitescreen on off by pressing J key
 local function toggleRendering()
     renderingEnabled = not renderingEnabled
     game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
@@ -61,7 +60,8 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
---This shit is the bomb! Spawns the character and makes you the mfking g!
+
+-- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
@@ -82,7 +82,7 @@ spawn(function()
                     [3] = {}
                 }
                 Event:InvokeServer(unpack(args))
-		wait()
+                wait()
                 
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
@@ -91,29 +91,29 @@ spawn(function()
                     [3] = {}
                 }
                 Event:FireServer(unpack(args))
-		wait()
+                wait()
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-                --idk which of this mfker is responsible for hiding Name but it works anyway
+                -- Idk which of these is responsible for hiding the name but it works anyway
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
-		wait(5)
+                wait(5)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
-                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
+                if tonumber(exit[1]) <= tonumber(exit[2]) * 0.25 then
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
-		    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
-		    end
+                    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+                    end
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
@@ -121,7 +121,7 @@ spawn(function()
                         end
                     end
                     task.wait(0.3)
-                    --xyz
+                    -- xyz
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                         local ohString2 = v.Name
@@ -150,27 +150,27 @@ end)
 spawn(function()
     while task.wait(60) do
         pcall(function()
-	    local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
+            local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
             local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
-	    -- Get level as xxx/300
-	    local levelDescription = LocalLevel .. "/300"
+            -- Get level as xxx/300
+            local levelDescription = LocalLevel .. "/300"
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            -- webhook url
+            -- Webhook URL
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
             local data = {
                 ["content"] = "",
                 ["embeds"] = {
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
-            		["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
-                              "**Level**: **" .. levelDescription .. "**\n" ..
-                              "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
-                              "**World**: " .. worldDescription .. "\n" ..
-                              "**Fruit**: " .. LocalPlayer.currentFruit,
-            		["type"] = "rich",
-            		["color"] = tonumber(0x7269da),
+                        ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
+                                          "**Level**: **" .. levelDescription .. "**\n" ..
+                                          "**Elapsed Time**: Start Time: " .. os.date("%H:%M", startTime) .. ", Elapsed Time: " .. string.format("%02d:%02d hour:minute", elapsedHours, elapsedMinutes) .. "\n" ..
+                                          "**World**: " .. worldDescription .. "\n" ..
+                                          "**Fruit**: " .. LocalPlayer.currentFruit,
+                        ["type"] = "rich",
+                        ["color"] = tonumber(0x7269da),
                     }
                 }
             }
