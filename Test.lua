@@ -5,8 +5,6 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
-local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -156,7 +154,8 @@ spawn(function()
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
             local currentFruit = -- Fetch current fruit level here
             local world = -- Fetch world information here
-            
+            local MainData = game.Players.LocalPlayer:WaitForChild("MAIN_DATA")
+            local currentFruit = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
             -- Constructing data table
             local data = {
                 content = "",
@@ -165,10 +164,8 @@ spawn(function()
                         title = "**Fruit Battlegrounds!**",
                         description = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n" ..
                                       "**Local Level**: **" .. LocalLevel .. "**\n" ..
-                                      "**Local EXP**: **" .. LocalEXP .. "**\n" ..
-                                      "**Local Stamina**: **" .. LocalStamina .. "**\n" ..
-                                      "**Current Fruit Level**: **" .. currentFruit .. "**\n" ..
-                                      "**World**: **" .. world .. "**",
+                                      "**Fruit**: **" .. currentFruit .. "**\n" ..
+                                      "**World**: **" .. getWorldDescription .. "**",
                         type = "rich",
                         color = tonumber(0x7269da),
                     }
