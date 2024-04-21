@@ -5,6 +5,8 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -115,6 +117,7 @@ spawn(function()
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
+			    print(v.Name)
                         end
                     end
                     task.wait(0.3)
@@ -147,43 +150,32 @@ end)
 spawn(function()
     while task.wait(10) do
         pcall(function()
-            -- Fetching data
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+            -- Get level as xxx/300
+            local levelDescription = LocalLevel .. "/300"
             local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
             local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-            local MainData = game.Players.LocalPlayer:WaitForChild("MAIN_DATA")
-            local currentFruit = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-            -- Constructing data table
-            local data = {
-                content = "",
-                embeds = {
-                    {
-                        title = "**Fruit Battlegrounds!**",
-                        description = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n" ..
-                                      "**Local Level**: **" .. LocalLevel .. "**\n" ..
-                                      "**Fruit**: **" .. currentFruit .. "**\n" ..
-                                      "**World**: **" .. getWorldDescription .. "**",
-                        type = "rich",
-                        color = tonumber(0x7269da),
-                    }
-                }
-            }
-            
-            -- Encoding data to JSON
+            -- Webhook URL
+            local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
+	    local data = {
+	    	["content"] = "",
+		["embeds"] = {
+			{
+		        	["title"] = "**Fruit Battlegrounds!**",
+		            	["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
+		            	["type"] = "rich",
+		            	["color"] = tonumber(0x7269da),
+		        }
+		}
+	    }
+
             local newdata = game:GetService("HttpService"):JSONEncode(data)
 
-            -- Setting headers
             local headers = {
                 ["content-type"] = "application/json"
             }
-
-            -- Sending HTTP request
-            local abcdef = {
-                Url = url,
-                Body = newdata,
-                Method = "POST",
-                Headers = headers
-            }
+            request = http_request or request or HttpPost or syn.request
+            local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
     end
