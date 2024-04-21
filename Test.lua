@@ -1,4 +1,4 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+elocal ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -134,7 +134,7 @@ spawn(function()
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
-			    print(v)
+			    print(v.Name)
                         end
                     end
                     task.wait(0.3)
