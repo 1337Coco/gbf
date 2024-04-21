@@ -8,23 +8,6 @@ local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
-
--- Function to get the elapsed time in hours and minutes
-local function getElapsedTime(startTime)
-    local currentTime = os.time() -- Get the current time
-    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
-    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
-    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
-    return elapsedHours, elapsedMinutes
-end
-
--- Get the start time
-local startTime = os.time() -- Get the current time as the start time
-
--- Calculate elapsed time
-local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
-local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
-
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -179,7 +162,7 @@ spawn(function()
                 ["embeds"] = {
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
-                        ["description"] = ["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription .. "**\n**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
+                        ["description"] = ["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
                     }
