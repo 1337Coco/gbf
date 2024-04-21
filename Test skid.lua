@@ -5,26 +5,6 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
-local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-
-
--- Function to get the elapsed time in hours and minutes
-local function getElapsedTime(startTime)
-    local currentTime = os.time() -- Get the current time
-    local elapsedTimeSeconds = currentTime - startTime -- Calculate the elapsed time in seconds
-    local elapsedHours = math.floor(elapsedTimeSeconds / 3600) -- Calculate the elapsed hours
-    local elapsedMinutes = math.floor((elapsedTimeSeconds % 3600) / 60) -- Calculate the elapsed minutes
-    return elapsedHours, elapsedMinutes
-end
-
-
--- Get the start time
-local startTime = os.time() -- Get the current time as the start time
-
--- Calculate elapsed time
-local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
-local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -39,28 +19,30 @@ local function getWorldDescription(placeId)
     end
 end
 
-
+-- Get the start time
+local startTime = os.time() -- Get the current time as the start time
 
 -- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
 
 local placeId = game.PlaceId
 local newPosition
--- Farming spots per World
-if placeId == 9224601490 then -- Dressrosa
+--Farming spots per World
+if placeId == 9224601490 then --Dressrosa
 	newPosition = CFrame.new(1195, 562, -826)
-elseif placeId == 16190471004 then -- Whole Cake
-	newPosition = CFrame.new(122, 149, -1264)
-elseif placeId == 12413901502 then -- Onigashima
+elseif placeId == 16190471004 then --Whole Cake
+	newPosition = Cframe.new(122, 149, -1264)
+elseif placeId == 12413901502 then --Onigashima
 	newPosition = CFrame.new(-4773, 1349, -279)
 else
-	newPosition = CFrame.new(0, 0, 0)
+	newPosition = CFrame.new(0,0,0)
 end
+
 
 local toggleKey = Enum.KeyCode.J
 local renderingEnabled = true
 
--- Whitescreen on off by pressing J key
+--Whitescreen on off by pressing J key
 local function toggleRendering()
     renderingEnabled = not renderingEnabled
     game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
@@ -79,8 +61,7 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
-
--- This part is the bomb! Spawns the character and makes you the g!
+--This shit is the bomb! Spawns the character and makes you the mfking g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
@@ -89,7 +70,7 @@ if LocalPlayer then
 end
 
 spawn(function()
-    while task.wait(1) do
+    while task.wait(.1) do
         pcall(function()
             local plr = game.Players.LocalPlayer.Character
             if plr == nil then
@@ -101,7 +82,6 @@ spawn(function()
                     [3] = {}
                 }
                 Event:InvokeServer(unpack(args))
-                wait()
                 
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
@@ -110,29 +90,24 @@ spawn(function()
                     [3] = {}
                 }
                 Event:FireServer(unpack(args))
-                wait()
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-                -- Idk which of these is responsible for hiding the name but it works anyway
+                --idk which of this mfker is responsible for hiding Name but it works anyway
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
-                wait(5)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
-                if tonumber(exit[1]) <= tonumber(exit[2]) * 0.25 then
+                if tonumber(exit[1]) <= tonumber(exit[2])*0.25 then
                     game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 else
                     _G.Toggle = true
-                    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
-                    end
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
@@ -140,7 +115,7 @@ spawn(function()
                         end
                     end
                     task.wait(0.3)
-                    -- xyz
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                         local ohString2 = v.Name
@@ -154,7 +129,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(20) do
+    while task.wait(5) do
         pcall(function()
             local vu = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -169,29 +144,35 @@ end)
 spawn(function()
     while task.wait(10) do
         pcall(function()
-            LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
-            LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
-            LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
-			local currentFruit = currentData
+	    local elapsedHours, elapsedMinutes = getElapsedTime(startTime)
+            local elapsedFormatted = string.format("%02d:%02d hour/minute", elapsedHours, elapsedMinutes)
+            local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+	    -- Get level as xxx/300
+	    local levelDescription = LocalLevel .. "/300"
+            local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
+            local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
             -- webhook url
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
             local data = {
-            ["content"] = "",
-            ["embeds"] = {
-                {
-                    ["title"] = "**Fruit Battlegrounds!**",
-                    ["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription .. "**\n**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
-                    ["type"] = "rich",
-                    ["color"] = tonumber(0x7269da),
+                ["content"] = "",
+                ["embeds"] = {
+                    {
+                        ["title"] = "**Fruit Battlegrounds!**",
+            		["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
+                              "**Level**: **" .. levelDescription .. "**\n" ..
+                              "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
+                              "**World**: " .. worldDescription,
+            		["type"] = "rich",
+            		["color"] = tonumber(0x7269da),
+                    }
                 }
             }
-            }
-            local newdata = game:GetService("HttpService"):JSONEncode(data)
+            local newdata = HttpService:JSONEncode(data)
 
             local headers = {
-            ["content-type"] = "application/json"
+                ["content-type"] = "application/json"
             }
-            request = http_request or request or HttpPost or syn.request
+            local request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
