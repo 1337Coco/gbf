@@ -164,7 +164,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(60) do
+    while task.wait(10) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             -- Get level as xxx/300
@@ -193,7 +193,7 @@ spawn(function()
             local headers = {
                 ["content-type"] = "application/json"
             }
-            request = http_request or request or HttpPost or syn.request
+            local request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
