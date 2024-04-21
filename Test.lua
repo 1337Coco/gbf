@@ -134,7 +134,7 @@ spawn(function()
                         local x = split(v.Name, " ")
                         if x[2] ~= nil then
                             v.Name = x[1]..x[2]
-			    print(v)	
+			    print(v)
                         end
                     end
                     task.wait(0.3)
@@ -165,7 +165,7 @@ spawn(function()
 end)
 
 spawn(function()
-    while task.wait(10) do
+    while task.wait(60) do
         pcall(function()
             local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
             -- Get level as xxx/300
@@ -181,11 +181,9 @@ spawn(function()
                         ["title"] = "**Fruit Battlegrounds!**",
                         ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
                                           "**Level**: **" .. levelDescription .. "**\n" ..
-					  "**Fruit**: " .. LocalPlayer.currentFruit .. "**\n" ..
-					  "**World**: " .. worldDescription .. "\n" ..
-                                          "**Elapsed Time**: **" .. Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted,
-                                          
-                                         
+                                          "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
+                                          "**World**: " .. worldDescription .. "\n" ..
+                                          "**Fruit**: " .. LocalPlayer.currentFruit,
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
                     }
@@ -196,7 +194,7 @@ spawn(function()
             local headers = {
                 ["content-type"] = "application/json"
             }
-            local request = http_request or request or HttpPost or syn.request
+            request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
