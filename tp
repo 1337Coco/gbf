@@ -1,4 +1,6 @@
 local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local SlotValue = MainData:WaitForChild("Slot").Value
 local SlotData = MainData:WaitForChild("Slots")
