@@ -120,7 +120,7 @@ spawn(function()
 			    --print(v.Name) prints fruit moves.
                         end
                     end
-                    task.wait(0.3)
+                    task.wait(0.15)
                     -- xyz
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
