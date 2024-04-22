@@ -20,12 +20,8 @@ local function TeleportToPlace(placeId)
 	end
 end
 
-    while true do
-        if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
-            TeleportToPlace(16190471004) -- Whole Cake
-        elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
-    	    TeleportToPlace(12413901502) --Onigashima
-        end
-    end
-
-
+if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+    TeleportToPlace(16190471004) -- Whole Cake
+elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+	TeleportToPlace(12413901502) --Onigashima
+end
