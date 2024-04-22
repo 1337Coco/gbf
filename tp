@@ -1,6 +1,4 @@
 local TeleportService = game:GetService("TeleportService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local SlotValue = MainData:WaitForChild("Slot").Value
 local SlotData = MainData:WaitForChild("Slots")
@@ -22,7 +20,6 @@ local function TeleportToPlace(placeId)
 	end
 end
 
-spawn(function() 
     while true do
         if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
             TeleportToPlace(16190471004) -- Whole Cake
@@ -30,5 +27,5 @@ spawn(function()
     	    TeleportToPlace(12413901502) --Onigashima
         end
     end
-end)
+
 
