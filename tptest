@@ -174,10 +174,10 @@ spawn(function()
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
                         ["footer"] = {
-                            ["timestamp"] = formattedTime
+                            ["timestamp"] = formattedTime,
                         },
                         ["author"] = {
-                            ["icon_url"] = "https://imgur.com/a/Vh1ygeU"
+                            ["icon_url"] = "https://imgur.com/a/Vh1ygeU",
                         }
                     }
                 }
