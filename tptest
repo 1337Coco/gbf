@@ -159,9 +159,9 @@ spawn(function()
             local worldDescription = getWorldDescription(game.PlaceId)
 			
 			if placeId == 9224601490 and fruitLevel >= 100 then
-				TeleportService:Teleport(16190471004)
+				game:GetService("TeleportService"):Teleport(16190471004, player)
 			elseif placeId == 16190471004 and fruitLevel >= 200 then
-				TeleportService:Teleport(12413901502)
+				game:GetService("TeleportService"):Teleport(12413901502, player)
 			end
 			
             -- Webhook URL
