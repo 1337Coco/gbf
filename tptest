@@ -158,9 +158,9 @@ spawn(function()
             -- Get the world description dynamically
             local worldDescription = getWorldDescription(game.PlaceId)
 			
-			if placeId == 9224601490 then
+			if placeId == 9224601490 and fruitLevel >= 100 then
 				TeleportService:Teleport(16190471004)
-			elseif placeId == 16190471004 then
+			elseif placeId == 16190471004 and fruitLevel >= 200 then
 				TeleportService:Teleport(12413901502)
 			end
 			
