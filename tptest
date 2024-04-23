@@ -151,8 +151,8 @@ end)
 spawn(function()
     while task.wait(10) do
         pcall(function()
-	    local currentTime = os.time()
-	    local formattedTime = os.date("%H:%M", currentTime)
+            local currentTime = os.time()
+            local formattedTime = os.date("%H:%M", currentTime)
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
@@ -173,24 +173,21 @@ spawn(function()
                                           "**World**: **" .. worldDescription .. "**",
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
-			["footer"] = {
-					["timestamp"] = formattedTime>,
-			}
-				
-			["author"] = {
-				["icon_url"] = "https://imgur.com/a/Vh1ygeU"
-			}
-			}
+                        ["footer"] = {
+                            ["timestamp"] = formattedTime
+                        },
+                        ["author"] = {
+                            ["icon_url"] = "https://imgur.com/a/Vh1ygeU"
+                        }
                     }
                 }
             }
 
-            local newdata = game:GetService("HttpService"):JSONEncode(data)
+            local newdata = HttpService:JSONEncode(data)
 
             local headers = {
                 ["content-type"] = "application/json"
             }
-            request = http_request or request or HttpPost or syn.request
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
