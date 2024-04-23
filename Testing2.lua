@@ -198,10 +198,12 @@ spawn(function()
             local FruitsData = MainData:WaitForChild("Fruits")
             local CurrentFruitData = CurrentData.Name
             local CurrentFruitLevel = CurrentFruitData.Level.Value
-
+			print("Checking level for tp requirements...")
             if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+				print("Going to Whole Cake...")
                 TeleportToPlace(16190471004) -- Whole Cake
             elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+				print("Going to Onigashima...")
                 TeleportToPlace(12413901502) -- Onigashima
             end
         end
