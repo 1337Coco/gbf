@@ -1,6 +1,6 @@
 while true do 
   wait(5)
   print("Checking tp level requirement")
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/1337Coco/gbf/main/tp"))()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/1337Coco/gbf/main/tp.lua"))()
   wait(180)
 end
