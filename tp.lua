@@ -12,21 +12,10 @@ if SlotData then -- Checking if SlotData exists
     local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
     local CurrentFruitLevel = CurrentFruitData.Level.Value
 
-    -- Function to teleport to a specific placeId
-    local function TeleportToPlace(placeId)
-        local success, errorMessage = pcall(function()
-            TeleportService:Teleport(placeId)
-        end)
-        
-        if not success then
-            warn("Teleport failed:", errorMessage)
-        end
-    end
-
     if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
         TeleportToPlace(16190471004) -- Whole Cake
-    elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
-        TeleportToPlace(12413901502) -- Onigashima
+    elseif CurrentFruitLevel >= 200 and game.PlaceId == 16190471004 then
+        game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
     end
 else
     warn("SlotData not found!")
