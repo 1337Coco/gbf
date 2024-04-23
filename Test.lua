@@ -1,3 +1,5 @@
+--Working + webhook functional
+-- Improve variable naming
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -7,6 +9,17 @@ local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+
+-- Function to teleport to a specific placeId
+local function TeleportToPlace(placeId)
+    local success, errorMessage = pcall(function()
+        TeleportService:Teleport(placeId)
+    end)
+    
+    if not success then
+        warn("Teleport failed:", errorMessage)
+    end
+end
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -21,37 +34,20 @@ local function getWorldDescription(placeId)
     end
 end
 
--- Get the world description
-local worldDescription = getWorldDescription(game.PlaceId)
-
-local placeId = game.PlaceId
 local newPosition
 -- Farming spots per World
 if placeId == 9224601490 then -- Dressrosa
 	newPosition = CFrame.new(1195, 562, -826)
 elseif placeId == 16190471004 then -- Whole Cake
-	newPosition = CFrame.new(122, 149, -1264)
+	newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
 elseif placeId == 12413901502 then -- Onigashima
 	newPosition = CFrame.new(-4773, 1349, -279)
 else
 	newPosition = CFrame.new(0, 0, 0)
 end
 
-local toggleKey = Enum.KeyCode.J
-local renderingEnabled = true
 
--- Whitescreen on off by pressing J key
-local function toggleRendering()
-    renderingEnabled = not renderingEnabled
-    game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
-end
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == toggleKey then
-        toggleRendering()
-    end
-end)
-
+-- Improve readability with comments
 -- Function to split a string
 local function split(source, delimiters)
     local elements = {}
@@ -68,11 +64,12 @@ if LocalPlayer then
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
 
+-- Use descriptive variable names
 spawn(function()
     while task.wait(1) do
         pcall(function()
-            local plr = game.Players.LocalPlayer.Character
-            if plr == nil then
+            local character = game.Players.LocalPlayer.Character
+            if character == nil then
                 wait(5)
                 local Event = game:GetService("ReplicatedStorage").Replicator
                 local args = {
@@ -96,7 +93,7 @@ spawn(function()
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-                -- Idk which of these is responsible for hiding the name but it works anyway
+                -- Hide player name
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
@@ -134,6 +131,7 @@ spawn(function()
     end
 end)
 
+-- Automatically handle idle state
 spawn(function()
     while task.wait(20) do
         pcall(function()
@@ -147,27 +145,33 @@ spawn(function()
     end
 end)
 
+-- Webhook function with improvements
 spawn(function()
     while task.wait(10) do
         pcall(function()
-            local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
-            -- Get level as xxx/300
+            local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
-            local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
-            local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+            local CurrentFruit = CurrentData.Name
+
+            -- Get the world description dynamically
+            local worldDescription = getWorldDescription(game.PlaceId)
+
             -- Webhook URL
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
-	    local data = {
-	    	["content"] = "",
-		["embeds"] = {
-			{
-		        	["title"] = "**Fruit Battlegrounds!**",
-		            	["description"] = "**Username**: **" .. game.Players.LocalPlayer.DisplayName .. "**\n**Local Level**: **" .. LocalLevel .. "**\n**Fruit**: **" .. currentFruit .. "**\n**World**: **" .. worldDescription,
-		            	["type"] = "rich",
-		            	["color"] = tonumber(0x7269da),
-		        }
-		}
-	    }
+            local data = {
+                ["content"] = "",
+                ["embeds"] = {
+                    {
+                        ["title"] = "**Fruit Battlegrounds!**",
+                        ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
+                                          "**Level**: **" .. levelDescription .. "**\n" ..
+                                          "**Fruit**: **" .. CurrentFruit .. "**\n" ..
+                                          "**World**: **" .. worldDescription .. "**",
+                        ["type"] = "rich",
+                        ["color"] = tonumber(0x7269da),
+                    }
+                }
+            }
 
             local newdata = game:GetService("HttpService"):JSONEncode(data)
 
@@ -178,5 +182,32 @@ spawn(function()
             local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
             request(abcdef)
         end)
+    end
+end)
+
+spawn(function()
+    while true do
+        -- Wait for 3 minutes
+
+        local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+        local SlotValue = MainData:WaitForChild("Slot").Value
+        local SlotData = MainData:WaitForChild("Slots"):FindFirstChild(tostring(SlotValue)) -- Corrected indexing
+
+        if SlotData then -- Checking if SlotData exists
+            local CurrentSlot = SlotData.Value
+            local FruitsData = MainData:WaitForChild("Fruits")
+            local CurrentFruitData = CurrentData.Name
+            local CurrentFruitLevel = CurrentFruitData.Level.Value
+			print("Checking level for tp requirements...")
+            if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+				print("Going to Whole Cake...")
+                TeleportToPlace(16190471004) -- Whole Cake
+            elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+				print("Going to Onigashima...")
+                TeleportToPlace(12413901502) -- Onigashima
+            end
+        end
+
+        wait(180) -- Wait for 3 minutes
     end
 end)
