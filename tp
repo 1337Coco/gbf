@@ -2,6 +2,8 @@ local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer -- Assuming you're trying to get the local player
 
+local lastTeleportTime = os.time() -- Initialize last teleport time
+
 -- Function to teleport to a specific placeId
 local function TeleportToPlace(placeId)
     local success, errorMessage = pcall(function()
@@ -15,26 +17,33 @@ end
 
 spawn(function()
     while true do
-        -- Wait for 3 minutes
-        wait(180)
+        local currentTime = os.time() -- Get current time
 
-        local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
-        local SlotValue = MainData:WaitForChild("Slot").Value
-        local SlotData = MainData:WaitForChild("Slots"):FindFirstChild(tostring(SlotValue)) -- Corrected indexing
+        -- Check if 3 minutes have passed since the last teleport
+        if currentTime - lastTeleportTime >= 180 then
+            local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+            local SlotValue = MainData:WaitForChild("Slot").Value
+            local SlotData = MainData:WaitForChild("Slots"):FindFirstChild(tostring(SlotValue)) -- Corrected indexing
 
-        if SlotData then -- Checking if SlotData exists
-            local CurrentSlot = SlotData.Value
-            local FruitsData = MainData:WaitForChild("Fruits")
-            local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
-            local CurrentFruitLevel = CurrentFruitData.Level.Value
+            if SlotData then -- Checking if SlotData exists
+                local CurrentSlot = SlotData.Value
+                local FruitsData = MainData:WaitForChild("Fruits")
+                local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
+                local CurrentFruitLevel = CurrentFruitData.Level.Value
 
-            if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
-                TeleportToPlace(16190471004) -- Whole Cake
-            elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
-                TeleportToPlace(12413901502) -- Onigashima
+                if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+                    TeleportToPlace(16190471004) -- Whole Cake
+                    lastTeleportTime = os.time() -- Update last teleport time
+                elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
+                    TeleportToPlace(12413901502) -- Onigashima
+                    lastTeleportTime = os.time() -- Update last teleport time
+                end
+            else
+                warn("SlotData not found!")
             end
-        else
-            warn("SlotData not found!")
         end
+
+        -- Wait for a short interval before checking again
+        wait(1)
     end
 end)
