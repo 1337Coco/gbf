@@ -173,13 +173,11 @@ spawn(function()
                                           "**World**: **" .. worldDescription .. "**",
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
-                        ["footer"] = {
-                            ["timestamp"] = formattedTime,
-                        },
+                    };
                         ["author"] = {
-                            ["icon_url"] = "https://imgur.com/a/Vh1ygeU",
-                        }
-                    }
+                            ["icon_url"] = "https://imgur.com/a/Vh1ygeU"
+                        };
+			                        ["timestamp"] = formattedTime
                 }
             }
 
