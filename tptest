@@ -151,19 +151,15 @@ end)
 spawn(function()
     while task.wait(10) do
         pcall(function()
+	    local currentTime = os.time()
+	    local formattedTime = os.date("%H:%M", currentTime)
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
-			local fruitLevel = tonumber(LocalPlayer.PlayerGui.UI.HUD.Level.Text)
+
             -- Get the world description dynamically
             local worldDescription = getWorldDescription(game.PlaceId)
-			
-			if placeId == 9224601490 and fruitLevel >= 100 then
-				game:GetService("TeleportService"):Teleport(16190471004, player)
-			elseif placeId == 16190471004 and fruitLevel >= 200 then
-				game:GetService("TeleportService"):Teleport(12413901502, player)
-			end
-			
+
             -- Webhook URL
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
             local data = {
@@ -177,6 +173,14 @@ spawn(function()
                                           "**World**: **" .. worldDescription .. "**",
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
+			["footer"] = {
+					["timestamp"] = formattedTime>,
+			}
+				
+			["author"] = {
+				["icon_url"] = "https://imgur.com/a/Vh1ygeU"
+			}
+			}
                     }
                 }
             }
