@@ -149,7 +149,7 @@ end)
 
 -- Webhook function with improvements
 spawn(function()
-    while task.wait(10) do
+    while task.wait(180) do
         pcall(function()
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
