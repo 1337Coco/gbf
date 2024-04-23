@@ -22,6 +22,19 @@ local function getWorldDescription(placeId)
     end
 end
 
+local newPosition
+-- Farming spots per World
+if placeId == 9224601490 then -- Dressrosa
+	newPosition = CFrame.new(1195, 562, -826)
+elseif placeId == 16190471004 then -- Whole Cake
+	newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
+elseif placeId == 12413901502 then -- Onigashima
+	newPosition = CFrame.new(-4773, 1349, -279)
+else
+	newPosition = CFrame.new(0, 0, 0)
+end
+
+
 -- Improve readability with comments
 -- Function to split a string
 local function split(source, delimiters)
@@ -125,8 +138,8 @@ spawn(function()
     while task.wait(10) do
         pcall(function()
             local Players = game:GetService("Players")
-            local LocalPlayer = Players.LocalPlayer
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
+            local LocalPlayer = Players.LocalPlayer
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
