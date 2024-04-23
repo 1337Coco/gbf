@@ -135,7 +135,7 @@ end)
 
 -- Webhook function with improvements
 spawn(function()
-    while task.wait(10) do
+    while task.wait(120) do
         pcall(function()
             local Players = game:GetService("Players")
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
