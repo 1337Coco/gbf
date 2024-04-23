@@ -10,6 +10,17 @@ local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
+-- Function to teleport to a specific placeId
+local function TeleportToPlace(placeId)
+    local success, errorMessage = pcall(function()
+        TeleportService:Teleport(placeId)
+    end)
+    
+    if not success then
+        warn("Teleport failed:", errorMessage)
+    end
+end
+
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -138,9 +149,7 @@ end)
 spawn(function()
     while task.wait(10) do
         pcall(function()
-            local Players = game:GetService("Players")
             local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
-            local LocalPlayer = Players.LocalPlayer
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
@@ -176,21 +185,9 @@ spawn(function()
     end
 end)
 
--- Function to teleport to a specific placeId
-local function TeleportToPlace(placeId)
-    local success, errorMessage = pcall(function()
-        TeleportService:Teleport(placeId)
-    end)
-    
-    if not success then
-        warn("Teleport failed:", errorMessage)
-    end
-end
-
 spawn(function()
     while true do
         -- Wait for 3 minutes
-        wait(180)
 
         local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
         local SlotValue = MainData:WaitForChild("Slot").Value
@@ -199,7 +196,7 @@ spawn(function()
         if SlotData then -- Checking if SlotData exists
             local CurrentSlot = SlotData.Value
             local FruitsData = MainData:WaitForChild("Fruits")
-            local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
+            local CurrentFruitData = CurrentData.Name
             local CurrentFruitLevel = CurrentFruitData.Level.Value
 
             if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
@@ -207,6 +204,8 @@ spawn(function()
             elseif CurrentFruitLevel >= 200 and game.PlaceId == 12413901502 then
                 TeleportToPlace(12413901502) -- Onigashima
             end
-			wait(180)
+        end
+
+        wait(180) -- Wait for 3 minutes
     end
 end)
