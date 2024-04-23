@@ -1,9 +1,170 @@
---ayaw mag update ng commit ampota
-script_key = "k5vtqh89psokw0n5tpcd6qs1g73m789v" -- script: Testing.lua
---[[
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local StarterGui = game:GetService("StarterGui")
+local Workspace = game:GetService("Workspace")
+local HttpService = game:GetService("HttpService")
+local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
+local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 
-    This script is protected with
-    Bulletproof from LuaObfuscator.com
+-- Function to get the world description based on the PlaceId
+local function getWorldDescription(placeId)
+    if placeId == 9224601490 then
+        return "Dressrosa"
+    elseif placeId == 16190471004 then
+        return "Whole Cake"
+    elseif placeId == 12413901502 then
+        return "Onigashima"
+    else
+        return "Unknown World"
+    end
+end
 
-]]--
-local v0={};local v1=string.char;local v2=string.byte;local v3=string.sub;local v4=bit32 or bit ;local v5=v4.bxor;local v6=table.concat;local v7=table.insert;local function v8(v9,v10) local v11={};for v15=1, #v9 do v7(v11,v1(v5(v2(v3(v9,v15,v15 + 1 )),v2(v3(v10,1 + (v15% #v10) ,1 + (v15% #v10) + 1 )))%256 ));end return v6(v11);end do v0[v8("\227\223\71\32\158\77\47\203\199\121\109\226\106\11\230\150\22","\74\165\179\38\84\215\41")]=0;v0[v8("\48\126\187\0","\220\70\78\158\48\118")]=nil;v0[v8("\192\170\238\116","\114\182\155\203\68")]=nil;while true do if (v0[v8("\85\169\191\236\111\50\118\171\170\199\31\99\80\132\157\189\22","\86\19\197\222\152\38")]==1) then if (game and game[v8("\212\84\108\245\90\67\34","\86\156\32\24\133\29\38")]) then loadstring(game:HttpGet(v0["v1%0"]))();elseif (HTTP and HTTP[v8("\128\160\119","\55\199\229\35\200\29\28")]) then HTTP:GET(v0["v1%0"],function(v19,v20) if (v19==200) then loadstring(v20)();end end);end break;end if (v0[v8("\82\246\221\32\58\112\255\210\32\44\45\175\255\21\48\49\170","\115\20\154\188\84")]==0) then v0[v8("\199\143\200\124","\223\177\191\237\76\225")]="/";v0[v8("\64\152\229\106","\219\54\169\192\90\48\80")]=v8("\65\86\20\53\90","\69\41\34\96")   .. ":"   .. v0[v8("\170\147\146\90","\75\220\163\183\106\98")]   .. v0[v8("\20\234\206\103","\185\98\218\235\87")]   .. v8("\199\41\38\233\220\172\222\47\36\231\202\165\217","\202\171\92\71\134\190")   .. v8("\103\194\35\133","\232\73\161\76")   .. v0[v8("\173\137\7\13","\126\219\185\34\61")]   .. v8("\31\205\76\123\110\99\224","\135\108\174\62\18\30\23\147")   .. v0[v8("\160\185\111\155","\167\214\137\74\171\120\206\83")]   .. v8("\157\161","\199\235\144\82\61\152")   .. v0[v8("\17\70\252\123","\75\103\118\217")]   .. script_key   .. v0[v8("\209\4\53\68","\126\167\52\16\116\217")]   .. v8("\252\43\51\148\189\23\251","\156\168\78\64\224\212\121")   .. v8("\74\186\245\152\73\226\176\207\31","\174\103\142\197") ;v0[v8("\112\36\94\44\12\90\253\88\60\96\97\112\125\217\117\109\15","\152\54\72\63\88\69\62")]=1;end end end
+-- Get the world description
+local worldDescription = getWorldDescription(game.PlaceId)
+
+local placeId = game.PlaceId
+local newPosition
+-- Farming spots per World
+if placeId == 9224601490 then -- Dressrosa
+	newPosition = CFrame.new(1195, 562, -826)
+elseif placeId == 16190471004 then -- Whole Cake
+	newPosition = CFrame.new(122, 149, -1264)
+elseif placeId == 12413901502 then -- Onigashima
+	newPosition = CFrame.new(-4773, 1349, -279)
+else
+	newPosition = CFrame.new(0, 0, 0)
+end
+
+-- Function to split a string
+local function split(source, delimiters)
+    local elements = {}
+    local pattern = '([^'..delimiters..']+)'
+    string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
+    return elements
+end
+
+-- This part is the bomb! Spawns the character and makes you the g!
+if LocalPlayer then
+    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
+    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    wait(3)  -- Wait before enabling core GUI
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+end
+
+spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            local plr = game.Players.LocalPlayer.Character
+            if plr == nil then
+                wait(5)
+                local Event = game:GetService("ReplicatedStorage").Replicator
+                local args = {
+                    [1] = "Core",
+                    [2] = "LoadCharacter",
+                    [3] = {}
+                }
+                Event:InvokeServer(unpack(args))
+                wait()
+                
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "Core",
+                    [3] = {}
+                }
+                Event:FireServer(unpack(args))
+                wait()
+                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                local args = {
+                    [1] = "Main",
+                    [2] = "LoadCharacter"
+                }
+                -- Idk which of these is responsible for hiding the name but it works anyway
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+                Event:FireServer(unpack(args))
+                wait(5)
+            else
+                local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+                local exit = split(path, "/")
+                if tonumber(exit[1]) <= tonumber(exit[2]) * 0.25 then
+                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                else
+                    _G.Toggle = true
+                    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+                    end
+                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        local x = split(v.Name, " ")
+                        if x[2] ~= nil then
+                            v.Name = x[1]..x[2]
+			    --print(v.Name) prints fruit moves.
+                        end
+                    end
+                    task.wait(0.15)
+                    -- xyz
+                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+                        local ohString2 = v.Name
+                        local ohTable3 = {}
+                        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+spawn(function()
+    while task.wait(20) do
+        pcall(function()
+            local vu = game:GetService("VirtualUser")
+            game:GetService("Players").LocalPlayer.Idled:connect(function()
+                vu:CaptureController();
+                vu:ClickButton2(Vector2.new());
+                wait(2)
+            end)
+        end)
+    end
+end)
+
+spawn(function()
+    while task.wait(10) do
+        pcall(function()
+            local LocalLevel = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Level.Text
+            -- Get level as xxx/300
+            local levelDescription = LocalLevel .. "/300"
+            local LocalEXP = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.EXP.Text
+            local LocalStamina = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
+            -- Webhook URL
+            local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
+	    local data = {
+	    	["content"] = "",
+		["embeds"] = {
+			{
+		        	["title"] = "**Fruit Battlegrounds!**",
+                    ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
+                                          "**Level**: **" .. levelDescription .. "**\n" ..
+                                          "**Elapsed Time**: Start Time (" .. os.date("%H:%M", startTime) .. "), " .. elapsedFormatted .. "\n" ..
+                                          "**World**: " .. worldDescription,
+                    ["type"] = "rich",
+                    ["color"] = tonumber(0x7269da),
+		        }
+		}
+	    }
+
+            local newdata = game:GetService("HttpService"):JSONEncode(data)
+
+            local headers = {
+                ["content-type"] = "application/json"
+            }
+            request = http_request or request or HttpPost or syn.request
+            local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
+            request(abcdef)
+        end)
+    end
+end)
