@@ -154,8 +154,8 @@ spawn(function()
                     {
                         ["title"] = "**Fruit Battlegrounds!**",
                         ["description"] = "**Username**: **" .. LocalPlayer.DisplayName .. "**\n" ..
+					  "**Fruit**: **" .. CurrentFruit .. "**\n" ..
                                           "**Level**: **" .. levelDescription .. "**\n" ..
-                                          "**Fruit**: **" .. CurrentFruit .. "**\n" ..
                                           "**World**: **" .. worldDescription .. "**",
                         ["type"] = "rich",
                         ["color"] = tonumber(0x7269da),
