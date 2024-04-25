@@ -103,7 +103,7 @@ spawn(function()
                     for i, v in ipairs(backpackChildren) do
                         local x = split(v.Name, " ")
                         -- Check for "Black World" or "Flight"
-                        if v.Name == "Flight" then
+                        if v.Name == "Black World" or v.Name == "Flight" then
                             v:Destroy()
                             table.remove(backpackChildren, i)
                         elseif x[2] ~= nil then
@@ -118,10 +118,12 @@ spawn(function()
                     task.wait(0.15)
                     -- xyz
                     for _, v in pairs(backpackChildren) do
+                        if v.Name ~= "Black World" or v.Name ~= "Flight" then -- Exclude "Black World" or "Flight"
                             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                             local ohString2 = v.Name
                             local ohTable3 = {}
                             game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+                        end
                     end
                 end
             end
