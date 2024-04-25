@@ -37,21 +37,6 @@ else
 	newPosition = CFrame.new(0, 0, 0)
 end
 
-local toggleKey = Enum.KeyCode.J
-local renderingEnabled = true
-
--- Whitescreen on off by pressing J key
-local function toggleRendering()
-    renderingEnabled = not renderingEnabled
-    game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
-end
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == toggleKey then
-        toggleRendering()
-    end
-end)
-
 -- Function to split a string
 local function split(source, delimiters)
     local elements = {}
