@@ -130,6 +130,8 @@ spawn(function()
                             local ohString2 = v.Name
                             local ohTable3 = {}
                             game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+						elseif v.Name == "Black World" then
+							v:Destroy()
                         end
                     end
                 end
