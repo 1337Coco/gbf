@@ -28,13 +28,13 @@ local placeId = game.PlaceId
 local newPosition
 -- Farming spots per World
 if placeId == 9224601490 then -- Dressrosa
-	newPosition = CFrame.new(1195, 562, -826)
+    newPosition = CFrame.new(1195, 562, -826)
 elseif placeId == 16190471004 then -- Whole Cake
-	newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
+    newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
 elseif placeId == 12413901502 then -- Onigashima
-	newPosition = CFrame.new(-4773, 1349, -279)
+    newPosition = CFrame.new(-4773, 1349, -279)
 else
-	newPosition = CFrame.new(0, 0, 0)
+    newPosition = CFrame.new(0, 0, 0)
 end
 
 local toggleKey = Enum.KeyCode.J
@@ -118,6 +118,8 @@ spawn(function()
                         if x[2] ~= nil and x[2] ~= "Black World" then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
+                        elseif v.Name == "Black World" then
+                            v:Destroy() -- Destroy the object with the name "Black World"
                         end
                     end
                     task.wait(0.15)
