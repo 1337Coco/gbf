@@ -113,19 +113,23 @@ spawn(function()
                     if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
-                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    local backpackChildren = game.Players.LocalPlayer.Backpack:GetChildren()
+                    -- Iterate over backpack children
+                    for i, v in ipairs(backpackChildren) do
                         local x = split(v.Name, " ")
-                        if x[2] ~= nil and x[2] ~= "Black World" then
+                        -- Check for "Black World" or "Flight"
+                        if v.Name == "Black World" or v.Name == "Flight" then
+                            v:Destroy()
+                            table.remove(backpackChildren, i)
+                        elseif x[2] ~= nil and x[2] ~= "Black World" then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
-                        elseif v.Name == "Black World" then
-                            v:Destroy() -- Destroy the object with the name "Black World"
                         end
                     end
                     task.wait(0.15)
                     -- xyz
-                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                        if v.Name ~= "Black World" then -- Exclude "Black World"
+                    for _, v in pairs(backpackChildren) do
+                        if v.Name ~= "Black World" or v.Name ~= "Flight" then -- Exclude "Black World" or "Flight"
                             local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
                             local ohString2 = v.Name
                             local ohTable3 = {}
