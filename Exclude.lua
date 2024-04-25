@@ -37,21 +37,6 @@ else
     newPosition = CFrame.new(0, 0, 0)
 end
 
-local toggleKey = Enum.KeyCode.J
-local renderingEnabled = true
-
--- Whitescreen on off by pressing J key
-local function toggleRendering()
-    renderingEnabled = not renderingEnabled
-    game:GetService("RunService"):Set3dRenderingEnabled(renderingEnabled)
-end
-
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == toggleKey then
-        toggleRendering()
-    end
-end)
-
 -- Function to split a string
 local function split(source, delimiters)
     local elements = {}
@@ -124,7 +109,7 @@ spawn(function()
                         elseif x[2] ~= nil then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
-                        elseif x[1] == "Black" and x[2] == "World" or x[1] == "World" and x[2] == "Black" then
+                        elseif x[1] == "Black" and x[2] == "World" then
                             table.remove(backpackChildren, i)
                             v:Destroy()
                             v.Name = nil
