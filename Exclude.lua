@@ -121,9 +121,13 @@ spawn(function()
                         if v.Name == "Black World" or v.Name == "Flight" then
                             v:Destroy()
                             table.remove(backpackChildren, i)
-                        elseif x[2] ~= nil and x[2] ~= "Black World" then
+                        elseif x[2] ~= nil then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
+                        elseif x[1] == "Black" and x[2] == "World" or x[1] == "World" and x[2] == "Black" then
+                            table.remove(backpackChildren, i)
+                            v:Destroy()
+                            v.Name = nil
                         end
                     end
                     task.wait(0.15)
