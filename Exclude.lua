@@ -115,7 +115,7 @@ spawn(function()
                     end
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local x = split(v.Name, " ")
-                        if x[2] ~= nil then
+                        if x[2] ~= nil and x[2] ~= "Black World" then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
                         end
