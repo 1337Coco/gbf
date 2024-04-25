@@ -115,11 +115,12 @@ spawn(function()
                     end
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local x = split(v.Name, " ")
-                        if x[2] ~= nil and x[2] ~= "Black World" then
+			if v.Name == "Black World" then
+                            table.remove(backpackChildren, i)
+			    v.Name == nil
+			elseif x[2] ~= nil and x[2] ~= "Black World" then
                             v.Name = x[1]..x[2]
                             --print(v.Name) prints fruit moves.
-                        elseif v.Name == "Black World" then
-                            v:Destroy() -- Destroy the object with the name "Black World"
                         end
                     end
                     task.wait(0.15)
@@ -130,8 +131,10 @@ spawn(function()
                             local ohString2 = v.Name
                             local ohTable3 = {}
                             game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-						elseif v.Name == "Black World" then
-							v:Destroy()
+			    elseif v.Name == "Black World" then
+			    v:Destroy()
+			    v.Name == nil
+									
                         end
                     end
                 end
