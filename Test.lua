@@ -52,7 +52,7 @@ if LocalPlayer then
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
-
+--Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
         pcall(function()
@@ -105,7 +105,7 @@ spawn(function()
 			    --print(v.Name) prints fruit moves.
                         end
                     end
-                    task.wait(0.15)
+                    task.wait(0.1)
                     -- xyz
                     for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                         local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
@@ -119,6 +119,7 @@ spawn(function()
     end
 end)
 
+--anti afk
 spawn(function()
     while task.wait(20) do
         pcall(function()
