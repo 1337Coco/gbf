@@ -7,6 +7,7 @@ local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -137,7 +138,6 @@ end)
 spawn(function()
     while task.wait(600) do
         pcall(function()
-            local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
