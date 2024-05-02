@@ -58,8 +58,8 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-	UI.MainMenu.Visible  =  false
-    UI.HUD.Visible       =  true
+    UI.MainMenu.Visible =  false
+    UI.HUD.Visible =  true
 end
 
 -- Store references to the properties in variables
@@ -98,10 +98,12 @@ spawn(function()
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
                 -- Set properties directly using the stored references
-				overheadPlayerName.Visible = false
-				overheadUISPlayerName.Visible = false
-				playerHUD.Visible = false
-				playerHUD.PlayerTextBehind = false
+		overheadPlayerName.Visible = false
+		overheadUISPlayerName.Visible = false
+		playerHUD.Visible = false
+		playerHUD.PlayerTextBehind = false
+		UI.MainMenu.Visible =  false
+    		UI.HUD.Visible =  true
                 Event:FireServer(unpack(args))
                 wait(5)
             else
@@ -147,7 +149,7 @@ end)
 
 -- tp when level is reached
 spawn(function() 
-    while task.wait() do
+    while task.wait(60) do
         pcall(function()
             LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelNumber = tonumber(LocalLevel)
