@@ -27,6 +27,9 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 	    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
 	    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
             -- Calculate the position to click the Play button
+	    local absolutePosition = playButton.AbsolutePosition
+            local width = playButton.AbsoluteSize.X
+            local height = playButton.AbsoluteSize.Y
             playButton = PlayerGui.UI.MainMenu.Buttons.Play
 	    task.wait()
             -- Click the Play button
