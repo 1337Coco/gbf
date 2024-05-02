@@ -9,7 +9,7 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local UI = PlayerGui.UI
 local LocalLevel
-local cframe = LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart.CFrame or CFrame.new()
+
 
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
@@ -111,8 +111,8 @@ spawn(function()
                     LocalPlayer.Character:BreakJoints()
                 else
                     _G.Toggle = true
-                    if cframe ~= newPosition then 
-                        cframe = newPosition
+                    if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
+                        LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
                     for i,v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
