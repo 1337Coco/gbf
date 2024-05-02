@@ -54,6 +54,8 @@ end
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    StarterGui:SetCoreGuiEnabled('Backpack',false)
+    StarterGui:SetCoreGuiEnabled('PlayerList',false)
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
@@ -98,6 +100,8 @@ spawn(function()
 		overheadUISPlayerName.Visible = false
 		playerHUD.Visible = false
 		playerHUD.PlayerTextBehind = false
+		StarterGui:SetCoreGuiEnabled('Backpack',false)
+    		StarterGui:SetCoreGuiEnabled('PlayerList',false)
                 Event:FireServer(unpack(args))
                 wait(2)
             else
