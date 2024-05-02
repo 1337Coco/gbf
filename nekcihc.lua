@@ -7,7 +7,6 @@ local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-local UI = PlayerGui.UI
 local LocalLevel
 
 local function GetFruit()
@@ -57,8 +56,6 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-    UI.MainMenu.Visible  =  false
-    UI.HUD.Visible       =  true
 end
 
 -- Store references to the properties in variables
@@ -102,7 +99,7 @@ spawn(function()
 		playerHUD.Visible = false
 		playerHUD.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
-                wait(5)
+                wait(2)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
