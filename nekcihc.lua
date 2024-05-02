@@ -7,7 +7,9 @@ local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
+local UI = PlayerGui.UI
 local LocalLevel
+local cframe = LocalPlayer.Character and LocalPlayer.Character.HumanoidRootPart.CFrame or CFrame.new()
 
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
@@ -56,7 +58,14 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+	UI.MainMenu.Visible  =  false
+    UI.HUD.Visible       =  true
 end
+
+-- Store references to the properties in variables
+local overheadPlayerName = game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName
+local overheadUISPlayerName = game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName
+local playerHUD = game.Players.LocalPlayer.PlayerGui.UI.HUD.Player
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
@@ -88,21 +97,22 @@ spawn(function()
                     [2] = "LoadCharacter"
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
-                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-                game.Players.LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-                game.Players.LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+                -- Set properties directly using the stored references
+				overheadPlayerName.Visible = false
+				overheadUISPlayerName.Visible = false
+				playerHUD.Visible = false
+				playerHUD.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
                 wait(5)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
-                if tonumber(exit[1]) <= tonumber(exit[2]) * 0.25 then
-                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                if tonumber(exit[1]) <= tonumber(exit[2]) * 0.15 then
+                    LocalPlayer.Character:BreakJoints()
                 else
                     _G.Toggle = true
-                    if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+                    if cframe ~= newPosition then 
+                        cframe = newPosition
                     end
                     for i,v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
