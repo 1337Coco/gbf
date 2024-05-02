@@ -137,10 +137,14 @@ end)
 spawn(function() 
 	while task.wait(60) do
 		pcall(function()
+		local CurrentSlot = SlotData.Value
+    		local FruitsData = MainData:WaitForChild("Fruits")
+    		local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
+    		local CurrentFruitLevel = CurrentFruitData.Level.Value
 		local CurrentFruitLevel = MainData:WaitForChild("Fruits"):WaitForChild(SlotData.Value).Level.Value
-		if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
+		if CurrentFruitLevel >= 100 and worldDescription == "Dressrosa" then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
-		elseif CurrentFruitLevel >= 200 and game.PlaceId == 16190471004 then
+		elseif CurrentFruitLevel >= 200 and worldDescription == "Whole Cake" then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
 		end
 		end)
