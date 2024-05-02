@@ -49,30 +49,19 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
--- Removes the Menu Gui Play, Spin, Join Friend, Afk World
-local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible
--- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
-local uiHud = LocalPlayer.PlayerGui.UI.HUD
+
+local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu
 
 -- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+    StarterGui:SetCoreGuiEnabled('Backpack',false)
+    StarterGui:SetCoreGuiEnabled('PlayerList',false)
+    mainMenu.Visible = false
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-    StarterGui:SetCoreGuiEnabled('PlayerList',false)
-    mainMenu = false
-    uiHud = true
-    overheadPlayerName.Visible = false
-    overheadUISPlayerName.Visible = false
-    playerHUD.Visible = false
-    playerHUD.PlayerTextBehind = false
 end
-
--- Store references to the properties in variables
-local overheadPlayerName = LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName
-local overheadUISPlayerName = LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName
-local playerHUD = LocalPlayer.PlayerGui.UI.HUD.Player
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
@@ -105,14 +94,13 @@ spawn(function()
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
                 -- Set properties directly using the stored references
+		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
 		StarterGui:SetCoreGuiEnabled('Backpack',false)
     		StarterGui:SetCoreGuiEnabled('PlayerList',false)
-		mainMenu = false
-		uiHud = true
-		overheadPlayerName.Visible = false
-		overheadUISPlayerName.Visible = false
-		playerHUD.Visible = false
-		playerHUD.PlayerTextBehind = false
+		mainMenu.Visible = false
                 Event:FireServer(unpack(args))
                 wait(2)
             else
