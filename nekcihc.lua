@@ -10,7 +10,6 @@ local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitFo
 local UI = PlayerGui.UI
 local LocalLevel
 
-
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
 end
@@ -147,7 +146,7 @@ end)
 
 -- tp when level is reached
 spawn(function() 
-    while task.wait(60) do
+    while task.wait() do
         pcall(function()
             LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelNumber = tonumber(LocalLevel)
@@ -160,7 +159,6 @@ spawn(function()
         task.wait(600)
     end
 end)
-
 
 -- Webhook function with improvements
 spawn(function()
