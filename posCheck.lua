@@ -6,6 +6,7 @@ local PlayerGui = LocalPlayer.PlayerGui
 local playButton = PlayerGui.UI.MainMenu.Buttons.Play
 
 if playButton then
+    wait(10)
     -- Simulate a button click
     playButton.MouseButton1Click:Fire()
 else
