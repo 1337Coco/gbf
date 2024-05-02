@@ -43,6 +43,8 @@ local function CheckAndClickPlayButton()
     if playButton and playButton.Visible then
         --require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
         --require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
+        UI.MainMenu.Visible  =  false
+        UI.HUD.Visible       =  true
         -- Calculate the position to click the Play button
         local position = playButton.Position
         -- Click the Play button
