@@ -69,7 +69,7 @@ if LocalPlayer then
     StarterGui:SetCoreGuiEnabled("Chat", false)
     mainMenu.Visible = false
     uiHud.Visible = true
-    task.wait()
+    wait()
     LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
     LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
     LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
