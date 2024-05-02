@@ -135,17 +135,20 @@ spawn(function()
 end)
 -- tp when level is reached
 spawn(function() 
-	while task.wait(60) do
+	while true do
+		wait(30)
 		pcall(function()
 		local CurrentSlot = SlotData.Value
     		local FruitsData = MainData:WaitForChild("Fruits")
     		local CurrentFruitData = FruitsData:WaitForChild(CurrentSlot)
     		local CurrentFruitLevel = CurrentFruitData.Level.Value
 		local CurrentFruitLevel = MainData:WaitForChild("Fruits"):WaitForChild(SlotData.Value).Level.Value
-		if CurrentFruitLevel >= 100 and worldDescription == "Dressrosa" then
+		if CurrentFruitLevel >= 100 and newPosition == CFrame.new(1195, 562, -826) then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
-		elseif CurrentFruitLevel >= 200 and worldDescription == "Whole Cake" then
+		elseif CurrentFruitLevel >= 200 and CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875) then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
+		else
+			print("wow")
 		end
 		end)
 	end
