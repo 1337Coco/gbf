@@ -58,8 +58,8 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-    UI.MainMenu.Visible =  false
-    UI.HUD.Visible =  true
+    UI.MainMenu.Visible  =  false
+    UI.HUD.Visible       =  true
 end
 
 -- Store references to the properties in variables
@@ -102,8 +102,6 @@ spawn(function()
 		overheadUISPlayerName.Visible = false
 		playerHUD.Visible = false
 		playerHUD.PlayerTextBehind = false
-		UI.MainMenu.Visible =  false
-    		UI.HUD.Visible =  true
                 Event:FireServer(unpack(args))
                 wait(5)
             else
