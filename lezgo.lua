@@ -137,11 +137,10 @@ end)
 spawn(function() 
 	while task.wait(60) do
 		pcall(function()
-		LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
-		local levelNumber = tonumber(LocalLevel)
-		if levelNumber >= 100 and game.PlaceId == 9224601490 then
+		local CurrentFruitLevel = MainData:WaitForChild("Fruits"):WaitForChild(SlotData.Value).Level.Value
+		if CurrentFruitLevel >= 100 and game.PlaceId == 9224601490 then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
-		elseif levelNumber >= 200 and game.PlaceId == 16190471004 then
+		elseif CurrentFruitLevel >= 200 and game.PlaceId == 16190471004 then
 			game:GetService("TeleportService"):Teleport(12413901502, LocalPlayer)
 		end
 		end)
@@ -151,7 +150,7 @@ end)
 spawn(function()
     while task.wait(600) do
         pcall(function()
-			LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
+	    LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
