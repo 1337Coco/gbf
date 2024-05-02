@@ -50,12 +50,15 @@ local function split(source, delimiters)
     return elements
 end
 
+local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible
+
 -- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
+    mainmenu = false
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
@@ -102,6 +105,7 @@ spawn(function()
 		playerHUD.PlayerTextBehind = false
 		StarterGui:SetCoreGuiEnabled('Backpack',false)
     		StarterGui:SetCoreGuiEnabled('PlayerList',false)
+		mainmenu = false
                 Event:FireServer(unpack(args))
                 wait(2)
             else
