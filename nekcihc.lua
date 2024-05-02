@@ -60,12 +60,21 @@ local uiHud = LocalPlayer.PlayerGui.UI.HUD
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-    StarterGui:SetCoreGuiEnabled('Backpack',false)
-    StarterGui:SetCoreGuiEnabled('PlayerList',false)
-    mainMenu.Visible = false
-    uiHud.Visible = true
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+    StarterGui:SetCore("TopbarEnabled", false)
+    StarterGui:SetCore("ResetButtonCallback", true)
+    StarterGui:SetCoreGuiEnabled("Backpack", false)
+    StarterGui:SetCoreGuiEnabled("PlayerList", false)
+    StarterGui:SetCoreGuiEnabled("Chat", false)
+    mainMenu.Visible = false
+    uiHud.Visible = true
+    task.wait()
+    LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+    LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+    LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+    LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+
 end
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
@@ -97,18 +106,21 @@ spawn(function()
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-                -- Idk which of these is responsible for hiding the name but it works anyway
-                -- Set properties directly using the stored references
+
+		StarterGui:SetCore("TopbarEnabled", false)
+  		StarterGui:SetCore("ResetButtonCallback", true)
+    		StarterGui:SetCoreGuiEnabled("Backpack", false)
+    		StarterGui:SetCoreGuiEnabled("PlayerList", false)
+    		StarterGui:SetCoreGuiEnabled("Chat", false)
+		mainMenu.Visible = false
+		uiHud.Visible = true
+		-- Idk which of these is responsible for hiding the name but it works anyway
 		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
 		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
 		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
 		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-		StarterGui:SetCoreGuiEnabled('Backpack',false)
-    		StarterGui:SetCoreGuiEnabled('PlayerList',false)
-		mainMenu.Visible = false
-		uiHud.Visible = true
                 Event:FireServer(unpack(args))
-                wait(2)
+                task.wait(2)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
