@@ -120,7 +120,7 @@ spawn(function()
 		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
 		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
-                task.wait(2)
+                wait(2)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
