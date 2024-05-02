@@ -4,13 +4,14 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
     local PlayerGui = LocalPlayer.PlayerGui
-
+    local playButton = PlayerGui.UI.MainMenu.Buttons.Play
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
         if VIM then
-            VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
+	    playButton = PlayerGui.UI.MainMenu.Buttons.Play
+            VIM:SendMouseButtonEvent(position.X, position.Y, 0, true, game, 0)
             wait(0.1) -- Adjust wait time as needed
-            VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
+            VIM:SendMouseButtonEvent(position.X, position.Y, 0, false, game, 0)
         else
             warn("VirtualInputManager not found.")
         end
@@ -26,14 +27,10 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 	    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
 	    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
             -- Calculate the position to click the Play button
-            local absolutePosition = playButton.AbsolutePosition
-            local width = playButton.AbsoluteSize.X
-            local height = playButton.AbsoluteSize.Y
-            local centerX = absolutePosition.X + width / 2
-            local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 35 pixels
+            playButton = PlayerGui.UI.MainMenu.Buttons.Play
 	    task.wait()
             -- Click the Play button
-            VM1Click(centerX, 325)
+            VM1Click(position.X, position.Y)
         end
     end
 
