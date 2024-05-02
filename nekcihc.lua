@@ -50,7 +50,11 @@ local function split(source, delimiters)
     return elements
 end
 
-local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu
+-- Removes the Menu Gui Play, Spin, Join Friend, Afk World
+local mainMenu = LocalPlayer.PlayerGui.UI.MainMenu
+
+-- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
+local uiHud = LocalPlayer.PlayerGui.UI.HUD
 
 -- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
@@ -59,6 +63,7 @@ if LocalPlayer then
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
     mainMenu.Visible = false
+    uiHud.Visible = true
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
@@ -101,6 +106,7 @@ spawn(function()
 		StarterGui:SetCoreGuiEnabled('Backpack',false)
     		StarterGui:SetCoreGuiEnabled('PlayerList',false)
 		mainMenu.Visible = false
+		uiHud.Visible = true
                 Event:FireServer(unpack(args))
                 wait(2)
             else
