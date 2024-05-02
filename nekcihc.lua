@@ -49,10 +49,8 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
-
 -- Removes the Menu Gui Play, Spin, Join Friend, Afk World
-local mainMenu = LocalPlayer.PlayerGui.UI.MainMenu
-
+local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu.Visible
 -- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
 local uiHud = LocalPlayer.PlayerGui.UI.HUD
 
@@ -62,20 +60,19 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     wait(3)  -- Wait before enabling core GUI
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-    StarterGui:SetCore("TopbarEnabled", false)
-    StarterGui:SetCore("ResetButtonCallback", true)
-    StarterGui:SetCoreGuiEnabled("Backpack", false)
-    StarterGui:SetCoreGuiEnabled("PlayerList", false)
-    StarterGui:SetCoreGuiEnabled("Chat", false)
-    mainMenu.Visible = false
-    uiHud.Visible = true
-    wait()
-    LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-    LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-    LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-    LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-
+    StarterGui:SetCoreGuiEnabled('PlayerList',false)
+    mainMenu = false
+    uiHud = true
+    overheadPlayerName.Visible = false
+    overheadUISPlayerName.Visible = false
+    playerHUD.Visible = false
+    playerHUD.PlayerTextBehind = false
 end
+
+-- Store references to the properties in variables
+local overheadPlayerName = LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName
+local overheadUISPlayerName = LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName
+local playerHUD = LocalPlayer.PlayerGui.UI.HUD.Player
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
@@ -106,19 +103,16 @@ spawn(function()
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-
-		StarterGui:SetCore("TopbarEnabled", false)
-  		StarterGui:SetCore("ResetButtonCallback", true)
-    		StarterGui:SetCoreGuiEnabled("Backpack", false)
-    		StarterGui:SetCoreGuiEnabled("PlayerList", false)
-    		StarterGui:SetCoreGuiEnabled("Chat", false)
-		mainMenu.Visible = false
-		uiHud.Visible = true
-		-- Idk which of these is responsible for hiding the name but it works anyway
-		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+                -- Idk which of these is responsible for hiding the name but it works anyway
+                -- Set properties directly using the stored references
+		StarterGui:SetCoreGuiEnabled('Backpack',false)
+    		StarterGui:SetCoreGuiEnabled('PlayerList',false)
+		mainMenu = false
+		uiHud = true
+		overheadPlayerName.Visible = false
+		overheadUISPlayerName.Visible = false
+		playerHUD.Visible = false
+		playerHUD.PlayerTextBehind = false
                 Event:FireServer(unpack(args))
                 wait(2)
             else
