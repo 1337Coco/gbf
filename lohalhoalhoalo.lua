@@ -7,7 +7,7 @@ local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
-local LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
+local LocalLevel
 
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
@@ -103,19 +103,16 @@ spawn(function()
                     if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
-			if (LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()) and LocalPlayer.Character:WaitForChild('HumanoidRootPart',2) then 
-				for i,v in pairs(LocalPlayer:GetDescendants()) do
-					if v.ClassName == 'Tool' then
-					if v:GetAttribute('Name') then 
-						local Attack = v:GetAttribute('Name')
-						ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
-					else
-						local Attack = v.Name:gsub(" ","")
-						ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
-						task.wait()
-					end
-					end
-				end --for i,v pairs
+			for i,v in pairs(LocalPlayer:GetDescendants()) do
+				if v.ClassName == 'Tool' then
+				if v:GetAttribute('Name') then 
+					local Attack = v:GetAttribute('Name')
+					ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+                    else
+                        local Attack = v.Name:gsub(" ","")
+                        ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+				end
+				end
 			end
                 end
             end
@@ -141,6 +138,7 @@ end)
 spawn(function()
     while task.wait(600) do
         pcall(function()
+	    LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
