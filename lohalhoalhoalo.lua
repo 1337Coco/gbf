@@ -103,17 +103,20 @@ spawn(function()
                     if game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
-					for i,v in pairs(LocalPlayer:GetDescendants()) do
-						if v.ClassName == 'Tool' then
-							if v:GetAttribute('Name') then 
-							local Attack = v:GetAttribute('Name')
-							ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
-                    else
-                        local Attack = v.Name:gsub(" ","")
-                        ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
-							end
-						end
+			if (LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()) and LocalPlayer.Character:WaitForChild('HumanoidRootPart',2) then 
+				for i,v in pairs(LocalPlayer:GetDescendants()) do
+					if v.ClassName == 'Tool' then
+					if v:GetAttribute('Name') then 
+						local Attack = v:GetAttribute('Name')
+						ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+					else
+						local Attack = v.Name:gsub(" ","")
+						ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+						task.wait()
 					end
+					end
+				end --for i,v pairs
+			end
                 end
             end
         end)
