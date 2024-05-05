@@ -49,10 +49,6 @@ local function split(source, delimiters)
     string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
     return elements
 end
--- Removes the Menu Gui Play, Spin, Join Friend, Afk World
-local mainMenu = game.Players.LocalPlayer.PlayerGui.UI.MainMenu
--- Makes Level, Player Name, HP, Stamina, Shop, Titles, Settings, Daily Visible
-local uiHud = game.Players.LocalPlayer.PlayerGui.UI.HUD
 
 -- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
@@ -60,10 +56,6 @@ if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
-    mainMenu.Visible = false
-    wait(2)
-    uiHud.Visible = true
-    wait(3)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
 
@@ -104,11 +96,7 @@ spawn(function()
 		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
 		StarterGui:SetCoreGuiEnabled('Backpack',false)
     		StarterGui:SetCoreGuiEnabled('PlayerList',false)
-		mainMenu.Visible = false
-		wait()
-		uiHud.Visible = true
                 Event:FireServer(unpack(args))
-                wait(2)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
