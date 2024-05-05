@@ -78,6 +78,7 @@ if LocalPlayer then
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+	CheckAndClickPlayButton()
 end
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
@@ -111,12 +112,13 @@ spawn(function()
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
                 -- Set properties directly using the stored references
-		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-		StarterGui:SetCoreGuiEnabled('Backpack',false)
-    		StarterGui:SetCoreGuiEnabled('PlayerList',false)
+				LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+				StarterGui:SetCoreGuiEnabled('Backpack',false)
+				StarterGui:SetCoreGuiEnabled('PlayerList',false)
+				CheckAndClickPlayButton()
                 Event:FireServer(unpack(args))
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -144,12 +146,7 @@ spawn(function()
         end)
     end
 end)
--- clicks play
-spawn(function()
-	while true do
-		CheckAndClickPlayButton()
-	end
-end)
+
 -- anti afk
 spawn(function()
     while task.wait(20) do
