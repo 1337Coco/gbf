@@ -5,6 +5,7 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local VIM = game:GetService("VirtualInputManager")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
@@ -13,6 +14,26 @@ local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
 end
 
+local function VM1Click(X, Y)
+        if VIM then
+            VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
+            wait(0.1) -- Adjust wait time as needed
+            VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
+        else
+            print("VirtualInputManager not found.")
+        end
+    end
+
+local function CheckAndClickPlayButton()
+	local playButton = PlayerGui.UI.MainMenu.Buttons.Play
+	
+	if playButton and playButton.Visible then 
+		local buttonPos = playButton.AbsolutePosition
+		wait()
+		VM1Click(buttonPos.X, buttonPos.Y)
+	else
+		print("Play button not found!")
+end
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
@@ -123,7 +144,12 @@ spawn(function()
         end)
     end
 end)
-
+-- clicks play
+spawn function()
+	while true do
+		CheckAndClickPlayButton()
+	end
+end)
 -- anti afk
 spawn(function()
     while task.wait(20) do
