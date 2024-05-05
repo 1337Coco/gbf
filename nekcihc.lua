@@ -145,7 +145,7 @@ spawn(function()
     end
 end)
 -- clicks play
-spawn function()
+spawn(function()
 	while true do
 		CheckAndClickPlayButton()
 	end
