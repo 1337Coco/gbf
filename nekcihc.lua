@@ -5,9 +5,42 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local VIM = game:GetService("VirtualInputManager")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
+
+-- Function to simulate a mouse click at the specified coordinates
+local function VM1Click(X, Y)
+    if VIM then
+        VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
+        wait(0.1) -- Adjust wait time as needed
+        VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
+    else
+        warn("VirtualInputManager not found.")
+    end
+end
+
+-- Function to check if the Play button is visible and click it if it is
+local function CheckAndClickPlayButton()
+    -- Find the Play button
+    local playButton = PlayerGui.UI.MainMenu.Buttons.Play
+
+    -- If the Play button is found and visible, simulate a mouse click on it
+    if playButton and playButton.Visible then
+        -- Calculate the click position as a percentage of the button's position and size
+        local absolutePosition = playButton.AbsolutePosition
+        local width = playButton.AbsoluteSize.X
+        local height = playButton.AbsoluteSize.Y
+        
+        -- Define the percentage of the button's position and size to click
+        local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
+        local clickY = absolutePosition.Y + height * 1.4 -- Click slightly downward from the center vertically
+
+        -- Click the Play button
+        VM1Click(clickX, clickY)
+    end
+end
 
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
@@ -57,6 +90,8 @@ if LocalPlayer then
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
+	CheckAndClickPlayButton()
+	wait(2)
 end
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
@@ -90,12 +125,14 @@ spawn(function()
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
                 -- Set properties directly using the stored references
-		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-		StarterGui:SetCoreGuiEnabled('Backpack',false)
-    		StarterGui:SetCoreGuiEnabled('PlayerList',false)
+				LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+				LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+				StarterGui:SetCoreGuiEnabled('Backpack',false)
+				StarterGui:SetCoreGuiEnabled('PlayerList',false)
+				CheckAndClickPlayButton()
+				wait(2)
                 Event:FireServer(unpack(args))
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
