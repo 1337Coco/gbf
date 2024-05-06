@@ -32,7 +32,7 @@ local function CheckAndClickPlayButton()
 
         -- Click the Play button
         VM1Click(clickX, clickY)
-	elseif playButton.Visible == false and LocalPlayer == nil then
+	elseif not playButton.Visible and LocalPlayer == nil then
 		-- Calculate the click position as a percentage of the button's position and size
         local absolutePosition = playButton.AbsolutePosition
         local width = playButton.AbsoluteSize.X
