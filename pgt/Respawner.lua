@@ -15,30 +15,34 @@ local function VM1Click(X, Y)
     end
 end
 
--- Function to get the screen resolution
-local function GetScreenResolution()
-    local screenHeight = PlayerGui.AbsoluteSize.Y
-    local screenWidth = PlayerGui.AbsoluteSize.X
-    return screenWidth, screenHeight
-end
-
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
-    -- Find the Play button
-    local playButton = PlayerGui.UI.MainMenu.Buttons.Play
+    -- Define the search range around the center of the screen
+    local centerX = PlayerGui.AbsoluteSize.X / 2
+    local centerY = PlayerGui.AbsoluteSize.Y / 2
+    local minX = centerX - 100
+    local maxX = centerX + 100
+    local minY = centerY - 100
+    local maxY = centerY + 100
 
-    -- Check if the Play button exists and is visible
-    if playButton and playButton.Visible then
-        -- Get the screen resolution
-        local screenWidth, screenHeight = GetScreenResolution()
+    -- Iterate through the UI elements to find the Play button within the search range
+    for _, button in pairs(PlayerGui:GetChildren()) do
+        if button.Name == "Play" and button:IsA("TextButton") then
+            local absolutePosition = button.AbsolutePosition
+            if absolutePosition.X >= minX and absolutePosition.X <= maxX
+               and absolutePosition.Y >= minY and absolutePosition.Y <= maxY
+               and button.Visible then
+                -- Calculate the center position of the button
+                local width = button.AbsoluteSize.X
+                local height = button.AbsoluteSize.Y
+                local centerX = absolutePosition.X + width / 2
+                local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 35 pixels
 
-        -- Calculate the absolute position of the Play button relative to the screen resolution
-        local relativePosition = playButton.Position
-        local absoluteX = relativePosition.X.Scale * screenWidth + relativePosition.X.Offset
-        local absoluteY = relativePosition.Y.Scale * screenHeight + relativePosition.Y.Offset
-
-        -- Click the Play button
-        VM1Click(absoluteX, absoluteY)
+                -- Click the Play button
+                VM1Click(centerX, centerY)
+                return  -- Exit the function once the button is clicked
+            end
+        end
     end
 end
 
