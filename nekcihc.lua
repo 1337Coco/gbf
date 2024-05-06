@@ -90,8 +90,6 @@ if LocalPlayer then
     StarterGui:SetCoreGuiEnabled('Backpack',false)
     StarterGui:SetCoreGuiEnabled('PlayerList',false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
-	CheckAndClickPlayButton()
-	wait(2)
 end
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
@@ -131,8 +129,6 @@ spawn(function()
 				LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
 				StarterGui:SetCoreGuiEnabled('Backpack',false)
 				StarterGui:SetCoreGuiEnabled('PlayerList',false)
-				CheckAndClickPlayButton()
-				wait(2)
                 Event:FireServer(unpack(args))
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -160,7 +156,27 @@ spawn(function()
         end)
     end
 end)
+-- click play button
+spawn(function()
+	-- Find the Play button
+    	local playButton = PlayerGui.UI.MainMenu.Buttons.Play
 
+	-- If the Play button is found and visible, simulate a mouse click on it
+	if playButton and playButton.Visible then
+        	-- Calculate the click position as a percentage of the button's position and size
+        	local absolutePosition = playButton.AbsolutePosition
+        	local width = playButton.AbsoluteSize.X
+        	local height = playButton.AbsoluteSize.Y
+        
+	        -- Define the percentage of the button's position and size to click
+	        local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
+	        local clickY = absolutePosition.Y + height * 1.4 -- Click slightly downward from the center vertically
+	
+	        -- Click the Play button
+		wait(2)
+	        VM1Click(clickX, clickY)
+    end
+end)
 -- anti afk
 spawn(function()
     while task.wait(20) do
