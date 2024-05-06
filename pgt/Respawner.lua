@@ -32,6 +32,19 @@ local function CheckAndClickPlayButton()
 
         -- Click the Play button
         VM1Click(clickX, clickY)
+	elseif playButton.Visible == false and LocalPlayer == nil then
+		-- Calculate the click position as a percentage of the button's position and size
+        local absolutePosition = playButton.AbsolutePosition
+        local width = playButton.AbsoluteSize.X
+        local height = playButton.AbsoluteSize.Y
+        
+        -- Define the percentage of the button's position and size to click
+        local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
+        local clickY = absolutePosition.Y + height * 1 -- Click slightly downward from the center vertically
+
+        -- Click the Play button
+        VM1Click(clickX, clickY)
+		
     end
 end
 
