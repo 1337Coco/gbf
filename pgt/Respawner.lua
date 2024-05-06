@@ -23,17 +23,17 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 
         -- Check if the Play button exists and is visible
         if playButton and playButton.Visible then
-	    require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
-	    require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-            -- Calculate the position to click the Play button
-            local absolutePosition = playButton.AbsolutePosition
-            local width = playButton.AbsoluteSize.X
-            local height = playButton.AbsoluteSize.Y
-            local centerX = absolutePosition.X + width / 2
-            local centerY = absolutePosition.Y + height / 2 + 35 -- Adjusted downwards by 35 pixels
-	    task.wait()
-            -- Click the Play button
-            VM1Click(centerX, 325)
+		-- Calculate the position to click the Play button relative to the screen size
+	        local screenWidth = PlayerGui.AbsoluteSize.X
+	        local screenHeight = PlayerGui.AbsoluteSize.Y
+	        local absolutePosition = playButton.AbsolutePosition
+	        local width = playButton.AbsoluteSize.X
+	        local height = playButton.AbsoluteSize.Y
+	        local centerX = absolutePosition.X + width / 2
+	        local centerY = absolutePosition.Y + height / 2
+	
+	        -- Click the Play button
+	        VM1Click(centerX, centerY)
         end
     end
 
