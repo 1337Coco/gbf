@@ -34,6 +34,7 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
 	
 	        -- Click the Play button
 	        VM1Click(centerX, centerY)
+		wait(3)
         end
     end
 
