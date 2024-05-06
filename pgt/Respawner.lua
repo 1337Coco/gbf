@@ -15,6 +15,13 @@ local function VM1Click(X, Y)
     end
 end
 
+-- Function to get the screen resolution
+local function GetScreenResolution()
+    local screenHeight = PlayerGui.AbsoluteSize.Y
+    local screenWidth = PlayerGui.AbsoluteSize.X
+    return screenWidth, screenHeight
+end
+
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
     -- Find the Play button
@@ -22,11 +29,16 @@ local function CheckAndClickPlayButton()
 
     -- Check if the Play button exists and is visible
     if playButton and playButton.Visible then
-        -- Calculate the absolute position of the Play button
-        local absolutePosition = playButton.AbsolutePosition
+        -- Get the screen resolution
+        local screenWidth, screenHeight = GetScreenResolution()
+
+        -- Calculate the absolute position of the Play button relative to the screen resolution
+        local relativePosition = playButton.Position
+        local absoluteX = relativePosition.X.Scale * screenWidth + relativePosition.X.Offset
+        local absoluteY = relativePosition.Y.Scale * screenHeight + relativePosition.Y.Offset
 
         -- Click the Play button
-        VM1Click(absolutePosition.X, absolutePosition.Y)
+        VM1Click(absoluteX, absoluteY)
     end
 end
 
