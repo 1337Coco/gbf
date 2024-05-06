@@ -9,6 +9,38 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
 
+local function virtualMouseClick(x, y)
+    if VIM then
+        VIM:SendMouseButtonEvent(x, y, 0, true, game, 0)
+        wait(0.1) -- Adjust wait time as needed
+        VIM:SendMouseButtonEvent(x, y, 0, false, game, 0)
+    else
+        warn("VirtualInputManager not found.")
+    end
+end
+
+-- Function to check if the Play button is visible and click it if it is
+local function checkAndClickPlay()
+    -- Find the Play button
+    local playBtn = PlayerGui.UI.MainMenu.Buttons.Play
+
+    -- If the Play button is found and visible, simulate a mouse click on it
+    if playBtn and playBtn.Visible then
+        -- Calculate the click position as a percentage of the button's position and size
+        local absPos = playBtn.AbsolutePosition
+        local width = playBtn.AbsoluteSize.X
+        local height = playBtn.AbsoluteSize.Y
+        
+        -- Define the percentage of the button's position and size to click
+        local clickX = absPos.X + width * 0.5  -- Click at the center horizontally
+        local clickY = absPos.Y + height * 0.9 -- Click slightly downward from the center vertically
+
+        -- Click the Play button
+        virtualMouseClick(clickX, clickY)
+    end
+end
+repeat virtualMouseClick(100, 200) until game:IsLoaded()
+
 local function GetFruit()
     return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
 end
