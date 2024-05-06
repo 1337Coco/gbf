@@ -4,6 +4,7 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer  -- Define LocalPlayer here
     local PlayerGui = LocalPlayer.PlayerGui
+    local StarterGui = game:GetService("StarterGui")
 
     -- Function to simulate a mouse click at the specified coordinates
     local function VM1Click(X, Y)
@@ -24,8 +25,7 @@ if game.PlaceId == 12413901502 or game.PlaceId == 16190471004 or game.PlaceId ==
         -- Check if the Play button exists and is visible
         if playButton and playButton.Visible then
 		-- Calculate the position to click the Play button relative to the screen size
-	        local screenWidth = PlayerGui.AbsoluteSize.X
-	        local screenHeight = PlayerGui.AbsoluteSize.Y
+	        local screenWidth, screenHeight = StarterGui:GetScreenSize()
 	        local absolutePosition = playButton.AbsolutePosition
 	        local width = playButton.AbsoluteSize.X
 	        local height = playButton.AbsoluteSize.Y
