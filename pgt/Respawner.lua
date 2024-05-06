@@ -1,4 +1,3 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VIM = game:GetService("VirtualInputManager")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -29,7 +28,7 @@ local function CheckAndClickPlayButton()
         
         -- Define the percentage of the button's position and size to click
         local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
-        local clickY = absolutePosition.Y + height * 0.5 -- Click at the center vertically
+        local clickY = absolutePosition.Y + height * 0.70 -- Click slightly downward from the center vertically
 
         -- Click the Play button
         VM1Click(clickX, clickY)
