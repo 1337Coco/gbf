@@ -28,7 +28,7 @@ local function CheckAndClickPlayButton()
         
         -- Define the percentage of the button's position and size to click
         local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
-        local clickY = absolutePosition.Y + height * 0.70 -- Click slightly downward from the center vertically
+        local clickY = absolutePosition.Y + height * 1.4 -- Click slightly downward from the center vertically
 
         -- Click the Play button
         VM1Click(clickX, clickY)
