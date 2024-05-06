@@ -10,8 +10,36 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
 
-local function GetFruit()
-    return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
+-- Function to simulate a mouse click at the specified coordinates
+local function VM1Click(X, Y)
+    if VIM then
+        VIM:SendMouseButtonEvent(X, Y, 0, true, game, 0)
+        wait(0.1) -- Adjust wait time as needed
+        VIM:SendMouseButtonEvent(X, Y, 0, false, game, 0)
+    else
+        warn("VirtualInputManager not found.")
+    end
+end
+
+-- Function to check if the Play button is visible and click it if it is
+local function CheckAndClickPlayButton()
+    -- Find the Play button
+    local playButton = PlayerGui.UI.MainMenu.Buttons.Play
+
+    -- If the Play button is found and visible, simulate a mouse click on it
+    if playButton and playButton.Visible then
+        -- Calculate the click position as a percentage of the button's position and size
+        local absolutePosition = playButton.AbsolutePosition
+        local width = playButton.AbsoluteSize.X
+        local height = playButton.AbsoluteSize.Y
+        
+        -- Define the percentage of the button's position and size to click
+        local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
+        local clickY = absolutePosition.Y + height * 1.4 -- Click slightly downward from the center vertically
+
+        -- Click the Play button
+        VM1Click(clickX, clickY)
+    end
 end
 
 -- Function to get the world description based on the PlaceId
@@ -53,6 +81,8 @@ end
 
 -- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
+    CheckAndClickPlayButton() -- Click the Play button if the character is not present
+    wait()
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
     StarterGui:SetCoreGuiEnabled('Backpack',false)
@@ -118,38 +148,6 @@ spawn(function()
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
                             end
                         end
-                    end
-                end
-            end
-        end)
-    end
-end)
-
--- Coroutine to continuously check for the presence of the local player's character and click Play button if not present
-spawn(function()
-    while task.wait(1) do
-        pcall(function()
-            local plr = game.Players.LocalPlayer.Character
-            if plr == nil then
-                -- If the character is not present, simulate a click on the Play button
-                local playButton = PlayerGui.UI.MainMenu.Buttons.Play
-                if playButton and playButton.Visible then
-                    -- Calculate the click position as a percentage of the button's position and size
-                    local absolutePosition = playButton.AbsolutePosition
-                    local width = playButton.AbsoluteSize.X
-                    local height = playButton.AbsoluteSize.Y
-                    
-                    -- Define the percentage of the button's position and size to click
-                    local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
-                    local clickY = absolutePosition.Y + height * 0.55 -- Click slightly downward from the center vertically
-
-                    -- Click the Play button
-                    if VIM then
-                        VIM:SendMouseButtonEvent(clickX, clickY, 0, true, game, 0)
-                        wait(0.1) -- Adjust wait time as needed
-                        VIM:SendMouseButtonEvent(clickX, clickY, 0, false, game, 0)
-                    else
-                        warn("VirtualInputManager not found.")
                     end
                 end
             end
