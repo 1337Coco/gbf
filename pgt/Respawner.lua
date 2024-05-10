@@ -2,6 +2,11 @@ local VIM = game:GetService("VirtualInputManager")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
+local camera = workspace.CurrentCamera
+local viewportSize = camera.ViewportSize
+
+local centerX = viewportSize.X / 2
+local centerY = viewportSize.Y / 2
 
 -- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
@@ -51,6 +56,7 @@ end
 
 -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
 while true do
+    VM1Click(CenterX, CenterY)
     CheckAndClickPlayButton() -- Click the Play button if the character is not present
-    wait()
+    wait(5)
 end
