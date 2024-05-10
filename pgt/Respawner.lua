@@ -3,6 +3,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
+local centerX = screenWidth / 2
+local centerY = screenHeight / 2
 -- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
     if VIM then
@@ -51,8 +53,9 @@ end
 
 --Test
 while not playButton.Visible do
-    VM1Click(150, 300)
-    wait() -- Adding a short delay to avoid excessive looping
+    VM1Click(centerX, centerY)
+    print("Clicking center screen")
+    wait(1) -- Adding a short delay to avoid excessive looping
 end
 --end test
 
