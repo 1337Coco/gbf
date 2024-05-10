@@ -14,6 +14,16 @@ local function VM1Click(X, Y)
     end
 end
 
+-- Test
+VM1Click(150, 300)
+wait(5)
+VM1Click(150, 300)
+wait(5)
+VM1Click(150, 300)
+wait(5)
+VM1Click(150, 300)
+-- end Test
+
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
     -- Find the Play button
