@@ -13,9 +13,7 @@ local function VM1Click(X, Y)
         warn("VirtualInputManager not found.")
     end
 end
--- Test
-VM1Click(150, 300)
--- end Test
+
 -- Function to check if the Play button is visible and click it if it is
 local function CheckAndClickPlayButton()
     -- Find the Play button
@@ -50,6 +48,13 @@ local function CheckAndClickPlayButton()
         VM1Click(clickX, clickY)
     end
 end
+
+--Test
+while not playButton.Visible do
+    VM1Click(150, 300)
+    wait() -- Adding a short delay to avoid excessive looping
+end
+--end test
 
 -- Coroutine to continuously check for the presence of the local player's character and run CheckAndClickPlayButton if the character is not present
 while true do
