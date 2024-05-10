@@ -3,8 +3,6 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
-local centerX = screenWidth / 2
-local centerY = screenHeight / 2
 -- Function to simulate a mouse click at the specified coordinates
 local function VM1Click(X, Y)
     if VIM then
@@ -22,10 +20,18 @@ local function CheckAndClickPlayButton()
     local playButton = PlayerGui.UI.MainMenu.Buttons.Play
 
     -- If the Play button is found and visible, simulate a mouse click on it
-    if not playButton.Visible then
-	VM1Click(centerX, centerY)
-	print("Clicking center")
-	wait(1)
+    if not playButton.Visible and LocalPlayer == nil then
+	-- Calculate the click position as a percentage of the button's position and size
+        local absolutePosition = playButton.AbsolutePosition
+        local width = playButton.AbsoluteSize.X
+        local height = playButton.AbsoluteSize.Y
+        
+        -- Define the percentage of the button's position and size to click
+        local clickX = absolutePosition.X + width * 0.5  -- Click at the center horizontally
+        local clickY = absolutePosition.Y + height * 1 -- Click slightly downward from the center vertically
+		
+        -- Click the Play button
+        VM1Click(clickX, clickY)
     
 	
      elseif playButton and playButton.Visible then
