@@ -90,12 +90,12 @@ spawn(function()
                 }
                 -- Idk which of these is responsible for hiding the name but it works anyway
                 -- Set properties directly using the stored references
-				LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-				LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-				LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-				LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-				StarterGui:SetCoreGuiEnabled('Backpack',false)
-				StarterGui:SetCoreGuiEnabled('PlayerList',false)
+		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+		StarterGui:SetCoreGuiEnabled('Backpack',false)
+		StarterGui:SetCoreGuiEnabled('PlayerList',false)
                 Event:FireServer(unpack(args))
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -104,17 +104,17 @@ spawn(function()
                     LocalPlayer.Character:BreakJoints()
                 else
                     _G.Toggle = true
-					if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
-						local Marco = game.Workspace.Characters.NPCs:WaitForChild("Marco")
-						if Marco:WaitForChild("Humanoid").Health >= 1 then
-							Player.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-							local ohString1 = "Core"
-							local ohString2 = "M1"
-							local ohTable3 = {}
-							game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-						end
-                    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then 
-						LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+		if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
+			local Marco = game.Workspace.Characters.NPCs:WaitForChild("Marco")
+			if Marco:WaitForChild("Humanoid").Health >= 1 then
+			Player.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+			local ohString1 = "Core"
+			local ohString2 = "M1"
+			local ohTable3 = {}
+			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+			end
+                    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then
+			LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
                     for i,v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
