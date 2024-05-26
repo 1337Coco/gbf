@@ -39,7 +39,7 @@ if placeId == 9224601490 then -- Dressrosa
     bossName = "Marco"
 elseif placeId == 16190471004 then -- Whole Cake
     newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
-    bossName = "BigMom"
+    bossName = "CakeQueen"
 elseif placeId == 12413901502 then -- Onigashima
     newPosition = CFrame.new(-4773, 1349, -279)
     bossName = "Kaido"
