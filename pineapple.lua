@@ -63,6 +63,9 @@ spawn(function()
 	while task.wait() do
 		if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
 			local Marco = game.Workspace.Characters.NPCs:WaitForChild("Marco")
+			if Marco:WaitForChild("Humanoid").Health >= 1 then
+				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+			end
 		end
 	end
 end)
@@ -125,10 +128,6 @@ spawn(function()
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
                             end
                         end
-			--Marco
-			if Marco:WaitForChild("Humanoid").Health >= 1 then
-				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-			end --Marco end
                     end
                 end
             end
