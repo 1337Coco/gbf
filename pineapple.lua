@@ -119,6 +119,10 @@ spawn(function()
                     _G.Toggle = true
                     if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
 			LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+		    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
+			if Marco:WaitForChild("Humanoid").Health >= 1 then
+				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+			end
                     end
                     for i,v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
