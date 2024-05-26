@@ -122,16 +122,13 @@ spawn(function()
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
                             else
                                 local Attack = v.Name:gsub(" ","")
-								local ohString1 = "Core"
-								local ohString2 = "M1"
-								local ohTable3 = {}
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
                             end
                         end
-						--Marco
-						if Marco:WaitForChild("Humanoid").Health >= 1 then
-							LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-						end --Marco end
+			--Marco
+			if Marco:WaitForChild("Humanoid").Health >= 1 then
+				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+			end --Marco end
                     end
                 end
             end
