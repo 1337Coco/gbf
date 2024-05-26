@@ -113,7 +113,7 @@ spawn(function()
 			local ohTable3 = {}
 			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
 			end
-                    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition then
+                elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
 			LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     end
                     for i,v in pairs(LocalPlayer:GetDescendants()) do
