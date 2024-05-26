@@ -60,14 +60,18 @@ if LocalPlayer then
 end
 
 local Marco
+local marcoAlive = false
 -- Marco checker
 spawn(function()
 	while task.wait() do
 		if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
+			marcoAlive = true
 			Marco = game.Workspace.Characters.NPCs:WaitForChild("Marco")
 			if Marco:WaitForChild("Humanoid").Health >= 1 then
 				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
 			end
+		else
+			marcoAlive = false
 		end
 	end
 end)
@@ -132,15 +136,18 @@ spawn(function()
                             else
                                 local Attack = v.Name:gsub(" ","")
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+                            end
+                        end
+			if marcoAlive == true then 
 				if Marco:WaitForChild("Humanoid").Health >= 1 then
-					--M1 The motherfuckers
+					LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
 					local ohString1 = "Core"
 					local ohString2 = "M1"
 					local ohTable3 = {}
 					game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-				end
-                            end
-                        end
+				end					
+			end					
+			
                     end
                 end
             end
