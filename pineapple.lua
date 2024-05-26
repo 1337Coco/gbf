@@ -10,7 +10,7 @@ local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitFo
 local LocalLevel
 
 local function GetFruit()
-    return tostring(tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value))
+    return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
 end
 
 -- Function to get the world description based on the PlaceId
@@ -31,13 +31,18 @@ local worldDescription = getWorldDescription(game.PlaceId)
 
 local placeId = game.PlaceId
 local newPosition
+local bossName
+
 -- Farming spots per World
 if placeId == 9224601490 then -- Dressrosa
     newPosition = CFrame.new(1195, 562, -826)
+    bossName = "Marco"
 elseif placeId == 16190471004 then -- Whole Cake
     newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
+    bossName = "BigMom"
 elseif placeId == 12413901502 then -- Onigashima
     newPosition = CFrame.new(-4773, 1349, -279)
+    bossName = "Kaido"
 else
     newPosition = CFrame.new(0, 0, 0)
 end
@@ -46,7 +51,7 @@ end
 local function split(source, delimiters)
     local elements = {}
     local pattern = '([^'..delimiters..']+)'
-    string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end)
+    string.gsub(source, pattern, function(value) elements[#elements + 1] = value end)
     return elements
 end
 
@@ -54,22 +59,21 @@ end
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-    StarterGui:SetCoreGuiEnabled('Backpack',false)
-    StarterGui:SetCoreGuiEnabled('PlayerList',false)
+    StarterGui:SetCoreGuiEnabled('Backpack', false)
+    StarterGui:SetCoreGuiEnabled('PlayerList', false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
 
-local Marco
--- Marco checker
+local boss
+
+-- Boss checker
 spawn(function()
-	while task.wait() do
-		if game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
-			Marco = game.Workspace.Characters.NPCs:WaitForChild("Marco")
-			if Marco:WaitForChild("Humanoid").Health >= 1 then
-				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-			end
-		end
-	end
+    while task.wait() do
+        boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+        end
+    end
 end)
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
@@ -87,7 +91,7 @@ spawn(function()
                 }
                 Event:InvokeServer(unpack(args))
                 wait()
-                
+
                 local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
                 local args = {
                     [1] = "Main",
@@ -101,15 +105,15 @@ spawn(function()
                     [1] = "Main",
                     [2] = "LoadCharacter"
                 }
-                -- Idk which of these is responsible for hiding the name but it works anyway
-                -- Set properties directly using the stored references
-		LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
-		LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-		StarterGui:SetCoreGuiEnabled('Backpack',false)
-		StarterGui:SetCoreGuiEnabled('PlayerList',false)
                 Event:FireServer(unpack(args))
+                
+                -- Hide UI elements
+                LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
+                LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
+                LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
+                LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
+                StarterGui:SetCoreGuiEnabled('Backpack', false)
+                StarterGui:SetCoreGuiEnabled('PlayerList', false)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
                 local exit = split(path, "/")
@@ -117,21 +121,22 @@ spawn(function()
                     LocalPlayer.Character:BreakJoints()
                 else
                     _G.Toggle = true
-                    if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
-			LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
-		    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and game.Workspace.Characters.NPCs:FindFirstChild("Marco") then
-			if Marco:WaitForChild("Humanoid").Health >= 1 then
-				LocalPlayer.Character.HumanoidRootPart.CFrame = Marco:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-			end
+                    if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
+                        LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+                    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
+                        local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+                        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
+                            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+                        end
                     end
-                    for i,v in pairs(LocalPlayer:GetDescendants()) do
+                    for i, v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             else
-                                local Attack = v.Name:gsub(" ","")
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(),Attack)
+                                local Attack = v.Name:gsub(" ", "")
+                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
                         end
                     end
@@ -141,14 +146,27 @@ spawn(function()
     end
 end)
 
+-- M1s
+spawn(function()
+    while task.wait() do
+	boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+		if boss then
+			local ohString1 = "Core"
+			local ohString2 = "M1"
+			local ohTable3 = {}
+			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+		end
+    end
+end)
+
 -- anti afk
 spawn(function()
     while task.wait(20) do
         pcall(function()
             local vu = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
-                vu:CaptureController();
-                vu:ClickButton2(Vector2.new());
+                vu:CaptureController()
+                vu:ClickButton2(Vector2.new())
                 wait(2)
             end)
         end)
