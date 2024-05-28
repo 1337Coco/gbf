@@ -129,12 +129,15 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for i, v in pairs(LocalPlayer:GetDescendants()) do
+                    for i, v in pairs(LocalPlayer.Backpack:GetDescendants()) do
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
 								print("Attribute Name:", Attack)
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+							elseif v.Name:find(" ") then 
+								local Attack = string.split(v.Name, " ")
+								ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             else
                                 local Attack = v.Name:gsub(" ", "")
 								print("Tool Name (without spaces):", Attack)
