@@ -9,11 +9,9 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
 
-local function GetFruit(player)
-    return tostring(player.Backpack.Slots[tostring(player.Backpack.Slot.Value)].Value)
+local function GetFruit()
+    return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
 end
-
-local fruit = GetFruit(LocalPlayer)
 
 -- Function to get the world description based on the PlaceId
 local function getWorldDescription(placeId)
@@ -131,7 +129,7 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for i, v in pairs(LocalPlayer.Backpack:GetDescendants()) do
+                    for i, v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
