@@ -134,10 +134,10 @@ spawn(function()
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-			    elseif v.Name:find(" ") then
-			    	local Attack = v.Name
-				ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             else
+				local Attack = v.Name
+				ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+				wait()
                                 local Attack = v.Name:gsub(" ", "")
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
