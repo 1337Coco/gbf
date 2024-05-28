@@ -140,7 +140,7 @@ spawn(function()
 						local ohString2 = v.Name
 						local ohTable3 = {}
 						game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-						print(ohString1)
+						print(ohString2)
 					end
                 end
             end
