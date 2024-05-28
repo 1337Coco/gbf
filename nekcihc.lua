@@ -129,7 +129,7 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    for _, v in pairs(LocalPlayer.Backpack:GetChildren()) do
 						x = string.split(v.Name, " ")
 						if x[2] ~= nil then
 							v.Name = x[1]..x[2]
