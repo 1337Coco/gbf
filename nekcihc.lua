@@ -133,9 +133,11 @@ spawn(function()
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
+								print("Attribute Name:", Attack)
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             else
-                                local Attack = v.Name
+                                local Attack = v.Name:gsub(" ", "")
+								print("Tool Name (without spaces):", Attack)
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
                         end
