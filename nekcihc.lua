@@ -132,7 +132,7 @@ spawn(function()
                     end
                     if #Attack == 0 then
 						for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
-							if v.ClassName == "Tool" then
+							if v.ClassName == "Tool" or v.ClassName ~= "Tool" then
 								Attack[#Attack + 1] = string.gsub(v.Name, " ", "")
 							end
 						end
