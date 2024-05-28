@@ -129,17 +129,19 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for i, v in pairs(LocalPlayer:GetDescendants()) do
-                        if v.ClassName == 'Tool' then
-                            if v:GetAttribute('Name') then 
-                                local Attack = v.Name
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-                            else
-                                local Attack = v.Name:gsub(" ", "")
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-                            end
-                        end
-                    end
+                    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+						x = string.split(v.Name, " ")
+						if x[2] ~= nil then
+							v.Name = x[1]..x[2]
+						end
+					end
+					for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+						local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
+						local ohString2 = v.Name
+						local ohTable3 = {}
+						game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+						print(ohString1)
+					end
                 end
             end
         end)
