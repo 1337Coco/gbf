@@ -76,6 +76,7 @@ spawn(function()
     end
 end)
 
+local Attack = {} 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
@@ -129,16 +130,20 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for i, v in pairs(LocalPlayer:GetDescendants()) do
-                        if v.ClassName == 'Tool' then
-                            if v:GetAttribute('Name') then 
-                                ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
-                            else
-                                local Attack = v.Name:gsub(" ", "")
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-                            end
-                        end
-                    end
+                    if #Attack == 0 then
+						for i,v in pairs(LocalPlayer.Backpack:GetChildren()) do
+							if v.ClassName == "Tool" then
+								Attack[#Attack + 1] = string.gsub(v.Name, " ", "")
+							end
+						end
+					else
+					
+						for i,v in pairs(Attack) do
+							if not LocalPlayer.Cooldowns:FindFirstChild(v) then
+								ReplicatedStorage.Replicator:InvokeServer(CurrentData.Name, v, {})
+							end
+						end
+					end
                 end
             end
         end)
