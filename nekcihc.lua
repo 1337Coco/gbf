@@ -13,7 +13,15 @@ local function GetFruit()
     return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
 end
 
--- Function to get the world description based on the PlaceId
+local LightV2Attacks = {
+    "Piercing Shine",
+    "Photon Storm",
+    "X-Flash",
+    "Heavenly Descent",
+    "Solar Grenade",
+    "Mirror Flight"
+}
+
 local function getWorldDescription(placeId)
     if placeId == 9224601490 then
         return "Dressrosa"
@@ -26,28 +34,24 @@ local function getWorldDescription(placeId)
     end
 end
 
--- Get the world description
 local worldDescription = getWorldDescription(game.PlaceId)
-
 local placeId = game.PlaceId
 local newPosition
 local bossName
 
--- Farming spots per World
-if placeId == 9224601490 then -- Dressrosa
+if placeId == 9224601490 then
     newPosition = CFrame.new(1195, 562, -826)
     bossName = "Marco"
-elseif placeId == 16190471004 then -- Whole Cake
+elseif placeId == 16190471004 then
     newPosition = CFrame.new(1075.33251953125, 149.14910888671875, -1187.79638671875)
     bossName = "Cake Queen"
-elseif placeId == 12413901502 then -- Onigashima
+elseif placeId == 12413901502 then
     newPosition = CFrame.new(-4773, 1349, -279)
     bossName = "Kaido"
 else
     newPosition = CFrame.new(0, 0, 0)
 end
 
--- Function to split a string
 local function split(source, delimiters)
     local elements = {}
     local pattern = '([^'..delimiters..']+)'
@@ -55,7 +59,6 @@ local function split(source, delimiters)
     return elements
 end
 
--- This part is the bomb! Spawns the character and makes you the g!
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
@@ -66,7 +69,6 @@ end
 
 local boss
 
--- Boss checker
 spawn(function()
     while task.wait() do
         boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
@@ -76,38 +78,26 @@ spawn(function()
     end
 end)
 
--- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
         pcall(function()
             local plr = game.Players.LocalPlayer.Character
-            if plr == nil then
+            if not plr then
                 wait(5)
                 local Event = game:GetService("ReplicatedStorage").Replicator
-                local args = {
-                    [1] = "Core",
-                    [2] = "LoadCharacter",
-                    [3] = {}
-                }
+                local args = {"Core", "LoadCharacter", {}}
                 Event:InvokeServer(unpack(args))
                 wait()
 
-                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
-                local args = {
-                    [1] = "Main",
-                    [2] = "Core",
-                    [3] = {}
-                }
+                Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                args = {"Main", "Core", {}}
                 Event:FireServer(unpack(args))
                 wait()
-                local Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
-                local args = {
-                    [1] = "Main",
-                    [2] = "LoadCharacter"
-                }
+
+                Event = game:GetService("ReplicatedStorage").ReplicatorNoYield
+                args = {"Main", "LoadCharacter"}
                 Event:FireServer(unpack(args))
-                
-                -- Hide UI elements
+
                 LocalPlayer.PlayerGui.UI.HUD.Handler.Overhead.PlayerName.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
@@ -131,12 +121,20 @@ spawn(function()
                     end
                     for i, v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
-                            if v:GetAttribute('Name') then 
-                                local Attack = v:GetAttribute('Name')
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+                            local Attack
+                            if v:GetAttribute('Name') then
+                                Attack = v:GetAttribute('Name')
                             else
-                                local Attack = v.Name:gsub(" ", "")
-                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+                                Attack = v.Name:gsub(" ", "")
+                            end
+
+                            local fruit = GetFruit()
+                            if fruit == "LightV2" then
+                                if table.find(LightV2Attacks, Attack) then
+                                    ReplicatedStorage.Replicator:InvokeServer(fruit, Attack)
+                                end
+                            else
+                                ReplicatedStorage.Replicator:InvokeServer(fruit, Attack)
                             end
                         end
                     end
@@ -146,20 +144,18 @@ spawn(function()
     end
 end)
 
--- M1s
 spawn(function()
     while task.wait() do
-	boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-		if boss then
-			local ohString1 = "Core"
-			local ohString2 = "M1"
-			local ohTable3 = {}
-			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-		end
+        boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+        if boss then
+            local ohString1 = "Core"
+            local ohString2 = "M1"
+            local ohTable3 = {}
+            game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+        end
     end
 end)
 
--- anti afk
 spawn(function()
     while task.wait(20) do
         pcall(function()
@@ -173,8 +169,7 @@ spawn(function()
     end
 end)
 
--- tp when level is reached
-spawn(function() 
+spawn(function()
     while task.wait() do
         pcall(function()
             LocalLevel = LocalPlayer.PlayerGui.UI.HUD.Level.Text
@@ -189,7 +184,6 @@ spawn(function()
     end
 end)
 
--- Webhook function with improvements
 spawn(function()
     while task.wait(600) do
         pcall(function()
@@ -197,10 +191,8 @@ spawn(function()
             local levelDescription = LocalLevel .. "/300"
             local CurrentFruit = CurrentData.Name
 
-            -- Get the world description dynamically
             local worldDescription = getWorldDescription(game.PlaceId)
 
-            -- Webhook URL
             local url = "https://discord.com/api/webhooks/1156422586129989652/kd9jITOgaW8MZ32tNteuxYZq_zCP7VcGAVBT9l6wADEZE1SaVZuyr4Ma2dB5d7W6fxoN"
             local data = {
                 ["content"] = "",
