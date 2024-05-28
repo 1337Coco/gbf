@@ -59,7 +59,7 @@ end
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-    StarterGui:SetCoreGuiEnabled('Backpack', true)
+    StarterGui:SetCoreGuiEnabled('Backpack', false)
     StarterGui:SetCoreGuiEnabled('PlayerList', false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
@@ -112,7 +112,7 @@ spawn(function()
                 LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-                StarterGui:SetCoreGuiEnabled('Backpack', true)
+                StarterGui:SetCoreGuiEnabled('Backpack', false)
                 StarterGui:SetCoreGuiEnabled('PlayerList', false)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -129,18 +129,14 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for _, v in pairs(LocalPlayer.Backpack:GetChildren()) do
-						x = string.split(v.Name, " ")
-						if x[2] ~= nil then
-							v.Name = x[1] .. " " .. x[2]
+                    for i, v in pairs(LocalPlayer.Backpack:GetDescendants()) do
+						if v:GetAttribute('Name') then 
+							local Attack = v:GetAttribute('Name')
+							ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+						else
+							local Attack = v.Name:gsub(" ", "")
+							ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
 						end
-					end
-					for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-						local ohString1 = game.Players.LocalPlayer["MAIN_DATA"].Slots[game.Players.LocalPlayer["MAIN_DATA"].Slot.Value].Value
-						local ohString2 = v.Name
-						local ohTable3 = {}
-						game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-						print(ohString2)
 					end
                 end
             end
