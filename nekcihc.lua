@@ -59,7 +59,7 @@ end
 if LocalPlayer then
     require(ReplicatedStorage.Loader).ServerEvent("Core", "LoadCharacter", {})
     require(ReplicatedStorage.Loader).ServerEvent("Main", "LoadCharacter")
-    StarterGui:SetCoreGuiEnabled('Backpack', false)
+    StarterGui:SetCoreGuiEnabled('Backpack', true)
     StarterGui:SetCoreGuiEnabled('PlayerList', false)
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
@@ -112,7 +112,7 @@ spawn(function()
                 LocalPlayer.PlayerGui.UI.HUD.Handler.OverheadUIS.Overhead.PlayerName.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Player.Visible = false
                 LocalPlayer.PlayerGui.UI.HUD.Player.PlayerTextBehind = false
-                StarterGui:SetCoreGuiEnabled('Backpack', false)
+                StarterGui:SetCoreGuiEnabled('Backpack', true)
                 StarterGui:SetCoreGuiEnabled('PlayerList', false)
             else
                 local path = game:GetService("Players").LocalPlayer.PlayerGui.UI.HUD.Bars.ProgressStamina.Text
@@ -129,7 +129,7 @@ spawn(function()
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
-                    for i, v in pairs(Backpack:GetDescendants()) do
+                    for i, v in pairs(LocalPlayer.Backpack:GetDescendants()) do
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
                                 local Attack = v:GetAttribute('Name')
