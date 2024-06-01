@@ -8,6 +8,7 @@ local HttpService = game:GetService("HttpService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
+local Fruits = MainData:WaitForChild("Fruits")
 
 local function GetFruit()
     return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
@@ -76,11 +77,12 @@ spawn(function()
     end
 end)
 
--- Remove "Black World" from the descendants of Darkness
-local Darkness = CurrentData:WaitForChild("Darkness")
-for _, descendant in ipairs(Darkness:GetDescendants()) do
-    if descendant.Name == "Black World" then
-        descendant:Destroy()
+-- Destroy "Black World" if it exists under the "Darkness" fruit
+local DarknessFruit = Fruits:FindFirstChild("Darkness")
+if DarknessFruit then
+    local BlackWorld = DarknessFruit:FindFirstChild("Black World")
+    if BlackWorld then
+        BlackWorld:Destroy()
     end
 end
 
