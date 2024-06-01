@@ -76,6 +76,14 @@ spawn(function()
     end
 end)
 
+-- Remove "Black World" from the descendants of Darkness
+local Darkness = CurrentData:WaitForChild("Darkness")
+for _, descendant in ipairs(Darkness:GetDescendants()) do
+    if descendant.Name == "Black World" then
+        descendant:Destroy()
+    end
+end
+
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
