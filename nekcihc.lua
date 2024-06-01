@@ -130,17 +130,15 @@ spawn(function()
                         end
                     end
                     for i, v in pairs(LocalPlayer:GetDescendants()) do
-                        if v:GetAttribute('Name') then 
-			    local Attack = v:GetAttribute('Name')
-			    if Attack ~= "Black World" then
-			        ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-			    end
-			else
-			    local Attack = v.Name:gsub(" ", "")
-			    if Attack ~= "BlackWorld" then
-			        ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
-			    end
-			end
+                        if v.ClassName == 'Tool' then
+                            if v:GetAttribute('Name') then 
+                                local Attack = v:GetAttribute('Name')
+                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+                            else
+                                local Attack = v.Name:gsub(" ", "")
+                                ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
+                            end
+                        end
                     end
                 end
             end
