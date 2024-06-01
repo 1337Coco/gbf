@@ -86,6 +86,20 @@ if DarknessFruit then
     end
 end
 
+-- Destroy "Black World" if it exists in the player's backpack
+spawn(function()
+    while task.wait() do
+        pcall(function()
+            for _, item in ipairs(LocalPlayer.Backpack:GetChildren()) do
+                if item.Name == "Black World" then
+                    item:Destroy()
+                end
+            end
+        end)
+    end
+end)
+
+
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
