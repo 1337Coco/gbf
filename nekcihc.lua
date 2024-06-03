@@ -162,6 +162,10 @@ spawn(function()
                                 local Attack = v.Name:gsub(" ", "")
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
+				local ohString1 = "Core"
+			        local ohString2 = "M1"
+			        local ohTable3 = {}
+			        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
                         end
                     end
                 end
