@@ -149,7 +149,7 @@ spawn(function()
                         LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
                     elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
                         local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-                        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
+                        if boss and boss:WaitForChild("Humanoid").Health >= 1 and LocalPlayer.Character.Humanoid.Health > 30 then
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
                         end
                     end
@@ -166,6 +166,11 @@ spawn(function()
 			        local ohString2 = "M1"
 			        local ohTable3 = {}
 			        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+				
+				wait(0.1)
+				if boss and boss:WaitForChild("Humanoid").Health >= 1 and LocalPlayer.Character.Humanoid.Health > 30 then
+                            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+                        end
                         end
                     end
                 end
