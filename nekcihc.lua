@@ -102,7 +102,7 @@ end)
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
-    while task.wait(0.1) do
+    while task.wait(1) do
         pcall(function()
             local plr = game.Players.LocalPlayer.Character
             if plr == nil then
