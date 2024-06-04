@@ -162,30 +162,15 @@ spawn(function()
                                 local Attack = v.Name:gsub(" ", "")
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
-			if boss and boss:WaitForChild("Humanoid").Health >= 1 then
-			    local ohString1 = "Core"
-			    local ohString2 = "M1"
-			    local ohTable3 = {}
-			    game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-			end
+				local ohString1 = "Core"
+			        local ohString2 = "M1"
+			        local ohTable3 = {}
+			        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
                         end
                     end
                 end
             end
         end)
-    end
-end)
-
--- M1s
-spawn(function()
-    while task.wait() do
-	boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-		if boss then
-			local ohString1 = "Core"
-			local ohString2 = "M1"
-			local ohTable3 = {}
-			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-		end
     end
 end)
 
