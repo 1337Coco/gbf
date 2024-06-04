@@ -169,8 +169,8 @@ spawn(function()
 				
 				wait(0.1)
 				if boss and boss:WaitForChild("Humanoid").Health >= 1 and LocalPlayer.Character.Humanoid.Health > 30 then
-                            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-                        end
+                            		LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+                        	end
                         end
                     end
                 end
