@@ -145,14 +145,6 @@ spawn(function()
                     LocalPlayer.Character:BreakJoints()
                 else
                     _G.Toggle = true
-                    if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
-                        LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
-                    elseif LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
-                        local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-                        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
-                            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-                        end
-                    end
                     for i, v in pairs(LocalPlayer:GetDescendants()) do
                         if v.ClassName == 'Tool' then
                             if v:GetAttribute('Name') then 
@@ -176,16 +168,18 @@ spawn(function()
     end
 end)
 
--- M1s
+-- Positioning
 spawn(function()
-    while task.wait() do
-	boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-		if boss then
-			local ohString1 = "Core"
-			local ohString2 = "M1"
-			local ohTable3 = {}
-			game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
-		end
+    while task.wait(0.1) do
+        boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)  -- Update boss value in the loop
+        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
+        else
+            -- Teleportation logic
+            if LocalPlayer.Character.HumanoidRootPart.CFrame ~= newPosition and not game.Workspace.Characters.NPCs:FindFirstChild(bossName) then
+                LocalPlayer.Character.HumanoidRootPart.CFrame = newPosition
+            end
+        end
     end
 end)
 
