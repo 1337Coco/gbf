@@ -66,6 +66,29 @@ if LocalPlayer then
     Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character
 end
 
+
+-- Find the "Use" button and assign its Click function to a new function named Use
+local UseFunction
+for i,v in pairs(getgc(true)) do
+    if typeof(v) == "table" and rawget(v, "Buttons") and rawget(v, "Hovering") then
+        local Buttons = v.Buttons
+        for buttonName, buttonData in pairs(Buttons) do
+            if buttonName == "Use" then
+                UseFunction = buttonData.Click
+                break
+            end
+        end
+        break
+    end
+end
+
+-- Function to simulate clicking the "Use" button
+local function Use()
+    if UseFunction then
+        UseFunction()
+    end
+end
+
 local boss
 
 -- Boss checker and mover
@@ -184,7 +207,10 @@ spawn(function()
                     end
 
                     -- Simulate an M1 attack
-                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    Use()
+					Use()
+					Use()
+					Use()
                 end
             end
         end)
