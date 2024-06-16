@@ -69,7 +69,6 @@ end
 local boss
 
 -- Boss checker and mover
-local speed = getgenv().speed or 50  -- Default speed if not set
 spawn(function()
     while task.wait() do
         local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
