@@ -10,7 +10,6 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
 local Fruits = MainData:WaitForChild("Fruits")
-local speed = getgenv().speed or 200  -- Default speed if not set
 
 local function GetFruit()
     return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
@@ -75,6 +74,7 @@ spawn(function()
     while task.wait() do
         local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
         if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health >= 1 then
+            local speed = getgenv().speed or 200  -- Default speed if not set
             local bossHRP = boss:FindFirstChild("HumanoidRootPart")
             if bossHRP then
                 local playerHRP = LocalPlayer.Character.HumanoidRootPart
@@ -90,7 +90,6 @@ spawn(function()
                 local tween = TweenService:Create(playerHRP, tweenInfo, {CFrame = CFrame.new(targetPosition)})
                 tween:Play()
                 tween.Completed:Wait()  -- Wait for the tween to complete
-
             end
         end
     end
