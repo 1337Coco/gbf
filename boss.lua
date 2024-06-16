@@ -91,8 +91,6 @@ spawn(function()
                 tween:Play()
                 tween.Completed:Wait()  -- Wait for the tween to complete
 
-                -- Simulate an attack or interaction
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
             end
         end
     end
