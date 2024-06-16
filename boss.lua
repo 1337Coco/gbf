@@ -183,7 +183,11 @@ spawn(function()
                     end
 
                     -- Simulate an M1 attack
-                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    vu:ClickButton1(Vector2.new(9e9, 9e9))
+                    vu:ClickButton1(Vector2.new(9e9, 9e9))
+                    vu:ClickButton1(Vector2.new(9e9, 9e9))
+                    vu:ClickButton1(Vector2.new(9e9, 9e9))
+                            
                 end
             end
         end)
