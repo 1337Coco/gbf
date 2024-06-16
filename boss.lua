@@ -80,9 +80,9 @@ spawn(function()
                 local playerHRP = LocalPlayer.Character.HumanoidRootPart
                 
                 -- Move player to the boss's position with an offset
-                playerHRP.CFrame = bossHRP.CFrame * CFrame.new(0, 0, 3)
+                playerHRP.CFrame = bossHRP.CFrame * CFrame.new(0, -1, -3)
                 
-                local targetPosition = bossHRP.Position + Vector3.new(0, 0, 3)
+                local targetPosition = bossHRP.Position + Vector3.new(0, -1, -3)
                 local distance = (targetPosition - playerHRP.Position).magnitude
                 local travelTime = distance / speed
 
