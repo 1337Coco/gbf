@@ -206,11 +206,11 @@ spawn(function()
                         end
                     end
 
-                    -- Simulate an M1 attack
-                    Use()
-					Use()
-					Use()
-					Use()
+                    	-- Simulate an M1 attack
+                    	Use()
+			Use()
+			Use()
+			Use()
                 end
             end
         end)
