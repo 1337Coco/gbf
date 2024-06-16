@@ -5,6 +5,7 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
+local TweenService = game:GetService("TweenService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
@@ -67,14 +68,27 @@ end
 
 local boss
 
--- Boss checker
+-- Boss checker and mover
+local speed = getgenv().speed or 50  -- Default speed if not set
 spawn(function()
     while task.wait() do
         boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
-            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-            -- Simulate an M1 attack
-            game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+        if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health >= 1 then
+            local bossHRP = boss:FindFirstChild("HumanoidRootPart")
+            if bossHRP then
+                local playerHRP = LocalPlayer.Character.HumanoidRootPart
+                local targetPosition = bossHRP.Position + Vector3.new(0, 0, 3)
+                local distance = (targetPosition - playerHRP.Position).magnitude
+                local travelTime = distance / speed
+
+                local tweenInfo = TweenInfo.new(travelTime, Enum.EasingStyle.Linear)
+                local tween = TweenService:Create(playerHRP, tweenInfo, {CFrame = CFrame.new(targetPosition)})
+                tween:Play()
+                tween.Completed:Wait()  -- Wait for the tween to complete
+
+                -- Simulate an attack or interaction
+                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+            end
         end
     end
 end)
