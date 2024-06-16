@@ -10,6 +10,7 @@ local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
 local Fruits = MainData:WaitForChild("Fruits")
+local speed = getgenv().speed or 200  -- Default speed if not set
 
 local function GetFruit()
     return tostring(MainData.Slots[tostring(MainData.Slot.Value)].Value)
