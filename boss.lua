@@ -73,11 +73,15 @@ local boss
 local speed = getgenv().speed or 50  -- Default speed if not set
 spawn(function()
     while task.wait() do
-        boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+        local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
         if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health >= 1 then
             local bossHRP = boss:FindFirstChild("HumanoidRootPart")
             if bossHRP then
                 local playerHRP = LocalPlayer.Character.HumanoidRootPart
+                
+                -- Move player to the boss's position with an offset
+                playerHRP.CFrame = bossHRP.CFrame * CFrame.new(0, 0, 3)
+                
                 local targetPosition = bossHRP.Position + Vector3.new(0, 0, 3)
                 local distance = (targetPosition - playerHRP.Position).magnitude
                 local travelTime = distance / speed
@@ -93,6 +97,7 @@ spawn(function()
         end
     end
 end)
+
 
 -- Destroy "Black World" if it exists under the "Darkness" fruit
 local DarknessFruit = Fruits:FindFirstChild("Darkness")
