@@ -182,11 +182,12 @@ spawn(function()
                         end
                     end
 
-                    -- Simulate an M1 attack
+                    --[[ Simulate an M1 attack, pc only
                     vu:ClickButton1(Vector2.new(9e9, 9e9))
                     vu:ClickButton1(Vector2.new(9e9, 9e9))
                     vu:ClickButton1(Vector2.new(9e9, 9e9))
                     vu:ClickButton1(Vector2.new(9e9, 9e9))
+                    ]]
                             
                 end
             end
