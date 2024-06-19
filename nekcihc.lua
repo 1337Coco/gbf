@@ -5,7 +5,6 @@ local PlayerGui = LocalPlayer.PlayerGui
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
-local TweenService = game:GetService("TweenService")
 local MainData = LocalPlayer:WaitForChild("MAIN_DATA")
 local CurrentData = MainData:WaitForChild("Fruits"):WaitForChild(MainData:WaitForChild("Slots")[MainData:WaitForChild("Slot").Value].Value)
 local LocalLevel
@@ -68,32 +67,15 @@ end
 
 local boss
 
--- Boss checker and mover
+-- Boss checker
 spawn(function()
     while task.wait() do
-        local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-        if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health >= 1 then
-            local speed = getgenv().speed or 200  -- Default speed if not set
-            local bossHRP = boss:FindFirstChild("HumanoidRootPart")
-            if bossHRP then
-                local playerHRP = LocalPlayer.Character.HumanoidRootPart
-                
-                -- Move player to the boss's position with an offset
-                playerHRP.CFrame = bossHRP.CFrame * CFrame.new(0, -1, -3)
-                
-                local targetPosition = bossHRP.Position + Vector3.new(0, -1, -3)
-                local distance = (targetPosition - playerHRP.Position).magnitude
-                local travelTime = distance / speed
-
-                local tweenInfo = TweenInfo.new(travelTime, Enum.EasingStyle.Linear)
-                local tween = TweenService:Create(playerHRP, tweenInfo, {CFrame = CFrame.new(targetPosition)})
-                tween:Play()
-                tween.Completed:Wait()  -- Wait for the tween to complete
-            end
+        boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
+        if boss and boss:WaitForChild("Humanoid").Health >= 1 then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
         end
     end
 end)
-
 
 -- Destroy "Black World" if it exists under the "Darkness" fruit
 local DarknessFruit = Fruits:FindFirstChild("Darkness")
@@ -116,6 +98,7 @@ spawn(function()
         end)
     end
 end)
+
 
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
@@ -179,16 +162,14 @@ spawn(function()
                                 local Attack = v.Name:gsub(" ", "")
                                 ReplicatedStorage.Replicator:InvokeServer(GetFruit(), Attack)
                             end
+			--[[
+				local ohString1 = "Core"
+			        local ohString2 = "M1"
+			        local ohTable3 = {}
+			        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+			]]
                         end
                     end
-
-                    --[[ Simulate an M1 attack, pc only
-                    vu:ClickButton1(Vector2.new(9e9, 9e9))
-                    vu:ClickButton1(Vector2.new(9e9, 9e9))
-                    vu:ClickButton1(Vector2.new(9e9, 9e9))
-                    vu:ClickButton1(Vector2.new(9e9, 9e9))
-                    ]]
-                            
                 end
             end
         end)
