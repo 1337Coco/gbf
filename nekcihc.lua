@@ -117,32 +117,6 @@ spawn(function()
     end
 end)
 
--- Boss Tween Function
-local function moveToBoss(bossName)
-    while task.wait() do
-        local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
-        if boss and boss:FindFirstChild("Humanoid") and boss.Humanoid.Health >= 1 then
-            local speed = getgenv().speed or 200  -- Default speed if not set
-            local bossHRP = boss:FindFirstChild("HumanoidRootPart")
-            if bossHRP then
-                local playerHRP = LocalPlayer.Character.HumanoidRootPart
-                
-                -- Move player to the boss's position with an offset
-                playerHRP.CFrame = bossHRP.CFrame * CFrame.new(2, -1, -3)
-                
-                local targetPosition = bossHRP.Position + Vector3.new(2, -1, -3)
-                local distance = (targetPosition - playerHRP.Position).magnitude
-                local travelTime = distance / speed
-
-                local tweenInfo = TweenInfo.new(travelTime, Enum.EasingStyle.Linear)
-                local tween = TweenService:Create(playerHRP, tweenInfo, {CFrame = CFrame.new(targetPosition)})
-                tween:Play()
-                tween.Completed:Wait()  -- Wait for the tween to complete
-            end
-        end
-    end
-end
-
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
@@ -194,8 +168,6 @@ spawn(function()
                         local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
                         if boss and boss:WaitForChild("Humanoid").Health >= 1 then
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-			    wait()
-			    moveToBoss(bossName)
                         end
                     end
                     for i, v in pairs(LocalPlayer:GetDescendants()) do
