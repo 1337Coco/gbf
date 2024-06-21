@@ -171,7 +171,7 @@ spawn(function()
 			]]
 				if DragonV2Fruit then
 					local ohString1 = "Tool"
-					local ohString2 = "Inferno Breath"
+					local ohString2 = "InfernoBreath"
 					local ohTable3 = {}
 					game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
 				end
