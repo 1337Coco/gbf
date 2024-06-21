@@ -99,7 +99,8 @@ spawn(function()
     end
 end)
 
-
+-- Add DragonV2
+local DragonV2Fruit = Fruits:FindFirstChild("DragonV2")
 -- Respawn, load character, tp to xyz coords, initialize skills, use skills. loop
 spawn(function()
     while task.wait(1) do
@@ -168,6 +169,12 @@ spawn(function()
 			        local ohTable3 = {}
 			        game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
 			]]
+				if DragonV2Fruit then
+					local ohString1 = "Core"
+					local ohString2 = "Inferno Breath"
+					local ohTable3 = {}
+					game:GetService("ReplicatedStorage").Replicator:InvokeServer(ohString1, ohString2, ohTable3)
+				end
                         end
                     end
                 end
