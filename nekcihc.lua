@@ -194,8 +194,8 @@ spawn(function()
                         local boss = game.Workspace.Characters.NPCs:FindFirstChild(bossName)
                         if boss and boss:WaitForChild("Humanoid").Health >= 1 then
                             LocalPlayer.Character.HumanoidRootPart.CFrame = boss:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0, 3)
-							wait()
-							moveToBoss(bossName)
+			    wait()
+			    moveToBoss(bossName)
                         end
                     end
                     for i, v in pairs(LocalPlayer:GetDescendants()) do
